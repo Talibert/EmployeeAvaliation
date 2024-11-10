@@ -1,9 +1,9 @@
-package com.example.demo;
+package com.example.employeeperformance;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@SpringBootTest(classes = EmployeeperformanceApplication.class)
 class EmployeeperformanceApplicationTests {
 
 	@Test

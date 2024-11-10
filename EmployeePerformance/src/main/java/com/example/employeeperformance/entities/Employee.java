@@ -1,8 +1,7 @@
-package com.example.employeeproject.entities;
+package com.example.employeeperformance.entities;
 
-import com.example.employeeproject.types.SetorType;
-import com.example.employeeproject.types.SituationType;
-import jakarta.annotation.Nonnull;
+import com.example.employeeperformance.types.SetorType;
+import com.example.employeeperformance.types.SituationType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 

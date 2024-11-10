@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>employeeperformance</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>employeeperformance</name>
 	<description>Nesse projeto você poderá cadastrar funcionários e atribuir notas individuais, com base nos atributos de avaliação. O projeto fornecerá métodos para gerar resumos e classificações com base no período escolhido, além de fornecer um log com todos os registros de mudanças executadas. </description>
@@ -45,6 +45,16 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>5.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>

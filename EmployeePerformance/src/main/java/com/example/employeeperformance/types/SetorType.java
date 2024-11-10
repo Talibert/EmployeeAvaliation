@@ -1,4 +1,4 @@
-package com.example.employeeproject.types;
+package com.example.employeeperformance.types;
 
 public enum SetorType {
 
