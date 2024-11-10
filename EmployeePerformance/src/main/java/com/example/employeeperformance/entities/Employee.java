@@ -5,6 +5,8 @@ import com.example.employeeperformance.types.SituationType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "employee")
 public class Employee {
@@ -13,24 +15,19 @@ public class Employee {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long Id;
 
-    @NotNull
     @Column
     private String nome;
 
-    @NotNull
     @Column
     private String cpf;
 
-    @NotNull
     @Column
     private String observacao;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column
     private SetorType setorType;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column
     private SituationType situationType;
@@ -93,5 +90,18 @@ public class Employee {
 
     public void setSituationType(@NotNull SituationType situationType) {
         this.situationType = situationType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return Objects.equals(Id, employee.Id) && Objects.equals(nome, employee.nome) && Objects.equals(cpf, employee.cpf) && Objects.equals(observacao, employee.observacao) && setorType == employee.setorType && situationType == employee.situationType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Id, nome, cpf, observacao, setorType, situationType);
     }
 }
