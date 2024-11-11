@@ -14,7 +14,6 @@ import org.springframework.test.context.ActiveProfiles;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest(classes = EmployeeperformanceApplication.class)
 @ActiveProfiles("test")
@@ -30,7 +29,7 @@ public class EmployeePerformanceRepositoryTest {
     public void testeFindById() {
         Employee employee = employeeRepository.save(new Employee("John", "111.111.111-11", "Observação", SetorType.OFFICE, SituationType.ATIVO));
         LocalDateTime date = LocalDateTime.of(2024, Month.DECEMBER, 10, 0, 0, 0);
-        EmployeePerformance employeePerformance = new EmployeePerformance(date, employee, 5, 5, 5, 5, 5);
+        EmployeePerformance employeePerformance = new EmployeePerformance(date, employee, 5.0, 5.0, 5.0, 5.0, 5.0);
 
         EmployeePerformance savedEmployeePerformance = employeePerformanceRepository.save(employeePerformance);
 
@@ -46,7 +45,7 @@ public class EmployeePerformanceRepositoryTest {
 
     @Test
     public void testeFindByEmployeeId(){
-        createEmployeePerformance();
+        populaBancoParaTeste();
 
         Employee employee = employeeRepository.findById(1L).get();
 
@@ -56,10 +55,37 @@ public class EmployeePerformanceRepositoryTest {
         employeePerformanceList.forEach(e -> Assertions.assertEquals(employee, e.getEmployee()));
     }
 
+    @Test
+    public void testeFindByMesEAno(){
+        populaBancoParaTeste();
+
+        List<EmployeePerformance> employeePerformanceList = employeePerformanceRepository.findByMesEAno(1, 2024);
+
+        LocalDateTime dateJanuary = LocalDateTime.of(2024, Month.JANUARY, 10, 0, 0, 0);
+
+        employeePerformanceList.forEach(ep -> Assertions.assertEquals(dateJanuary, ep.getDate()));
+        Assertions.assertEquals(7, employeePerformanceList.size());
+    }
+
+    @Test
+    public void testeFindByMesAnoEEmployee(){
+        populaBancoParaTeste();
+
+        Employee employee = employeeRepository.findById(1L).get();
+
+        List<EmployeePerformance> employeePerformanceList = employeePerformanceRepository.findByMesAnoEEmployee(1, 2024, employee);
+
+        LocalDateTime dateJanuary = LocalDateTime.of(2024, Month.JANUARY, 10, 0, 0, 0);
+
+        employeePerformanceList.forEach(ep -> Assertions.assertEquals(dateJanuary, ep.getDate()));
+        employeePerformanceList.forEach(ep -> Assertions.assertEquals("Yasuo", ep.getEmployee().getNome()));
+        Assertions.assertEquals(1, employeePerformanceList.size());
+    }
+
     /**
      * Método que cria uma série de funcionários para os cenários de testes
      */
-    private void createEmployeePerformance(){
+    private void populaBancoParaTeste(){
         Employee employee1 = new Employee("Yasuo", "111.111.111-11", "Observação", SetorType.OFFICE, SituationType.ATIVO);
         Employee employee2 = new Employee("Kassadin", "222.222.222-22", "Observação", SetorType.STOCK, SituationType.INATIVO);
         Employee employee3 = new Employee("Caitlyn", "333.333.333-33", "Observação", SetorType.OTHERS, SituationType.ATIVO);
@@ -89,7 +115,7 @@ public class EmployeePerformanceRepositoryTest {
 
         for(Employee employee : employees){
             for(LocalDateTime data : datas){
-                EmployeePerformance employeePerformance = new EmployeePerformance(data, employee, 5, 5, 5, 5, 5);
+                EmployeePerformance employeePerformance = new EmployeePerformance(data, employee, 5.0, 5.0, 5.0, 5.0, 5.0);
                 employeePerformanceRepository.save(employeePerformance);
             }
         }

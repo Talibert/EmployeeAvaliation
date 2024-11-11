@@ -25,24 +25,24 @@ public class EmployeePerformance {
      * A seguir a lista de pontos de avaliação dos funcionários
      */
     @Column
-    private Integer ponctuality;
+    private Double ponctuality;
 
     @Column
-    private Integer workDelivery;
+    private Double workDelivery;
 
     @Column
-    private Integer ppeUsage;
+    private Double ppeUsage;
 
     @Column
-    private Integer evolution;
+    private Double evolution;
 
     @Column
-    private Integer commitment;
+    private Double commitment;
 
     public EmployeePerformance() {
     }
 
-    public EmployeePerformance(LocalDateTime date, Employee employee, Integer ponctuality, Integer workDelivery, Integer ppeUsage, Integer evolution, Integer commitment) {
+    public EmployeePerformance(LocalDateTime date, Employee employee, Double ponctuality, Double workDelivery, Double ppeUsage, Double evolution, Double commitment) {
         this.date = date;
         this.employee = employee;
         this.ponctuality = ponctuality;
@@ -76,43 +76,43 @@ public class EmployeePerformance {
         this.employee = employee;
     }
 
-    public Integer getPonctuality() {
+    public Double getPonctuality() {
         return ponctuality;
     }
 
-    public void setPonctuality(Integer ponctuality) {
+    public void setPonctuality(Double ponctuality) {
         this.ponctuality = ponctuality;
     }
 
-    public Integer getWorkDelivery() {
+    public Double getWorkDelivery() {
         return workDelivery;
     }
 
-    public void setWorkDelivery(Integer workDelivery) {
+    public void setWorkDelivery(Double workDelivery) {
         this.workDelivery = workDelivery;
     }
 
-    public Integer getPpeUsage() {
+    public Double getPpeUsage() {
         return ppeUsage;
     }
 
-    public void setPpeUsage(Integer ppeUsage) {
+    public void setPpeUsage(Double ppeUsage) {
         this.ppeUsage = ppeUsage;
     }
 
-    public Integer getEvolution() {
+    public Double getEvolution() {
         return evolution;
     }
 
-    public void setEvolution(Integer evolution) {
+    public void setEvolution(Double evolution) {
         this.evolution = evolution;
     }
 
-    public Integer getCommitment() {
+    public Double getCommitment() {
         return commitment;
     }
 
-    public void setCommitment(Integer commitment) {
+    public void setCommitment(Double commitment) {
         this.commitment = commitment;
     }
 }
