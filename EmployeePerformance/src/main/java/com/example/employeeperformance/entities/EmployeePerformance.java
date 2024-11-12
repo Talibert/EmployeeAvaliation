@@ -13,7 +13,6 @@ public class EmployeePerformance {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long Id;
 
-    @NotNull
     @Column
     private LocalDateTime date;
 
@@ -76,11 +75,11 @@ public class EmployeePerformance {
         Id = id;
     }
 
-    public @NotNull LocalDateTime getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(@NotNull LocalDateTime date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

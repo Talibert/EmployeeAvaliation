@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "changes_registry")
@@ -36,6 +37,14 @@ public class ChangesRegistry {
         this.employeePerformance = employeePerformance;
         this.updatedAttributesList = updatedAttributesList;
         this.data = data;
+    }
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
     }
 
     public Employee getEmployee() {
@@ -71,5 +80,18 @@ public class ChangesRegistry {
 
     public void setData(LocalDateTime data) {
         this.data = data;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChangesRegistry that = (ChangesRegistry) o;
+        return Objects.equals(Id, that.Id) && Objects.equals(employee, that.employee) && Objects.equals(employeePerformance, that.employeePerformance) && Objects.equals(updatedAttributesList, that.updatedAttributesList) && Objects.equals(data, that.data);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Id, employee, employeePerformance, updatedAttributesList, data);
     }
 }

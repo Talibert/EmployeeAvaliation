@@ -52,15 +52,15 @@ public class Employee {
         Id = id;
     }
 
-    public @NotNull String getNome() {
+    public String getNome() {
         return nome;
     }
 
-    public void setNome(@NotNull String nome) {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
-    public @NotNull String getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
@@ -68,27 +68,27 @@ public class Employee {
         this.cpf = cpf;
     }
 
-    public @NotNull String getObservacao() {
+    public String getObservacao() {
         return observacao;
     }
 
-    public void setObservacao(@NotNull String observacao) {
+    public void setObservacao(String observacao) {
         this.observacao = observacao;
     }
 
-    public @NotNull SetorType getSetorType() {
+    public SetorType getSetorType() {
         return setorType;
     }
 
-    public void setSetorType(@NotNull SetorType setorType) {
+    public void setSetorType(SetorType setorType) {
         this.setorType = setorType;
     }
 
-    public @NotNull SituationType getSituationType() {
+    public SituationType getSituationType() {
         return situationType;
     }
 
-    public void setSituationType(@NotNull SituationType situationType) {
+    public void setSituationType(SituationType situationType) {
         this.situationType = situationType;
     }
 
