@@ -4,6 +4,7 @@ import com.example.employeeperformance.EmployeeperformanceApplication;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.types.SetorType;
 import com.example.employeeperformance.types.SituationType;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,6 +30,7 @@ public class EmployeeRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void testFindEmployeeById() {
         Employee employee = new Employee("John", "111.111.111-11", "Observação", SetorType.OFFICE, SituationType.ATIVO);
 
@@ -40,6 +42,7 @@ public class EmployeeRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void testFindEmployeeBySituation(){
         createEmployees();
 
@@ -49,6 +52,7 @@ public class EmployeeRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void testFindEmployeeBySetorType(){
         createEmployees();
 

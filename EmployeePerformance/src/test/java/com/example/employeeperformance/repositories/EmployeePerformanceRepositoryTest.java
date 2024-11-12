@@ -5,7 +5,9 @@ import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.entities.EmployeePerformance;
 import com.example.employeeperformance.types.SetorType;
 import com.example.employeeperformance.types.SituationType;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +27,14 @@ public class EmployeePerformanceRepositoryTest {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @BeforeEach
+    public void limpaBanco() {
+        employeeRepository.deleteAll();
+        employeePerformanceRepository.deleteAll();
+    }
+
     @Test
+    @Transactional
     public void testeFindById() {
         Employee employee = employeeRepository.save(new Employee("John", "111.111.111-11", "Observação", SetorType.OFFICE, SituationType.ATIVO));
         LocalDateTime date = LocalDateTime.of(2024, Month.DECEMBER, 10, 0, 0, 0);
@@ -44,10 +53,11 @@ public class EmployeePerformanceRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void testeFindByEmployeeId(){
-        populaBancoParaTeste();
+        populaBanco();
 
-        Employee employee = employeeRepository.findById(1L).get();
+        Employee employee = employeeRepository.findByNome("Yasuo");
 
         List<EmployeePerformance> employeePerformanceList = employeePerformanceRepository.findByEmployee(employee);
 
@@ -56,8 +66,9 @@ public class EmployeePerformanceRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void testeFindByMesEAno(){
-        populaBancoParaTeste();
+        populaBanco();
 
         List<EmployeePerformance> employeePerformanceList = employeePerformanceRepository.findByMesEAno(1, 2024);
 
@@ -68,10 +79,11 @@ public class EmployeePerformanceRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void testeFindByMesAnoEEmployee(){
-        populaBancoParaTeste();
+        populaBanco();
 
-        Employee employee = employeeRepository.findById(1L).get();
+        Employee employee = employeeRepository.findByNome("Yasuo");
 
         List<EmployeePerformance> employeePerformanceList = employeePerformanceRepository.findByMesAnoEEmployee(1, 2024, employee);
 
@@ -82,10 +94,7 @@ public class EmployeePerformanceRepositoryTest {
         Assertions.assertEquals(1, employeePerformanceList.size());
     }
 
-    /**
-     * Método que cria uma série de funcionários para os cenários de testes
-     */
-    private void populaBancoParaTeste(){
+    private void populaBanco(){
         Employee employee1 = new Employee("Yasuo", "111.111.111-11", "Observação", SetorType.OFFICE, SituationType.ATIVO);
         Employee employee2 = new Employee("Kassadin", "222.222.222-22", "Observação", SetorType.STOCK, SituationType.INATIVO);
         Employee employee3 = new Employee("Caitlyn", "333.333.333-33", "Observação", SetorType.OTHERS, SituationType.ATIVO);
@@ -93,16 +102,10 @@ public class EmployeePerformanceRepositoryTest {
         Employee employee5 = new Employee("Ezreal", "555.555.555-55", "Observação", SetorType.OFFICE, SituationType.ATIVO);
         Employee employee6 = new Employee("Aphelios", "666.666.666-66", "Observação", SetorType.OTHERS, SituationType.INATIVO);
         Employee employee7 = new Employee("Leona", "777.777.777-77", "Observação", SetorType.STOCK, SituationType.ATIVO);
-        employee1.setId(1L);
-        employee2.setId(2L);
-        employee3.setId(3L);
-        employee4.setId(4L);
-        employee5.setId(5L);
-        employee6.setId(6L);
-        employee7.setId(7L);
 
         List<Employee> employees = List.of(employee1, employee2, employee3, employee4, employee5, employee6, employee7);
         employeeRepository.saveAll(employees);
+        List<Employee> employeesRecuperados = employeeRepository.findAll();
 
         LocalDateTime dateJanuary = LocalDateTime.of(2024, Month.JANUARY, 10, 0, 0, 0);
         LocalDateTime dateFebruary = LocalDateTime.of(2024, Month.FEBRUARY, 10, 0, 0, 0);
@@ -113,7 +116,7 @@ public class EmployeePerformanceRepositoryTest {
 
         List<LocalDateTime> datas = List.of(dateJanuary, dateFebruary, dateMarch, dateApril, dateMay, dateJune);
 
-        for(Employee employee : employees){
+        for(Employee employee : employeesRecuperados){
             for(LocalDateTime data : datas){
                 EmployeePerformance employeePerformance = new EmployeePerformance(data, employee, 5.0, 5.0, 5.0, 5.0, 5.0);
                 employeePerformanceRepository.save(employeePerformance);

@@ -8,6 +8,7 @@ import com.example.employeeperformance.entities.UpdatedAttributes;
 import com.example.employeeperformance.types.AttributeType;
 import com.example.employeeperformance.types.SetorType;
 import com.example.employeeperformance.types.SituationType;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,8 +40,6 @@ public class UpdatedAttributesRepositoryTest {
 
     @BeforeEach
     public void init(){
-        MockitoAnnotations.openMocks(this);
-
         Employee employee = new Employee();
         Employee employeeSaved = employeeRepository.save(employee);
 
@@ -55,6 +54,7 @@ public class UpdatedAttributesRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void testFindEmployeeById() {
         UpdatedAttributes updatedAttributes = new UpdatedAttributes();
         updatedAttributes.setChangesRegistry(changesRegistrySaved);
@@ -67,6 +67,7 @@ public class UpdatedAttributesRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void testFindUpdatedAttributesByChangesRegistry(){
         UpdatedAttributes updatedAttributes1 = new UpdatedAttributes(changesRegistrySaved, AttributeType.PONCTUALITY, 5, 4);
         UpdatedAttributes updatedAttributes2 = new UpdatedAttributes(changesRegistrySaved, AttributeType.WORK_DELIVERY, 4, 3);
@@ -82,6 +83,7 @@ public class UpdatedAttributesRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void testFindUpdatedAttributesByChangesRegistryAndAttributeType(){
         UpdatedAttributes updatedAttributes1 = new UpdatedAttributes(changesRegistrySaved, AttributeType.PONCTUALITY, 5, 4);
         UpdatedAttributes updatedAttributes2 = new UpdatedAttributes(changesRegistrySaved, AttributeType.WORK_DELIVERY, 4, 3);
