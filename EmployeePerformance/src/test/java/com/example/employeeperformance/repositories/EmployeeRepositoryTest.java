@@ -25,8 +25,8 @@ public class EmployeeRepositoryTest {
     private EmployeeRepository employeeRepository;
 
     @BeforeEach
-    public void init(){
-        MockitoAnnotations.openMocks(this);
+    public void limpaBanco() {
+        employeeRepository.deleteAll();
     }
 
     @Test

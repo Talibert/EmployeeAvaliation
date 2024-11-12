@@ -40,6 +40,11 @@ public class UpdatedAttributesRepositoryTest {
 
     @BeforeEach
     public void init(){
+        employeeRepository.deleteAll();
+        updatedAttributesRepository.deleteAll();
+        changesRegistryRepository.deleteAll();
+        employeePerformanceRepository.deleteAll();
+
         Employee employee = new Employee();
         Employee employeeSaved = employeeRepository.save(employee);
 
