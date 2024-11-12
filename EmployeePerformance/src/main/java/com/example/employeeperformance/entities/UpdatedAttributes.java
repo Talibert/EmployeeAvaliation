@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "updated_atributes")
-public class UpdatedAtributes {
+public class UpdatedAttributes {
 
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)

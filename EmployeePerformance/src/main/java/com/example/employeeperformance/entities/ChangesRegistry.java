@@ -23,7 +23,7 @@ public class ChangesRegistry {
     private EmployeePerformance employeePerformance;
 
     @OneToMany(mappedBy = "changesRegistry", fetch = FetchType.LAZY)
-    private List<UpdatedAtributes> updatedAtributesList;
+    private List<UpdatedAttributes> updatedAttributesList;
 
     @Column
     private LocalDateTime data;
@@ -31,10 +31,10 @@ public class ChangesRegistry {
     public ChangesRegistry() {
     }
 
-    public ChangesRegistry(Employee employee, EmployeePerformance employeePerformance, List<UpdatedAtributes> updatedAtributesList, LocalDateTime data) {
+    public ChangesRegistry(Employee employee, EmployeePerformance employeePerformance, List<UpdatedAttributes> updatedAttributesList, LocalDateTime data) {
         this.employee = employee;
         this.employeePerformance = employeePerformance;
-        this.updatedAtributesList = updatedAtributesList;
+        this.updatedAttributesList = updatedAttributesList;
         this.data = data;
     }
 
@@ -54,15 +54,15 @@ public class ChangesRegistry {
         this.employeePerformance = employeePerformance;
     }
 
-    public List<UpdatedAtributes> getUpdatedAtributesList() {
-        return updatedAtributesList;
+    public List<UpdatedAttributes> getUpdatedAtributesList() {
+        return updatedAttributesList;
     }
 
-    public void addUpdatedAtributesList(UpdatedAtributes updatedAtributes) {
-        if(this.updatedAtributesList == null){
-            this.updatedAtributesList = new ArrayList<>();
+    public void addUpdatedAtributesList(UpdatedAttributes updatedAttributes) {
+        if(this.updatedAttributesList == null){
+            this.updatedAttributesList = new ArrayList<>();
         }
-        this.updatedAtributesList.add(updatedAtributes);
+        this.updatedAttributesList.add(updatedAttributes);
     }
 
     public LocalDateTime getData() {

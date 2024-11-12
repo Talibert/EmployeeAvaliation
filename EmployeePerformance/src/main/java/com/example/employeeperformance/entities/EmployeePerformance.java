@@ -52,6 +52,22 @@ public class EmployeePerformance {
         this.commitment = commitment;
     }
 
+    /**
+     * Construtor para facilitar os testes
+     * @param ponctuality
+     * @param workDelivery
+     * @param ppeUsage
+     * @param evolution
+     * @param commitment
+     */
+    public EmployeePerformance(Double ponctuality, Double workDelivery, Double ppeUsage, Double evolution, Double commitment){
+        this.ponctuality = ponctuality;
+        this.workDelivery = workDelivery;
+        this.ppeUsage = ppeUsage;
+        this.evolution = evolution;
+        this.commitment = commitment;
+    }
+
     public Long getId() {
         return Id;
     }
