@@ -24,13 +24,20 @@ public interface ChangesRegistryRepository extends JpaRepository<ChangesRegistry
 
     List<ChangesRegistry> findByData(LocalDate data);
 
-//    @Query("SELECT e FROM ChangesRegistry e " +
-//            "WHERE e.date = (" +
-//            "    SELECT MAX(innerE.date) FROM ChangesRegistry innerE " +
-//            "    WHERE innerE.employee = e.employee" +
-//            ") AND e.id = (" +
-//            "    SELECT MAX(innerE2.id) FROM ChangesRegistry innerE2 " +
-//            "    WHERE innerE2.employee = e.employee AND innerE2.date = e.date" +
-//            ")")
-//    ChangesRegistry findLastChangesRegistryByEmployee(@Param("employee") Employee employee);
+    /**
+     * Esse método vai buscar o registro de mudança mais recente de um funcionário... Caso haja mais de um registro por data
+     * o desempate será o ID
+     * @param employee
+     * @return
+     */
+    @Query("SELECT e FROM ChangesRegistry e " +
+            "WHERE e.employee = :employee " +
+            "AND e.data = (" +
+            "    SELECT MAX(innerE.data) FROM ChangesRegistry innerE " +
+            "    WHERE innerE.employee = :employee" +
+            ") AND e.id = (" +
+            "    SELECT MAX(innerE2.id) FROM ChangesRegistry innerE2 " +
+            "    WHERE innerE2.employee = :employee AND innerE2.data = e.data" +
+            ")")
+    ChangesRegistry findLastChangesRegistryByEmployee(@Param("employee") Employee employee);
 }

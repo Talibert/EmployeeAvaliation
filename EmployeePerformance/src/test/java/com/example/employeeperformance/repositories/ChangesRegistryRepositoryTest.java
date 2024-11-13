@@ -87,6 +87,36 @@ public class ChangesRegistryRepositoryTest extends AbstractRepositoryTests {
         Assertions.assertEquals(1, changesRegistryList.size());
     }
 
+    @Test
+    @Transactional
+    public void findLastChangesRegistryByEmployee(){
+        Employee employee = employeeRepository.findById(1L).get();
+        LocalDate data = LocalDate.of(2024, Month.JUNE, 10);
+
+        ChangesRegistry changesRegistry1 = new ChangesRegistry();
+        changesRegistry1.setEmployee(employee);
+        changesRegistry1.setData(data);
+        ChangesRegistry changesRegistry2 = new ChangesRegistry();
+        changesRegistry2.setEmployee(employee);
+        changesRegistry2.setData(data);
+        ChangesRegistry changesRegistry3 = new ChangesRegistry();
+        changesRegistry3.setEmployee(employee);
+        changesRegistry3.setData(data);
+        ChangesRegistry changesRegistry4 = new ChangesRegistry();
+        changesRegistry4.setEmployee(employee);
+        changesRegistry4.setData(data);
+
+        List<ChangesRegistry> novosRegistros = List.of(changesRegistry1, changesRegistry2, changesRegistry3, changesRegistry4);
+
+        Long idEsperado = (long) changesRegistryRepository.findAll().size() + novosRegistros.size();
+
+        changesRegistryRepository.saveAll(novosRegistros);
+
+        ChangesRegistry changesRegistry = changesRegistryRepository.findLastChangesRegistryByEmployee(employee);
+
+        Assertions.assertEquals(idEsperado, changesRegistry.getId());
+    }
+
     private void populaBanco(){
         List<Employee> employees = EmployeeFixture.getEmployeeList();
         employeeRepository.saveAll(employees);
