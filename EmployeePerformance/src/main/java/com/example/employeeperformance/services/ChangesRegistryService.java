@@ -74,7 +74,7 @@ public class ChangesRegistryService {
      * Método para retorno de funcionário inativos por setor
      * @return
      */
-//    public ChangesRegistry findLastChangesRegistryByEmployee(Employee employee){
-//        return changesRegistryRepository.findLastChangesRegistryByEmployee(employee);
-//    }
+    public ChangesRegistry findLastChangesRegistryByEmployee(Employee employee){
+        return changesRegistryRepository.findLastChangesRegistryByEmployee(employee);
+    }
 }
