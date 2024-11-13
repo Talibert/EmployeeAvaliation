@@ -1,6 +1,8 @@
 package com.example.employeeperformance.repositories;
 
 import com.example.employeeperformance.EmployeeperformanceApplication;
+import com.example.employeeperformance.Fixtures.EmployeeFixture;
+import com.example.employeeperformance.Fixtures.UpdatedAttributesFixture;
 import com.example.employeeperformance.entities.ChangesRegistry;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.entities.EmployeePerformance;
@@ -22,7 +24,7 @@ import java.util.Optional;
 
 @SpringBootTest(classes = EmployeeperformanceApplication.class)
 @ActiveProfiles("test")
-public class UpdatedAttributesRepositoryTest {
+public class UpdatedAttributesRepositoryTest extends AbstractRepositoryTests{
 
     @Autowired
     private UpdatedAttributesRepository updatedAttributesRepository;
@@ -30,43 +32,22 @@ public class UpdatedAttributesRepositoryTest {
     @Autowired
     private ChangesRegistryRepository changesRegistryRepository;
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
-
-    @Autowired
-    private EmployeePerformanceRepository employeePerformanceRepository;
-
-    private ChangesRegistry changesRegistrySaved;
-
     @BeforeEach
     public void init(){
-        employeeRepository.deleteAll();
+        limpaBancos();
+        resetID();
+        populaBanco();
+    }
+
+    public void limpaBancos(){
         updatedAttributesRepository.deleteAll();
         changesRegistryRepository.deleteAll();
-        employeePerformanceRepository.deleteAll();
-
-        Employee employee = new Employee();
-        Employee employeeSaved = employeeRepository.save(employee);
-
-        EmployeePerformance employeePerformance = new EmployeePerformance();
-        employeePerformance.setEmployee(employeeSaved);
-        EmployeePerformance employeePerformanceSaved = employeePerformanceRepository.save(employeePerformance);
-
-        ChangesRegistry changesRegistry = new ChangesRegistry();
-        changesRegistry.setEmployee(employeeSaved);
-        changesRegistry.setEmployeePerformance(employeePerformanceSaved);
-        changesRegistrySaved = changesRegistryRepository.save(changesRegistry);
     }
 
     @Test
     @Transactional
-    public void testFindEmployeeById() {
-        UpdatedAttributes updatedAttributes = new UpdatedAttributes();
-        updatedAttributes.setChangesRegistry(changesRegistrySaved);
-
-        UpdatedAttributes updatedAttributesSaved = updatedAttributesRepository.save(updatedAttributes);
-
-        Optional<UpdatedAttributes> foundUpdatedAttributes = updatedAttributesRepository.findById(updatedAttributesSaved.getId());
+    public void testFindUpdatedAttributesById() {
+        Optional<UpdatedAttributes> foundUpdatedAttributes = updatedAttributesRepository.findById(1L);
 
         Assertions.assertTrue(foundUpdatedAttributes.isPresent());
     }
@@ -74,34 +55,32 @@ public class UpdatedAttributesRepositoryTest {
     @Test
     @Transactional
     public void testFindUpdatedAttributesByChangesRegistry(){
-        UpdatedAttributes updatedAttributes1 = new UpdatedAttributes(changesRegistrySaved, AttributeType.PONCTUALITY, 5, 4);
-        UpdatedAttributes updatedAttributes2 = new UpdatedAttributes(changesRegistrySaved, AttributeType.WORK_DELIVERY, 4, 3);
-        UpdatedAttributes updatedAttributes3 = new UpdatedAttributes(changesRegistrySaved, AttributeType.PPE_USAGE, 3, 5);
-        UpdatedAttributes updatedAttributes4 = new UpdatedAttributes(changesRegistrySaved, AttributeType.EVOLUTION, 5, 3);
-        UpdatedAttributes updatedAttributes5 = new UpdatedAttributes(changesRegistrySaved, AttributeType.COMMITMENT, 2, 5);
+        ChangesRegistry changesRegistry = changesRegistryRepository.findById(1L).get();
 
-        updatedAttributesRepository.saveAll(List.of(updatedAttributes1, updatedAttributes2, updatedAttributes3, updatedAttributes4, updatedAttributes5));
+        List<UpdatedAttributes> listRetornada = updatedAttributesRepository.findByChangesRegistry(changesRegistry);
 
-        List<UpdatedAttributes> listRetornada = updatedAttributesRepository.findByChangesRegistry(changesRegistrySaved);
-
-        listRetornada.forEach(c -> Assertions.assertEquals(changesRegistrySaved.getId(), c.getChangesRegistry().getId()));
+        listRetornada.forEach(c -> Assertions.assertEquals(changesRegistry.getId(), c.getChangesRegistry().getId()));
     }
 
     @Test
     @Transactional
     public void testFindUpdatedAttributesByChangesRegistryAndAttributeType(){
-        UpdatedAttributes updatedAttributes1 = new UpdatedAttributes(changesRegistrySaved, AttributeType.PONCTUALITY, 5, 4);
-        UpdatedAttributes updatedAttributes2 = new UpdatedAttributes(changesRegistrySaved, AttributeType.WORK_DELIVERY, 4, 3);
-        UpdatedAttributes updatedAttributes3 = new UpdatedAttributes(changesRegistrySaved, AttributeType.PPE_USAGE, 3, 5);
-        UpdatedAttributes updatedAttributes4 = new UpdatedAttributes(changesRegistrySaved, AttributeType.EVOLUTION, 5, 3);
-        UpdatedAttributes updatedAttributes5 = new UpdatedAttributes(changesRegistrySaved, AttributeType.COMMITMENT, 2, 5);
+        ChangesRegistry changesRegistry = changesRegistryRepository.findById(1L).get();
 
-        updatedAttributesRepository.saveAll(List.of(updatedAttributes1, updatedAttributes2, updatedAttributes3, updatedAttributes4, updatedAttributes5));
+        UpdatedAttributes updatedAttributesRetornado = updatedAttributesRepository.findByChangesRegistryAndAttributeType(changesRegistry, AttributeType.PONCTUALITY);
 
-        UpdatedAttributes updatedAttributesRetornado = updatedAttributesRepository.findByChangesRegistryAndAttributeType(changesRegistrySaved, AttributeType.PONCTUALITY);
-
-        Assertions.assertEquals(updatedAttributes1.getNewValue(), updatedAttributesRetornado.getNewValue());
-        Assertions.assertEquals(updatedAttributes1.getOldValue(), updatedAttributesRetornado.getOldValue());
+        Assertions.assertEquals(4, updatedAttributesRetornado.getNewValue());
+        Assertions.assertEquals(5, updatedAttributesRetornado.getOldValue());
         Assertions.assertEquals(AttributeType.PONCTUALITY, updatedAttributesRetornado.getAttributeType());
+    }
+
+    private void populaBanco(){
+        ChangesRegistry changesRegistry = new ChangesRegistry();
+        changesRegistry.setId(1L);
+        ChangesRegistry changesRegistrySaved = changesRegistryRepository.save(changesRegistry);
+
+        List<UpdatedAttributes> updatedAttributesList = UpdatedAttributesFixture.getUpdatedAttributesList(changesRegistrySaved);
+
+        updatedAttributesRepository.saveAll(updatedAttributesList);
     }
 }

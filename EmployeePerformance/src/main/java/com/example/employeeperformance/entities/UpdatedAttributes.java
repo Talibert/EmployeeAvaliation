@@ -14,7 +14,7 @@ public class UpdatedAttributes {
     private Long Id;
 
     @ManyToOne
-    @JoinColumn(name = "changes_registry_id", nullable = false)
+    @JoinColumn(name = "changes_registry_id")
     private ChangesRegistry changesRegistry;
 
     @Column

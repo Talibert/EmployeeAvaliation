@@ -9,6 +9,7 @@ import com.example.employeeperformance.repositories.EmployeePerformanceRepositor
 import com.example.employeeperformance.types.AttributeType;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.Year;
@@ -122,11 +123,10 @@ public class EmployeePerformanceService {
      * @return
      */
     public EmployeePerformanceVO getEmployeePerformanceAverage(Map<AttributeType, PerformanceMetric> performanceMap, Long id, Month month, Year year){
-        LocalDateTime date = LocalDateTime.of(
+        LocalDate date = LocalDate.of(
                 year.getValue(),
                 month.getValue(),
-                month.maxLength(),
-                0, 0, 0
+                month.maxLength()
         );
 
         return new EmployeePerformanceVO(

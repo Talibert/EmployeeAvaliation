@@ -13,7 +13,7 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @Column
     private String nome;
@@ -44,12 +44,21 @@ public class Employee {
         this.situationType = situationType;
     }
 
+    public Employee(Long id, String nome, String cpf, String observacao, SetorType setorType, SituationType situationType) {
+        this.id = id;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.observacao = observacao;
+        this.setorType = setorType;
+        this.situationType = situationType;
+    }
+
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getNome() {
@@ -97,11 +106,11 @@ public class Employee {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return Objects.equals(Id, employee.Id) && Objects.equals(nome, employee.nome) && Objects.equals(cpf, employee.cpf) && Objects.equals(observacao, employee.observacao) && setorType == employee.setorType && situationType == employee.situationType;
+        return Objects.equals(id, employee.id) && Objects.equals(nome, employee.nome) && Objects.equals(cpf, employee.cpf) && Objects.equals(observacao, employee.observacao) && setorType == employee.setorType && situationType == employee.situationType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Id, nome, cpf, observacao, setorType, situationType);
+        return Objects.hash(id, nome, cpf, observacao, setorType, situationType);
     }
 }

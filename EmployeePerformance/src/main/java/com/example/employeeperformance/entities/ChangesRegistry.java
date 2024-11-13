@@ -2,6 +2,7 @@ package com.example.employeeperformance.entities;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,23 +17,23 @@ public class ChangesRegistry {
     private Long Id;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    @ManyToOne
-    @JoinColumn(name = "employee_performance_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "employee_performance_id")
     private EmployeePerformance employeePerformance;
 
     @OneToMany(mappedBy = "changesRegistry", fetch = FetchType.LAZY)
     private List<UpdatedAttributes> updatedAttributesList;
 
     @Column
-    private LocalDateTime data;
+    private LocalDate data;
 
     public ChangesRegistry() {
     }
 
-    public ChangesRegistry(Employee employee, EmployeePerformance employeePerformance, List<UpdatedAttributes> updatedAttributesList, LocalDateTime data) {
+    public ChangesRegistry(Employee employee, EmployeePerformance employeePerformance, List<UpdatedAttributes> updatedAttributesList, LocalDate data) {
         this.employee = employee;
         this.employeePerformance = employeePerformance;
         this.updatedAttributesList = updatedAttributesList;
@@ -74,11 +75,11 @@ public class ChangesRegistry {
         this.updatedAttributesList.add(updatedAttributes);
     }
 
-    public LocalDateTime getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(LocalDateTime data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 

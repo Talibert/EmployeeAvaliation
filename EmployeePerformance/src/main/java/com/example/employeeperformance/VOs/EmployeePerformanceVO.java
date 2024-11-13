@@ -3,13 +3,14 @@ package com.example.employeeperformance.VOs;
 import com.example.employeeperformance.entities.EmployeePerformance;
 import jakarta.persistence.Column;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class EmployeePerformanceVO {
 
     private Long idEmployee;
 
-    private LocalDateTime date;
+    private LocalDate date;
 
     private Double ponctuality;
 
@@ -24,7 +25,7 @@ public class EmployeePerformanceVO {
     public EmployeePerformanceVO(){
     }
 
-    public EmployeePerformanceVO(Long idEmployee, LocalDateTime date, Double ponctuality, Double workDelivery, Double ppeUsage, Double evolution, Double commitment) {
+    public EmployeePerformanceVO(Long idEmployee, LocalDate date, Double ponctuality, Double workDelivery, Double ppeUsage, Double evolution, Double commitment) {
         this.idEmployee = idEmployee;
         this.date = date;
         this.ponctuality = ponctuality;
@@ -42,11 +43,11 @@ public class EmployeePerformanceVO {
         this.idEmployee = idEmployee;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

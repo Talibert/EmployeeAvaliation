@@ -3,6 +3,7 @@ package com.example.employeeperformance.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,10 +15,10 @@ public class EmployeePerformance {
     private Long Id;
 
     @Column
-    private LocalDateTime date;
+    private LocalDate date;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     /**
@@ -41,7 +42,7 @@ public class EmployeePerformance {
     public EmployeePerformance() {
     }
 
-    public EmployeePerformance(LocalDateTime date, Employee employee, Double ponctuality, Double workDelivery, Double ppeUsage, Double evolution, Double commitment) {
+    public EmployeePerformance(LocalDate date, Employee employee, Double ponctuality, Double workDelivery, Double ppeUsage, Double evolution, Double commitment) {
         this.date = date;
         this.employee = employee;
         this.ponctuality = ponctuality;
@@ -75,11 +76,11 @@ public class EmployeePerformance {
         Id = id;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
