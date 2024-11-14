@@ -5,6 +5,7 @@ import com.example.employeeperformance.calculations.PerformanceMetric;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.entities.EmployeePerformance;
 import com.example.employeeperformance.exceptions.notfound.EmployeePerformanceNotFoundException;
+import com.example.employeeperformance.exceptions.notfound.UpdatedAttributesNotFoundException;
 import com.example.employeeperformance.repositories.EmployeePerformanceRepository;
 import com.example.employeeperformance.types.AttributeType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,5 +140,23 @@ public class EmployeePerformanceService {
                 performanceMap.get(AttributeType.EVOLUTION).getAverage(),
                 performanceMap.get(AttributeType.COMMITMENT).getAverage()
         );
+    }
+
+    /**
+     * Verifica se todos valores adicionados são validos
+     * @param employeePerformanceVO
+     */
+    public void validaAtributosInseridos(EmployeePerformanceVO employeePerformanceVO){
+        if(!isAtributoValorValido(employeePerformanceVO.getPonctuality()) ||
+                !isAtributoValorValido(employeePerformanceVO.getWorkDelivery()) ||
+                !isAtributoValorValido(employeePerformanceVO.getPpeUsage()) ||
+                !isAtributoValorValido(employeePerformanceVO.getEvolution()) ||
+                !isAtributoValorValido(employeePerformanceVO.getCommitment())){
+                    throw new UpdatedAttributesNotFoundException("Atributos inválidos!");
+        }
+    }
+
+    public boolean isAtributoValorValido(Double valor){
+        return valor > 0 && valor <=5;
     }
 }
