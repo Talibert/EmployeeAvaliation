@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 
 public class EmployeePerformanceVO {
 
+    private Long id;
+
     private Long idEmployee;
 
     private LocalDate date;
@@ -33,6 +35,25 @@ public class EmployeePerformanceVO {
         this.ppeUsage = ppeUsage;
         this.evolution = evolution;
         this.commitment = commitment;
+    }
+
+    public EmployeePerformanceVO(Long id, Long idEmployee, LocalDate date, Double ponctuality, Double workDelivery, Double ppeUsage, Double evolution, Double commitment) {
+        this.id = id;
+        this.idEmployee = idEmployee;
+        this.date = date;
+        this.ponctuality = ponctuality;
+        this.workDelivery = workDelivery;
+        this.ppeUsage = ppeUsage;
+        this.evolution = evolution;
+        this.commitment = commitment;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getIdEmployee() {

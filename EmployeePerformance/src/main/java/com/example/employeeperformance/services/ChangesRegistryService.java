@@ -1,11 +1,13 @@
 package com.example.employeeperformance.services;
 
+import com.example.employeeperformance.VOs.ChangesRegistryVO;
 import com.example.employeeperformance.entities.ChangesRegistry;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.entities.EmployeePerformance;
 import com.example.employeeperformance.exceptions.notfound.ChangesRegistryNotFoundException;
 import com.example.employeeperformance.exceptions.notfound.EmployeeNotFoundException;
 import com.example.employeeperformance.exceptions.notfound.EmployeeSituationAlreadySetted;
+import com.example.employeeperformance.mappers.ChangesRegistryVoMapper;
 import com.example.employeeperformance.repositories.ChangesRegistryRepository;
 import com.example.employeeperformance.repositories.EmployeeRepository;
 import com.example.employeeperformance.types.SetorType;
@@ -23,6 +25,9 @@ public class ChangesRegistryService {
 
     @Autowired
     private ChangesRegistryRepository changesRegistryRepository;
+
+    @Autowired
+    private ChangesRegistryVoMapper changesRegistryVoMapper;
 
     /**
      * Método de busca de registros de mudança pelo id
@@ -76,5 +81,13 @@ public class ChangesRegistryService {
      */
     public ChangesRegistry findLastChangesRegistryByEmployee(Employee employee){
         return changesRegistryRepository.findLastChangesRegistryByEmployee(employee);
+    }
+
+    /**
+     * Método para salvar um novo registro do ChangesRegistry
+     * @param changesRegistryVO
+     */
+    public void saveNewChangesRegistry(ChangesRegistryVO changesRegistryVO){
+        changesRegistryRepository.save(changesRegistryVoMapper.getEntity(changesRegistryVO));
     }
 }

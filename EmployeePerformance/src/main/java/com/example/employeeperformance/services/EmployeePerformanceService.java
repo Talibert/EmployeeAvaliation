@@ -8,6 +8,7 @@ import com.example.employeeperformance.exceptions.notfound.EmployeePerformanceNo
 import com.example.employeeperformance.repositories.EmployeePerformanceRepository;
 import com.example.employeeperformance.types.AttributeType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Component
 public class EmployeePerformanceService {
 
     @Autowired
