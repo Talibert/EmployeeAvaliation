@@ -56,6 +56,11 @@ public class UpdatePerformance {
         saveChangesRegistry(employeePerformanceSaved, lastEmployeePerformance);
     }
 
+    /**
+     * Esse método vai criar um novo ChangesRegistry com base no novo EmployeePerformance que foi gerado
+     * @param employeePerformanceSaved
+     * @param lastEmployeePerformance
+     */
     public void saveChangesRegistry(EmployeePerformance employeePerformanceSaved, EmployeePerformance lastEmployeePerformance){
         ChangesRegistryVO changesRegistryVO = new ChangesRegistryVO(
                 employeePerformanceSaved.getEmployee().getId(),
@@ -72,6 +77,7 @@ public class UpdatePerformance {
 
     /**
      * TODO IMPLEMENTAR ESSE MÉTODO E OS TESTES UNITARIOS DOS NOVOS MÉTODOS CRIADOS
+     * Esse método vai salvar todos os atributos atualizados com base nos novos EmployeePerformance e ChangesRegistry
      * @param employeePerformanceSaved
      * @param lastEmployeePerformance
      * @param changesRegistry
