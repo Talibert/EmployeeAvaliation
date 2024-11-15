@@ -22,4 +22,10 @@ public interface EmployeePerformanceRepository extends JpaRepository<EmployeePer
             "AND YEAR(p.date) = :ano " +
             "AND p.employee = :employee")
     List<EmployeePerformance> findByMesAnoEEmployee(@Param("mes") int mes, @Param("ano") int ano, @Param("employee") Employee employee);
+
+    @Query("SELECT p FROM EmployeePerformance p " +
+            "WHERE MONTH(p.date) = :mes " +
+            "AND YEAR(p.date) = :ano " +
+            "AND p.employee = :employee")
+    EmployeePerformance findByMesAnoEEmployeeLastRegistry(@Param("mes") int mes, @Param("ano") int ano, @Param("employee") Employee employee);
 }

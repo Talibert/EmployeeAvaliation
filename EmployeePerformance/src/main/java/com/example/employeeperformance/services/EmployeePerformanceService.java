@@ -70,6 +70,14 @@ public class EmployeePerformanceService {
         return employeePerformanceRepository.findByMesAnoEEmployee(month.get(ChronoField.MONTH_OF_YEAR), year.get(ChronoField.YEAR), employee);
     }
 
+    public EmployeePerformance findByMesAnoEEmployeeLastRegistry(Month month, Year year, Employee employee){
+        return employeePerformanceRepository.findByMesAnoEEmployeeLastRegistry(month.get(ChronoField.MONTH_OF_YEAR), year.get(ChronoField.YEAR), employee);
+    }
+
+    public EmployeePerformance saveEmployeePerformance(EmployeePerformance employeePerformance){
+        return employeePerformanceRepository.save(employeePerformance);
+    }
+
     /**
      * Retorna a média de performance do funcionário solicitado no mês e ano informado
      * @param month

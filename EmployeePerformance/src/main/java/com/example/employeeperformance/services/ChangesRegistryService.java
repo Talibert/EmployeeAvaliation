@@ -1,22 +1,15 @@
 package com.example.employeeperformance.services;
 
-import com.example.employeeperformance.VOs.ChangesRegistryVO;
 import com.example.employeeperformance.entities.ChangesRegistry;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.entities.EmployeePerformance;
 import com.example.employeeperformance.exceptions.notfound.ChangesRegistryNotFoundException;
-import com.example.employeeperformance.exceptions.notfound.EmployeeNotFoundException;
-import com.example.employeeperformance.exceptions.notfound.EmployeeSituationAlreadySetted;
 import com.example.employeeperformance.mappers.ChangesRegistryVoMapper;
 import com.example.employeeperformance.repositories.ChangesRegistryRepository;
-import com.example.employeeperformance.repositories.EmployeeRepository;
-import com.example.employeeperformance.types.SetorType;
-import com.example.employeeperformance.types.SituationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,9 +78,9 @@ public class ChangesRegistryService {
 
     /**
      * Método para salvar um novo registro do ChangesRegistry
-     * @param changesRegistryVO
+     * @param changesRegistry
      */
-    public void saveNewChangesRegistry(ChangesRegistryVO changesRegistryVO){
-        changesRegistryRepository.save(changesRegistryVoMapper.getEntity(changesRegistryVO));
+    public ChangesRegistry saveChangesRegistry(ChangesRegistry changesRegistry){
+        return changesRegistryRepository.save(changesRegistry);
     }
 }

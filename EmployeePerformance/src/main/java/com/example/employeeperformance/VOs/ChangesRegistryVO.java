@@ -3,6 +3,7 @@ package com.example.employeeperformance.VOs;
 import com.example.employeeperformance.entities.UpdatedAttributes;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChangesRegistryVO {
@@ -20,10 +21,10 @@ public class ChangesRegistryVO {
     public ChangesRegistryVO(){
     }
 
-    public ChangesRegistryVO(Long idEmployee, Long idEmployeePerformance, List<UpdatedAttributes> updatedAttributesList, LocalDate date) {
+    public ChangesRegistryVO(Long idEmployee, Long idEmployeePerformance, LocalDate date) {
         this.idEmployee = idEmployee;
         this.idEmployeePerformance = idEmployeePerformance;
-        this.updatedAttributesList = updatedAttributesList;
+        this.updatedAttributesList = new ArrayList<>();
         this.data = date;
     }
 

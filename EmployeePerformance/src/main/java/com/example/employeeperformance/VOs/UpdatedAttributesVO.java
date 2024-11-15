@@ -3,6 +3,7 @@ package com.example.employeeperformance.VOs;
 import com.example.employeeperformance.types.AttributeType;
 import com.example.employeeperformance.types.SetorType;
 import com.example.employeeperformance.types.SituationType;
+import jdk.incubator.vector.DoubleVector;
 
 public class UpdatedAttributesVO {
 
@@ -12,14 +13,14 @@ public class UpdatedAttributesVO {
 
     private AttributeType attributeType;
 
-    private Integer oldValue;
+    private Double oldValue;
 
-    private Integer newValue;
+    private Double newValue;
 
     public UpdatedAttributesVO(){
     }
 
-    public UpdatedAttributesVO(Long id, Long idChangesRegistry, AttributeType attributeType, Integer oldValue, Integer newValue) {
+    public UpdatedAttributesVO(Long id, Long idChangesRegistry, AttributeType attributeType, Double oldValue, Double newValue) {
         this.id = id;
         this.idChangesRegistry = idChangesRegistry;
         this.attributeType = attributeType;
@@ -27,14 +28,14 @@ public class UpdatedAttributesVO {
         this.newValue = newValue;
     }
 
-    public UpdatedAttributesVO(Long idChangesRegistry, AttributeType attributeType, Integer oldValue, Integer newValue) {
+    public UpdatedAttributesVO(Long idChangesRegistry, AttributeType attributeType, Double oldValue, Double newValue) {
         this.idChangesRegistry = idChangesRegistry;
         this.attributeType = attributeType;
         this.oldValue = oldValue;
         this.newValue = newValue;
     }
 
-    public UpdatedAttributesVO(AttributeType attributeType, Integer oldValue, Integer newValue) {
+    public UpdatedAttributesVO(AttributeType attributeType, Double oldValue, Double newValue) {
         this.attributeType = attributeType;
         this.oldValue = oldValue;
         this.newValue = newValue;
@@ -64,19 +65,19 @@ public class UpdatedAttributesVO {
         this.attributeType = attributeType;
     }
 
-    public Integer getOldValue() {
+    public Double getOldValue() {
         return oldValue;
     }
 
-    public void setOldValue(Integer oldValue) {
+    public void setOldValue(Double oldValue) {
         this.oldValue = oldValue;
     }
 
-    public Integer getNewValue() {
+    public Double getNewValue() {
         return newValue;
     }
 
-    public void setNewValue(Integer newValue) {
+    public void setNewValue(Double newValue) {
         this.newValue = newValue;
     }
 }
