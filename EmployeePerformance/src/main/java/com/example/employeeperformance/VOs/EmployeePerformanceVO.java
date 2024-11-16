@@ -6,7 +6,7 @@ import jakarta.persistence.Column;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class EmployeePerformanceVO {
+public class EmployeePerformanceVO extends AbstractVO{
 
     private Long id;
 
@@ -27,17 +27,18 @@ public class EmployeePerformanceVO {
     public EmployeePerformanceVO(){
     }
 
-    public EmployeePerformanceVO(Long idEmployee, LocalDate date, Double ponctuality, Double workDelivery, Double ppeUsage, Double evolution, Double commitment) {
+    public EmployeePerformanceVO(Long idEmployee, LocalDate date) {
         this.idEmployee = idEmployee;
         this.date = date;
-        this.ponctuality = ponctuality;
-        this.workDelivery = workDelivery;
-        this.ppeUsage = ppeUsage;
-        this.evolution = evolution;
-        this.commitment = commitment;
     }
 
-    public EmployeePerformanceVO(Long id, Long idEmployee, LocalDate date, Double ponctuality, Double workDelivery, Double ppeUsage, Double evolution, Double commitment) {
+    public EmployeePerformanceVO(Long id, Long idEmployee, LocalDate date) {
+        this.id = id;
+        this.idEmployee = idEmployee;
+        this.date = date;
+    }
+
+    public EmployeePerformanceVO(Long idEmployee, LocalDate date, Double ponctuality, Double workDelivery, Double ppeUsage, Double evolution, Double commitment) {
         this.id = id;
         this.idEmployee = idEmployee;
         this.date = date;

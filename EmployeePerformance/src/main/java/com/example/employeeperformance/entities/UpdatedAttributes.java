@@ -7,11 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "updated_atributes")
-public class UpdatedAttributes {
-
-    @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private Long Id;
+public class UpdatedAttributes extends AbstractEntity{
 
     @ManyToOne
     @JoinColumn(name = "changes_registry_id")
@@ -22,23 +18,23 @@ public class UpdatedAttributes {
     private AttributeType attributeType;
 
     @Column
-    private Integer oldValue;
+    private Double oldValue;
 
     @Column
-    private Integer newValue;
+    private Double newValue;
 
     public UpdatedAttributes(){
     }
 
-    public UpdatedAttributes(Long id, ChangesRegistry changesRegistry, AttributeType attributeType, Integer oldValue, Integer newValue) {
-        Id = id;
+    public UpdatedAttributes(Long id, ChangesRegistry changesRegistry, AttributeType attributeType, Double oldValue, Double newValue) {
+        this.id = id;
         this.changesRegistry = changesRegistry;
         this.attributeType = attributeType;
         this.oldValue = oldValue;
         this.newValue = newValue;
     }
 
-    public UpdatedAttributes(ChangesRegistry changesRegistry, AttributeType attributeType, Integer oldValue, Integer newValue) {
+    public UpdatedAttributes(ChangesRegistry changesRegistry, AttributeType attributeType, Double oldValue, Double newValue) {
         this.changesRegistry = changesRegistry;
         this.attributeType = attributeType;
         this.oldValue = oldValue;
@@ -46,11 +42,11 @@ public class UpdatedAttributes {
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public ChangesRegistry getChangesRegistry() {
@@ -69,19 +65,19 @@ public class UpdatedAttributes {
         this.attributeType = attributeType;
     }
 
-    public Integer getOldValue() {
+    public Double getOldValue() {
         return oldValue;
     }
 
-    public void setOldValue(Integer oldValue) {
+    public void setOldValue(Double oldValue) {
         this.oldValue = oldValue;
     }
 
-    public Integer getNewValue() {
+    public Double getNewValue() {
         return newValue;
     }
 
-    public void setNewValue(Integer newValue) {
+    public void setNewValue(Double newValue) {
         this.newValue = newValue;
     }
 
@@ -90,11 +86,11 @@ public class UpdatedAttributes {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UpdatedAttributes that = (UpdatedAttributes) o;
-        return Objects.equals(Id, that.Id) && Objects.equals(changesRegistry, that.changesRegistry) && Objects.equals(attributeType, that.attributeType) && Objects.equals(oldValue, that.oldValue) && Objects.equals(newValue, that.newValue);
+        return Objects.equals(id, that.id) && Objects.equals(changesRegistry, that.changesRegistry) && Objects.equals(attributeType, that.attributeType) && Objects.equals(oldValue, that.oldValue) && Objects.equals(newValue, that.newValue);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Id, changesRegistry, attributeType, oldValue, newValue);
+        return Objects.hash(id, changesRegistry, attributeType, oldValue, newValue);
     }
 }

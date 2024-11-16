@@ -2,6 +2,7 @@ package com.example.employeeperformance.services;
 
 import com.example.employeeperformance.VOs.EmployeePerformanceVO;
 import com.example.employeeperformance.calculations.PerformanceMetric;
+import com.example.employeeperformance.entities.Attribute;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.entities.EmployeePerformance;
 import com.example.employeeperformance.exceptions.notfound.EmployeePerformanceNotFoundException;
@@ -108,11 +109,28 @@ public class EmployeePerformanceService {
         PerformanceMetric performaceCommitment = new PerformanceMetric();
 
         for(EmployeePerformance employeePerformance : employeePerformanceList){
-            performacePonctuality.incrementValue(employeePerformance.getPonctuality());
-            performaceWorkDelivery.incrementValue(employeePerformance.getWorkDelivery());
-            performacePPEUsage.incrementValue(employeePerformance.getPpeUsage());
-            performaceEvolution.incrementValue(employeePerformance.getEvolution());
-            performaceCommitment.incrementValue(employeePerformance.getCommitment());
+
+            for(Attribute attribute : employeePerformance.getAttributeList()){
+                switch (attribute.getAttributeType()){
+                    case PONCTUALITY:
+                        performacePonctuality.incrementValue(attribute.getValue());
+                        break;
+                    case WORK_DELIVERY:
+                        performaceWorkDelivery.incrementValue(attribute.getValue());
+                        break;
+                    case PPE_USAGE:
+                        performacePPEUsage.incrementValue(attribute.getValue());
+                        break;
+                    case EVOLUTION:
+                        performaceEvolution.incrementValue(attribute.getValue());
+                        break;
+                    case COMMITMENT:
+                        performaceCommitment.incrementValue(attribute.getValue());
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         Map<AttributeType, PerformanceMetric> map = new HashMap<>();

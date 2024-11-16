@@ -1,6 +1,7 @@
 package com.example.employeeperformance.mappers;
 
 import com.example.employeeperformance.VOs.EmployeePerformanceVO;
+import com.example.employeeperformance.entities.Attribute;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.entities.EmployeePerformance;
 import com.example.employeeperformance.repositories.EmployeeRepository;
@@ -12,10 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class EmployeePerformanceVoMapper {
-
-    @Autowired
-    private EmployeeService employeeService;
+public class EmployeePerformanceVoMapper extends SuperMapper{
 
     /**
      * Metodo para converter a entidade no VO
@@ -23,15 +21,14 @@ public class EmployeePerformanceVoMapper {
      * @return
      */
     public EmployeePerformanceVO getVO(EmployeePerformance employeePerformance){
-        return new EmployeePerformanceVO(
+        EmployeePerformanceVO employeePerformanceVO = new EmployeePerformanceVO(
                 employeePerformance.getId(),
                 employeePerformance.getEmployee().getId(),
-                employeePerformance.getDate(),
-                employeePerformance.getPonctuality(),
-                employeePerformance.getWorkDelivery(),
-                employeePerformance.getPpeUsage(),
-                employeePerformance.getEvolution(),
-                employeePerformance.getCommitment());
+                employeePerformance.getDate());
+
+        populaAtributos(employeePerformance, employeePerformanceVO);
+
+        return employeePerformanceVO;
     }
 
     /**
@@ -42,12 +39,7 @@ public class EmployeePerformanceVoMapper {
     public EmployeePerformance getEntity(EmployeePerformanceVO employeePerformanceVO){
         return new EmployeePerformance(
                 employeePerformanceVO.getDate(),
-                getEmployee(employeePerformanceVO.getIdEmployee()),
-                employeePerformanceVO.getPonctuality(),
-                employeePerformanceVO.getWorkDelivery(),
-                employeePerformanceVO.getPpeUsage(),
-                employeePerformanceVO.getEvolution(),
-                employeePerformanceVO.getCommitment()
+                getEmployee(employeePerformanceVO.getIdEmployee())
         );
     }
 
@@ -60,7 +52,38 @@ public class EmployeePerformanceVoMapper {
         return employeePerformanceList.stream().map(this::getVO).collect(Collectors.toList());
     }
 
-    public Employee getEmployee(Long id){
-        return employeeService.findById(id);
+    /**
+     * Metodo para converter uma lista de entidades em uma lista de VOs
+     * @param employeePerformanceVOList
+     * @return
+     */
+    public List<EmployeePerformance> getListEntity(List<EmployeePerformanceVO> employeePerformanceVOList){
+        return employeePerformanceVOList.stream().map(this::getEntity).collect(Collectors.toList());
+    }
+
+    public void populaAtributos(EmployeePerformance employeePerformance, EmployeePerformanceVO employeePerformanceVO){
+        List<Attribute> attributeList = employeePerformance.getAttributeList();
+
+        for(Attribute attribute : attributeList){
+            switch (attribute.getAttributeType()){
+                case PONCTUALITY:
+                    employeePerformanceVO.setPonctuality(attribute.getValue());
+                    break;
+                case WORK_DELIVERY:
+                    employeePerformanceVO.setWorkDelivery(attribute.getValue());
+                    break;
+                case PPE_USAGE:
+                    employeePerformanceVO.setPpeUsage(attribute.getValue());
+                    break;
+                case EVOLUTION:
+                    employeePerformanceVO.setEvolution(attribute.getValue());
+                    break;
+                case COMMITMENT:
+                    employeePerformanceVO.setCommitment(attribute.getValue());
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

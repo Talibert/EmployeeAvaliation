@@ -9,11 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "employee")
-public class Employee {
-
-    @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private Long id;
+public class Employee extends AbstractEntity {
 
     @Column
     private String nome;

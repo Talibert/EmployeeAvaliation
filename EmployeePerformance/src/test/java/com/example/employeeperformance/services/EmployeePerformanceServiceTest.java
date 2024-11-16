@@ -2,6 +2,7 @@ package com.example.employeeperformance.services;
 
 import com.example.employeeperformance.VOs.EmployeePerformanceVO;
 import com.example.employeeperformance.calculations.PerformanceMetric;
+import com.example.employeeperformance.entities.Attribute;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.entities.EmployeePerformance;
 import com.example.employeeperformance.repositories.EmployeeRepository;
@@ -62,28 +63,30 @@ public class EmployeePerformanceServiceTest {
 
     @Test
     public void testePopularPerformanceMap(){
-        EmployeePerformance employeePerformance1 = new EmployeePerformance(3.0, 4.0, 5.0, 4.0, 4.0);
-        EmployeePerformance employeePerformance2 = new EmployeePerformance(2.0, 3.0, 5.0, 5.0, 4.0);
-        EmployeePerformance employeePerformance3 = new EmployeePerformance(4.0, 3.0, 5.0, 5.0, 4.0);
-        EmployeePerformance employeePerformance4 = new EmployeePerformance(4.0, 3.0, 5.0, 5.0, 5.0);
-        EmployeePerformance employeePerformance5 = new EmployeePerformance(4.0, 4.0, 5.0, 3.0, 5.0);
-        EmployeePerformance employeePerformance6 = new EmployeePerformance(4.0, 4.0, 4.0, 3.0, 3.0);
-        EmployeePerformance employeePerformance7 = new EmployeePerformance(5.0, 4.0, 4.0, 3.0, 5.0);
-        EmployeePerformance employeePerformance8 = new EmployeePerformance(5.0, 5.0, 4.0, 4.0, 5.0);
-        EmployeePerformance employeePerformance9 = new EmployeePerformance(5.0, 5.0, 4.0, 4.0, 5.0);
-        EmployeePerformance employeePerformance10 = new EmployeePerformance(5.0, 5.0, 3.0, 4.0, 4.0);
+        EmployeePerformance employeePerformance1 = new EmployeePerformance();
+        EmployeePerformance employeePerformance2 = new EmployeePerformance();
+        EmployeePerformance employeePerformance3 = new EmployeePerformance();
+        EmployeePerformance employeePerformance4 = new EmployeePerformance();
+        EmployeePerformance employeePerformance5 = new EmployeePerformance();
+        EmployeePerformance employeePerformance6 = new EmployeePerformance();
+        EmployeePerformance employeePerformance7 = new EmployeePerformance();
+        EmployeePerformance employeePerformance8 = new EmployeePerformance();
+        EmployeePerformance employeePerformance9 = new EmployeePerformance();
+        EmployeePerformance employeePerformance10 = new EmployeePerformance();
 
         List<EmployeePerformance> employeePerformanceList = List.of(employeePerformance1, employeePerformance2, employeePerformance3,
-                employeePerformance4, employeePerformance5, employeePerformance6, employeePerformance7, employeePerformance8,
-                employeePerformance9, employeePerformance10);
+                employeePerformance4, employeePerformance5, employeePerformance6, employeePerformance7, employeePerformance8, employeePerformance9,
+                employeePerformance10);
+
+        criaListas(employeePerformanceList);
 
         Map<AttributeType, PerformanceMetric> map = employeePerformanceServiceSpy.popularPerformanceMap(employeePerformanceList);
 
-        Assertions.assertEquals(41, map.get(AttributeType.PONCTUALITY).getValue());
+        Assertions.assertEquals(30, map.get(AttributeType.PONCTUALITY).getValue());
         Assertions.assertEquals(40, map.get(AttributeType.WORK_DELIVERY).getValue());
-        Assertions.assertEquals(44, map.get(AttributeType.PPE_USAGE).getValue());
+        Assertions.assertEquals(50, map.get(AttributeType.PPE_USAGE).getValue());
         Assertions.assertEquals(40, map.get(AttributeType.EVOLUTION).getValue());
-        Assertions.assertEquals(44, map.get(AttributeType.COMMITMENT).getValue());
+        Assertions.assertEquals(40, map.get(AttributeType.COMMITMENT).getValue());
     }
 
     @Test
@@ -116,5 +119,18 @@ public class EmployeePerformanceServiceTest {
         Assertions.assertEquals(year.getValue(), employeePerformanceVOResult.getDate().getYear());
         Assertions.assertEquals(month.maxLength(), employeePerformanceVOResult.getDate().getDayOfMonth());
         Assertions.assertEquals(id, employeePerformanceVOResult.getIdEmployee());
+    }
+
+    public void criaListas(List<EmployeePerformance> employeePerformanceList){
+        for(EmployeePerformance employeePerformance : employeePerformanceList){
+            Double adicional = 0.0;
+            employeePerformance.addAttributeList(new Attribute(employeePerformance, AttributeType.PONCTUALITY, 3.0 + adicional));
+            employeePerformance.addAttributeList(new Attribute(employeePerformance, AttributeType.WORK_DELIVERY, 4.0+ adicional));
+            employeePerformance.addAttributeList(new Attribute(employeePerformance, AttributeType.PPE_USAGE, 5.0+ adicional));
+            employeePerformance.addAttributeList(new Attribute(employeePerformance, AttributeType.EVOLUTION, 4.0+ adicional));
+            employeePerformance.addAttributeList(new Attribute(employeePerformance, AttributeType.COMMITMENT, 4.0+ adicional));
+
+            adicional += 0.1;
+        }
     }
 }

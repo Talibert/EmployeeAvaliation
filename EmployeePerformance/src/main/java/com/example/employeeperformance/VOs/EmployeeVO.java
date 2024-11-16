@@ -5,7 +5,7 @@ import com.example.employeeperformance.types.SituationType;
 
 import java.time.LocalDate;
 
-public class EmployeeVO {
+public class EmployeeVO extends AbstractVO{
 
     private Long id;
 

@@ -1,11 +1,8 @@
 package com.example.employeeperformance.VOs;
 
 import com.example.employeeperformance.types.AttributeType;
-import com.example.employeeperformance.types.SetorType;
-import com.example.employeeperformance.types.SituationType;
-import jdk.incubator.vector.DoubleVector;
 
-public class UpdatedAttributesVO {
+public class UpdatedAttributesVO extends AbstractVO{
 
     private Long id;
 

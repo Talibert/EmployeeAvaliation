@@ -69,7 +69,7 @@ public class ChangesRegistryService {
     }
 
     /**
-     * Método para retorno de funcionário inativos por setor
+     * Método para retorno do ultimo ChangesRegistry do funcionário
      * @return
      */
     public ChangesRegistry findLastChangesRegistryByEmployee(Employee employee){

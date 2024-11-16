@@ -1,10 +1,7 @@
 package com.example.employeeperformance.services;
 
 import com.example.employeeperformance.VOs.UpdatedAttributesVO;
-import com.example.employeeperformance.entities.ChangesRegistry;
-import com.example.employeeperformance.entities.Employee;
-import com.example.employeeperformance.entities.EmployeePerformance;
-import com.example.employeeperformance.entities.UpdatedAttributes;
+import com.example.employeeperformance.entities.*;
 import com.example.employeeperformance.exceptions.notfound.EmployeeNotFoundException;
 import com.example.employeeperformance.exceptions.notfound.EmployeeSituationAlreadySetted;
 import com.example.employeeperformance.exceptions.notfound.UpdatedAttributesNotFoundException;
@@ -16,6 +13,7 @@ import com.example.employeeperformance.types.SituationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,42 +67,30 @@ public class UpdatedAttributesService {
     }
 
     public List<UpdatedAttributesVO> getUpdatedAttributesVOList(EmployeePerformance employeePerformanceSaved, EmployeePerformance lastEmployeePerformance, ChangesRegistry changesRegistry) {
-        UpdatedAttributesVO updatedAttributesVOPonctuality = new UpdatedAttributesVO(
-                changesRegistry.getId(),
-                AttributeType.PONCTUALITY,
-                lastEmployeePerformance.getPonctuality(),
-                employeePerformanceSaved.getPonctuality()
-        );
+        List<UpdatedAttributesVO> updatedAttributesVOList = new ArrayList<>();
 
-        UpdatedAttributesVO updatedAttributesVOWorkDelivery = new UpdatedAttributesVO(
-                changesRegistry.getId(),
-                AttributeType.WORK_DELIVERY,
-                lastEmployeePerformance.getWorkDelivery(),
-                employeePerformanceSaved.getWorkDelivery()
-        );
+        for(AttributeType attributeType : AttributeType.values()){
+            UpdatedAttributesVO updatedAttributesVO = new UpdatedAttributesVO(
+                    changesRegistry.getId(),
+                    attributeType,
+                    getValorDoAtributo(lastEmployeePerformance, attributeType),
+                    getValorDoAtributo(employeePerformanceSaved, attributeType)
+            );
 
-        UpdatedAttributesVO updatedAttributesVOPPEUsage = new UpdatedAttributesVO(
-                changesRegistry.getId(),
-                AttributeType.PPE_USAGE,
-                lastEmployeePerformance.getPpeUsage(),
-                employeePerformanceSaved.getPpeUsage()
-        );
+            updatedAttributesVOList.add(updatedAttributesVO);
+        }
 
-        UpdatedAttributesVO updatedAttributesVOEvolution = new UpdatedAttributesVO(
-                changesRegistry.getId(),
-                AttributeType.EVOLUTION,
-                lastEmployeePerformance.getEvolution(),
-                employeePerformanceSaved.getEvolution()
-        );
+        return updatedAttributesVOList;
+    }
 
-        UpdatedAttributesVO updatedAttributesVOCommitment = new UpdatedAttributesVO(
-                changesRegistry.getId(),
-                AttributeType.COMMITMENT,
-                lastEmployeePerformance.getCommitment(),
-                employeePerformanceSaved.getCommitment()
-        );
+    public Double getValorDoAtributo(EmployeePerformance employeePerformance, AttributeType attributeType){
+        List<Attribute> attributeList = employeePerformance.getAttributeList();
 
-        return List.of(updatedAttributesVOPonctuality, updatedAttributesVOWorkDelivery, updatedAttributesVOPPEUsage,
-                updatedAttributesVOEvolution, updatedAttributesVOCommitment);
+        for(Attribute attribute : attributeList){
+            if(attribute.equals(attributeType))
+                return attribute.getValue();
+        }
+
+        throw new RuntimeException("Atributo inválido");
     }
 }

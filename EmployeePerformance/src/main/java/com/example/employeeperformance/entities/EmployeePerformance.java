@@ -1,18 +1,14 @@
 package com.example.employeeperformance.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "employee_performance")
-public class EmployeePerformance {
-
-    @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private Long Id;
+public class EmployeePerformance extends AbstractEntity {
 
     @Column
     private LocalDate date;
@@ -21,59 +17,23 @@ public class EmployeePerformance {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    /**
-     * A seguir a lista de pontos de avaliação dos funcionários
-     */
-    @Column
-    private Double ponctuality;
-
-    @Column
-    private Double workDelivery;
-
-    @Column
-    private Double ppeUsage;
-
-    @Column
-    private Double evolution;
-
-    @Column
-    private Double commitment;
+    @OneToMany(mappedBy = "employeePerformance")
+    private List<Attribute> attributeList;
 
     public EmployeePerformance() {
     }
 
-    public EmployeePerformance(LocalDate date, Employee employee, Double ponctuality, Double workDelivery, Double ppeUsage, Double evolution, Double commitment) {
+    public EmployeePerformance(LocalDate date, Employee employee) {
         this.date = date;
         this.employee = employee;
-        this.ponctuality = ponctuality;
-        this.workDelivery = workDelivery;
-        this.ppeUsage = ppeUsage;
-        this.evolution = evolution;
-        this.commitment = commitment;
-    }
-
-    /**
-     * Construtor para facilitar os testes
-     * @param ponctuality
-     * @param workDelivery
-     * @param ppeUsage
-     * @param evolution
-     * @param commitment
-     */
-    public EmployeePerformance(Double ponctuality, Double workDelivery, Double ppeUsage, Double evolution, Double commitment){
-        this.ponctuality = ponctuality;
-        this.workDelivery = workDelivery;
-        this.ppeUsage = ppeUsage;
-        this.evolution = evolution;
-        this.commitment = commitment;
     }
 
     public Long getId() {
-        return Id;
+        return this.id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public LocalDate getDate() {
@@ -92,43 +52,30 @@ public class EmployeePerformance {
         this.employee = employee;
     }
 
-    public Double getPonctuality() {
-        return ponctuality;
+    public List<Attribute> getAttributeList(){
+        if(this.attributeList == null)
+            this.attributeList = new ArrayList<>();
+
+        return this.attributeList;
     }
 
-    public void setPonctuality(Double ponctuality) {
-        this.ponctuality = ponctuality;
+    public void addAttributeList(Attribute attribute){
+        if(this.attributeList == null)
+            this.attributeList = new ArrayList<>();
+
+        this.attributeList.add(attribute);
     }
 
-    public Double getWorkDelivery() {
-        return workDelivery;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EmployeePerformance that = (EmployeePerformance) o;
+        return Objects.equals(date, that.date) && Objects.equals(employee, that.employee) && Objects.equals(attributeList, that.attributeList);
     }
 
-    public void setWorkDelivery(Double workDelivery) {
-        this.workDelivery = workDelivery;
-    }
-
-    public Double getPpeUsage() {
-        return ppeUsage;
-    }
-
-    public void setPpeUsage(Double ppeUsage) {
-        this.ppeUsage = ppeUsage;
-    }
-
-    public Double getEvolution() {
-        return evolution;
-    }
-
-    public void setEvolution(Double evolution) {
-        this.evolution = evolution;
-    }
-
-    public Double getCommitment() {
-        return commitment;
-    }
-
-    public void setCommitment(Double commitment) {
-        this.commitment = commitment;
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, employee, attributeList);
     }
 }

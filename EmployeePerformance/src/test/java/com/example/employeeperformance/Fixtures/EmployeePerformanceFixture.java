@@ -16,7 +16,7 @@ public class EmployeePerformanceFixture {
 
         for(Employee employee : employeeList){
             for(LocalDate data : datas){
-                EmployeePerformance employeePerformance = new EmployeePerformance(data, employee, 5.0, 5.0, 5.0, 5.0, 5.0);
+                EmployeePerformance employeePerformance = new EmployeePerformance(data, employee);
                 employeePerformanceList.add(employeePerformance);
             }
         }

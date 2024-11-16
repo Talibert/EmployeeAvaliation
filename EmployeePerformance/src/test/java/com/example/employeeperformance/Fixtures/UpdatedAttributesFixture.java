@@ -15,11 +15,11 @@ public class UpdatedAttributesFixture {
     public static List<UpdatedAttributes> getUpdatedAttributesList(ChangesRegistry changesRegistrySaved){
         List<UpdatedAttributes> updatedAttributesList = new ArrayList<>();
 
-        UpdatedAttributes updatedAttributes1 = new UpdatedAttributes(changesRegistrySaved, AttributeType.PONCTUALITY, 5, 4);
-        UpdatedAttributes updatedAttributes2 = new UpdatedAttributes(changesRegistrySaved, AttributeType.WORK_DELIVERY, 4, 3);
-        UpdatedAttributes updatedAttributes3 = new UpdatedAttributes(changesRegistrySaved, AttributeType.PPE_USAGE, 3, 5);
-        UpdatedAttributes updatedAttributes4 = new UpdatedAttributes(changesRegistrySaved, AttributeType.EVOLUTION, 5, 3);
-        UpdatedAttributes updatedAttributes5 = new UpdatedAttributes(changesRegistrySaved, AttributeType.COMMITMENT, 2, 5);
+        UpdatedAttributes updatedAttributes1 = new UpdatedAttributes(changesRegistrySaved, AttributeType.PONCTUALITY, 5.0, 4.0);
+        UpdatedAttributes updatedAttributes2 = new UpdatedAttributes(changesRegistrySaved, AttributeType.WORK_DELIVERY, 4.0, 3.0);
+        UpdatedAttributes updatedAttributes3 = new UpdatedAttributes(changesRegistrySaved, AttributeType.PPE_USAGE, 3.0, 5.0);
+        UpdatedAttributes updatedAttributes4 = new UpdatedAttributes(changesRegistrySaved, AttributeType.EVOLUTION, 5.0, 3.0);
+        UpdatedAttributes updatedAttributes5 = new UpdatedAttributes(changesRegistrySaved, AttributeType.COMMITMENT, 2.0, 5.0);
 
         updatedAttributesList.add(updatedAttributes1);
         updatedAttributesList.add(updatedAttributes2);

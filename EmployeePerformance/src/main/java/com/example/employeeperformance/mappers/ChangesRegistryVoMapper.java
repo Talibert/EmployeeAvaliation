@@ -1,7 +1,6 @@
 package com.example.employeeperformance.mappers;
 
 import com.example.employeeperformance.VOs.ChangesRegistryVO;
-import com.example.employeeperformance.VOs.EmployeePerformanceVO;
 import com.example.employeeperformance.entities.ChangesRegistry;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.entities.EmployeePerformance;
@@ -14,13 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class ChangesRegistryVoMapper {
-
-    @Autowired
-    private EmployeeService employeeService;
-
-    @Autowired
-    private EmployeePerformanceService employeePerformanceService;
+public class ChangesRegistryVoMapper extends SuperMapper {
 
     /**
      * Metodo para converter a entidade no VO
@@ -58,13 +51,5 @@ public class ChangesRegistryVoMapper {
      */
     public List<ChangesRegistryVO> getListVO(List<ChangesRegistry> changesRegistryList){
         return changesRegistryList.stream().map(this::getVO).collect(Collectors.toList());
-    }
-
-    public Employee getEmployee(Long id){
-        return employeeService.findById(id);
-    }
-
-    public EmployeePerformance getEmployeePerformance(Long id){
-        return employeePerformanceService.findById(id);
     }
 }

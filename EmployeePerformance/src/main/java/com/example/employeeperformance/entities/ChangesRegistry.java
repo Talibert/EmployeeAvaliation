@@ -10,11 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "changes_registry")
-public class ChangesRegistry {
-
-    @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private Long Id;
+public class ChangesRegistry extends AbstractEntity{
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
@@ -24,7 +20,7 @@ public class ChangesRegistry {
     @JoinColumn(name = "employee_performance_id")
     private EmployeePerformance employeePerformance;
 
-    @OneToMany(mappedBy = "changesRegistry", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "changesRegistry")
     private List<UpdatedAttributes> updatedAttributesList;
 
     @Column
@@ -41,11 +37,11 @@ public class ChangesRegistry {
     }
 
     public Long getId() {
-        return Id;
+        return this.id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public Employee getEmployee() {
@@ -88,11 +84,11 @@ public class ChangesRegistry {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ChangesRegistry that = (ChangesRegistry) o;
-        return Objects.equals(Id, that.Id) && Objects.equals(employee, that.employee) && Objects.equals(employeePerformance, that.employeePerformance) && Objects.equals(updatedAttributesList, that.updatedAttributesList) && Objects.equals(data, that.data);
+        return Objects.equals(this.id, that.id) && Objects.equals(employee, that.employee) && Objects.equals(employeePerformance, that.employeePerformance) && Objects.equals(updatedAttributesList, that.updatedAttributesList) && Objects.equals(data, that.data);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Id, employee, employeePerformance, updatedAttributesList, data);
+        return Objects.hash(this.id, employee, employeePerformance, updatedAttributesList, data);
     }
 }

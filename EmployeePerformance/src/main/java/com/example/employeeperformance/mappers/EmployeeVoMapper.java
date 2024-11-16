@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class EmployeeVoMapper {
+public class EmployeeVoMapper extends SuperMapper{
 
     /**
      * Metodo para converter a entidade no VO
@@ -52,5 +52,14 @@ public class EmployeeVoMapper {
      */
     public List<EmployeeVO> getListVO(List<Employee> employeeList){
         return employeeList.stream().map(this::getVO).collect(Collectors.toList());
+    }
+
+    /**
+     * Metodo para converter uma lista de entidades em uma lista de VOs
+     * @param employeeVOList
+     * @return
+     */
+    public List<Employee> getListEntity(List<EmployeeVO> employeeVOList){
+        return employeeVOList.stream().map(this::getEntity).collect(Collectors.toList());
     }
 }

@@ -18,6 +18,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.Comparator;
 import java.util.List;
 
 @SpringBootTest(classes = EmployeeperformanceApplication.class)
@@ -47,18 +48,13 @@ public class EmployeePerformanceRepositoryTest extends AbstractRepositoryTests {
     public void testeFindById() {
         Employee employee = employeeRepository.save(new Employee("John", "111.111.111-11", "Observação", SetorType.OFFICE, SituationType.ATIVO));
         LocalDate date = LocalDate.of(2024, Month.DECEMBER, 10);
-        EmployeePerformance employeePerformance = new EmployeePerformance(date, employee, 5.0, 5.0, 5.0, 5.0, 5.0);
+        EmployeePerformance employeePerformance = new EmployeePerformance(date, employee);
 
         EmployeePerformance savedEmployeePerformance = employeePerformanceRepository.save(employeePerformance);
 
         EmployeePerformance foundEmployeePerformance = employeePerformanceRepository.findById(savedEmployeePerformance.getId()).get();
 
         Assertions.assertEquals(date, foundEmployeePerformance.getDate());
-        Assertions.assertEquals(5, foundEmployeePerformance.getPonctuality());
-        Assertions.assertEquals(5, foundEmployeePerformance.getWorkDelivery());
-        Assertions.assertEquals(5, foundEmployeePerformance.getPpeUsage());
-        Assertions.assertEquals(5, foundEmployeePerformance.getEvolution());
-        Assertions.assertEquals(5, foundEmployeePerformance.getCommitment());
     }
 
     @Test
@@ -95,6 +91,25 @@ public class EmployeePerformanceRepositoryTest extends AbstractRepositoryTests {
         employeePerformanceList.forEach(ep -> Assertions.assertEquals(dateJanuary, ep.getDate()));
         employeePerformanceList.forEach(ep -> Assertions.assertEquals("Yasuo", ep.getEmployee().getNome()));
         Assertions.assertEquals(1, employeePerformanceList.size());
+    }
+
+    @Test
+    @Transactional
+    public void testeFindByMesAnoEEmployeeLastRegistry(){
+        Employee employee = employeeRepository.findByNome("Yasuo");
+
+        List<EmployeePerformance> employeePerformanceList = employeePerformanceRepository.findByMesAnoEEmployee(1, 2024, employee);
+
+        EmployeePerformance lastEmployeePerformance = employeePerformanceRepository.findByMesAnoEEmployeeLastRegistry(1, 2024, employee);
+
+        EmployeePerformance lastEmployeePerformanceFromList = employeePerformanceList.stream()
+                .max(Comparator.comparing(EmployeePerformance::getId))
+                .orElse(null);
+
+        LocalDate dateJanuary = LocalDate.of(2024, Month.JANUARY, 10);
+
+        Assertions.assertEquals(dateJanuary, lastEmployeePerformance.getDate());
+        Assertions.assertEquals(lastEmployeePerformanceFromList.getId(), lastEmployeePerformance.getId());
     }
 
     private void populaBanco(){
