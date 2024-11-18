@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "updated_atributes")
+@Table(name = "updated_attributes")
 public class UpdatedAttributes extends AbstractEntity{
 
     @ManyToOne

@@ -12,6 +12,7 @@ public class Attribute extends AbstractEntity {
     private EmployeePerformance employeePerformance;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private AttributeType attributeType;
 
     @Column
