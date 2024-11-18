@@ -15,7 +15,7 @@ public class Attribute extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private AttributeType attributeType;
 
-    @Column
+    @Column(name = "attribute_value")
     private Double value;
 
     public Attribute(){

@@ -84,7 +84,5 @@ public class UpdatePerformance {
      */
     public void saveUpdatedAttributes(EmployeePerformance employeePerformanceSaved, EmployeePerformance lastEmployeePerformance, ChangesRegistry changesRegistry){
         List<UpdatedAttributesVO> updatedAttributesVOList = updatedAttributesService.getUpdatedAttributesVOList(employeePerformanceSaved, lastEmployeePerformance, changesRegistry);
-
-
     }
 }
