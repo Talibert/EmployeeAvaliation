@@ -3,11 +3,13 @@ package com.example.employeeperformance.business;
 import com.example.employeeperformance.VOs.ChangesRegistryVO;
 import com.example.employeeperformance.VOs.EmployeePerformanceVO;
 import com.example.employeeperformance.VOs.UpdatedAttributesVO;
+import com.example.employeeperformance.entities.Attribute;
 import com.example.employeeperformance.entities.ChangesRegistry;
 import com.example.employeeperformance.entities.EmployeePerformance;
 import com.example.employeeperformance.entities.UpdatedAttributes;
 import com.example.employeeperformance.mappers.ChangesRegistryVoMapper;
 import com.example.employeeperformance.mappers.EmployeePerformanceVoMapper;
+import com.example.employeeperformance.services.AttributesService;
 import com.example.employeeperformance.services.ChangesRegistryService;
 import com.example.employeeperformance.services.EmployeePerformanceService;
 import com.example.employeeperformance.services.UpdatedAttributesService;
@@ -36,6 +38,9 @@ public class UpdatePerformance {
     @Autowired
     private UpdatedAttributesService updatedAttributesService;
 
+    @Autowired
+    private AttributesService attributesService;
+
     /**
      * Esse método vai receber um EmployeePerformanceVO, validar suas informações e salvá-lo
      * @param employeePerformanceVO
@@ -53,7 +58,20 @@ public class UpdatePerformance {
 
         EmployeePerformance employeePerformanceSaved = employeePerformanceService.saveEmployeePerformance(employeePerformance);
 
+        saveAttributes(employeePerformanceSaved, employeePerformanceVO);
+
         saveChangesRegistry(employeePerformanceSaved, lastEmployeePerformance);
+    }
+
+    /**
+     * Esse método vai utilizar o VO para criar os atributos modificados que serão salvos no banco
+     * @param employeePerformanceSaved
+     * @param employeePerformanceVO
+     */
+    public void saveAttributes(EmployeePerformance employeePerformanceSaved, EmployeePerformanceVO employeePerformanceVO){
+        List<Attribute> attributeList = attributesService.montaListaDeAtributos(employeePerformanceSaved, employeePerformanceVO);
+
+        attributesService.saveALl(attributeList);
     }
 
     /**

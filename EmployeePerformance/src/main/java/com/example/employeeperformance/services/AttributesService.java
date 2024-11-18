@@ -1,5 +1,6 @@
 package com.example.employeeperformance.services;
 
+import com.example.employeeperformance.VOs.EmployeePerformanceVO;
 import com.example.employeeperformance.VOs.UpdatedAttributesVO;
 import com.example.employeeperformance.entities.Attribute;
 import com.example.employeeperformance.entities.ChangesRegistry;
@@ -72,5 +73,16 @@ public class AttributesService {
 
     public List<Attribute> saveALl(List<Attribute> attributesList){
         return attributesRepository.saveAll(attributesList);
+    }
+
+    public List<Attribute> montaListaDeAtributos(EmployeePerformance employeePerformance, EmployeePerformanceVO employeePerformanceVO){
+
+        Attribute attributePonctuality = new Attribute(employeePerformance, AttributeType.PONCTUALITY, employeePerformanceVO.getPonctuality());
+        Attribute attributeWorkDelivery = new Attribute(employeePerformance, AttributeType.WORK_DELIVERY, employeePerformanceVO.getWorkDelivery());
+        Attribute attributePPEUsage = new Attribute(employeePerformance, AttributeType.PPE_USAGE, employeePerformanceVO.getPpeUsage());
+        Attribute attributeEvolution = new Attribute(employeePerformance, AttributeType.EVOLUTION, employeePerformanceVO.getEvolution());
+        Attribute attributeCommitment = new Attribute(employeePerformance, AttributeType.COMMITMENT, employeePerformanceVO.getCommitment());
+
+        return List.of(attributePonctuality, attributeWorkDelivery, attributePPEUsage, attributeEvolution, attributeCommitment);
     }
 }
