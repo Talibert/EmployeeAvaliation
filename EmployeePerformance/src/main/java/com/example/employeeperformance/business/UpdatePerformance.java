@@ -9,6 +9,7 @@ import com.example.employeeperformance.entities.EmployeePerformance;
 import com.example.employeeperformance.entities.UpdatedAttributes;
 import com.example.employeeperformance.mappers.ChangesRegistryVoMapper;
 import com.example.employeeperformance.mappers.EmployeePerformanceVoMapper;
+import com.example.employeeperformance.mappers.UpdatedAttributesVoMapper;
 import com.example.employeeperformance.services.AttributesService;
 import com.example.employeeperformance.services.ChangesRegistryService;
 import com.example.employeeperformance.services.EmployeePerformanceService;
@@ -28,6 +29,9 @@ public class UpdatePerformance {
 
     @Autowired
     private ChangesRegistryVoMapper changesRegistryVoMapper;
+
+    @Autowired
+    private UpdatedAttributesVoMapper updatedAttributesVoMapper;
 
     @Autowired
     private EmployeePerformanceService employeePerformanceService;
@@ -94,7 +98,6 @@ public class UpdatePerformance {
     }
 
     /**
-     * TODO IMPLEMENTAR ESSE MÉTODO E OS TESTES UNITARIOS DOS NOVOS MÉTODOS CRIADOS
      * Esse método vai salvar todos os atributos atualizados com base nos novos EmployeePerformance e ChangesRegistry
      * @param employeePerformanceSaved
      * @param lastEmployeePerformance
@@ -102,5 +105,9 @@ public class UpdatePerformance {
      */
     public void saveUpdatedAttributes(EmployeePerformance employeePerformanceSaved, EmployeePerformance lastEmployeePerformance, ChangesRegistry changesRegistry){
         List<UpdatedAttributesVO> updatedAttributesVOList = updatedAttributesService.getUpdatedAttributesVOList(employeePerformanceSaved, lastEmployeePerformance, changesRegistry);
+
+        List<UpdatedAttributes> updatedAttributesList = updatedAttributesVoMapper.getListEntity(updatedAttributesVOList);
+
+        updatedAttributesService.saveALl(updatedAttributesList);
     }
 }
