@@ -14,12 +14,15 @@ import com.example.employeeperformance.services.AttributesService;
 import com.example.employeeperformance.services.ChangesRegistryService;
 import com.example.employeeperformance.services.EmployeePerformanceService;
 import com.example.employeeperformance.services.UpdatedAttributesService;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Month;
 import java.time.Year;
 import java.util.List;
+
+import static org.springframework.data.util.Pair.of;
 
 @Component
 public class UpdatePerformance {
@@ -50,9 +53,65 @@ public class UpdatePerformance {
      * @param employeePerformanceVO
      */
     public void savePerformanceUpdate(EmployeePerformanceVO employeePerformanceVO){
-
         employeePerformanceService.validaAtributosInseridos(employeePerformanceVO);
 
+        Pair<EmployeePerformance, EmployeePerformance> employeePerformancePair = getEmployeePerformancePair(employeePerformanceVO);
+
+        saveAttributes(employeePerformancePair.getLeft(), employeePerformanceVO);
+
+        saveChangesRegistry(employeePerformancePair);
+    }
+
+    /**
+     * Esse método vai utilizar o VO para criar os atributos modificados que serão salvos no banco
+     * @param savedEmployeePerformance
+     * @param employeePerformanceVO
+     */
+    public void saveAttributes(EmployeePerformance savedEmployeePerformance, EmployeePerformanceVO employeePerformanceVO){
+        List<Attribute> attributeList = attributesService.montaListaDeAtributos(savedEmployeePerformance, employeePerformanceVO);
+
+        attributesService.saveAll(attributeList);
+    }
+
+    /**
+     * Esse método vai criar um novo ChangesRegistry com base no novo EmployeePerformance que foi gerado
+     * @param employeePerformancePair
+     */
+    public void saveChangesRegistry(Pair<EmployeePerformance, EmployeePerformance> employeePerformancePair){
+        ChangesRegistryVO changesRegistryVO = new ChangesRegistryVO(
+                employeePerformancePair.getLeft().getEmployee().getId(),
+                employeePerformancePair.getLeft().getId(),
+                employeePerformancePair.getLeft().getDate()
+        );
+
+        ChangesRegistry changesRegistry = changesRegistryVoMapper.getEntity(changesRegistryVO);
+
+        ChangesRegistry changesRegistrySaved = changesRegistryService.saveChangesRegistry(changesRegistry);
+
+        saveUpdatedAttributes(employeePerformancePair, changesRegistrySaved);
+    }
+
+    /**
+     * Esse método vai salvar todos os atributos atualizados com base nos novos EmployeePerformance e ChangesRegistry
+     * @param employeePerformancePair
+     * @param changesRegistry
+     */
+    public void saveUpdatedAttributes(Pair<EmployeePerformance, EmployeePerformance> employeePerformancePair, ChangesRegistry changesRegistry){
+        List<UpdatedAttributesVO> updatedAttributesVOList = updatedAttributesService.getUpdatedAttributesVOList(employeePerformancePair.getLeft(), employeePerformancePair.getRight(), changesRegistry);
+
+        List<UpdatedAttributes> updatedAttributesList = updatedAttributesVoMapper.getListEntity(updatedAttributesVOList);
+
+        updatedAttributesService.saveALl(updatedAttributesList);
+    }
+
+    /**
+     * TODO Verificar a possibilidade de buscar em meses anteriores e, caso seja realmente o primeiro registro, saber lidar com isso
+     * Esse método irá recuperar o último registro de performance do funcionário, salvar o atual e colocar os dois em um pair
+     * O atual é o da esquerda e o ultimo registro encontrado no banco é o da direita
+     * @param employeePerformanceVO
+     * @return
+     */
+    public Pair<EmployeePerformance, EmployeePerformance> getEmployeePerformancePair(EmployeePerformanceVO employeePerformanceVO){
         Year year = Year.of(employeePerformanceVO.getDate().getYear());
         Month month = Month.of(employeePerformanceVO.getDate().getMonthValue());
 
@@ -60,54 +119,8 @@ public class UpdatePerformance {
 
         EmployeePerformance lastEmployeePerformance = employeePerformanceService.findByMesAnoEEmployeeLastRegistry(month, year, employeePerformance.getEmployee());
 
-        EmployeePerformance employeePerformanceSaved = employeePerformanceService.saveEmployeePerformance(employeePerformance);
+        EmployeePerformance savedEmployeePerformance = employeePerformanceService.saveEmployeePerformance(employeePerformance);
 
-        saveAttributes(employeePerformanceSaved, employeePerformanceVO);
-
-        saveChangesRegistry(employeePerformanceSaved, lastEmployeePerformance);
-    }
-
-    /**
-     * Esse método vai utilizar o VO para criar os atributos modificados que serão salvos no banco
-     * @param employeePerformanceSaved
-     * @param employeePerformanceVO
-     */
-    public void saveAttributes(EmployeePerformance employeePerformanceSaved, EmployeePerformanceVO employeePerformanceVO){
-        List<Attribute> attributeList = attributesService.montaListaDeAtributos(employeePerformanceSaved, employeePerformanceVO);
-
-        attributesService.saveALl(attributeList);
-    }
-
-    /**
-     * Esse método vai criar um novo ChangesRegistry com base no novo EmployeePerformance que foi gerado
-     * @param employeePerformanceSaved
-     * @param lastEmployeePerformance
-     */
-    public void saveChangesRegistry(EmployeePerformance employeePerformanceSaved, EmployeePerformance lastEmployeePerformance){
-        ChangesRegistryVO changesRegistryVO = new ChangesRegistryVO(
-                employeePerformanceSaved.getEmployee().getId(),
-                employeePerformanceSaved.getId(),
-                employeePerformanceSaved.getDate()
-        );
-
-        ChangesRegistry changesRegistry = changesRegistryVoMapper.getEntity(changesRegistryVO);
-
-        ChangesRegistry changesRegistrySaved = changesRegistryService.saveChangesRegistry(changesRegistry);
-
-        saveUpdatedAttributes(employeePerformanceSaved, lastEmployeePerformance, changesRegistrySaved);
-    }
-
-    /**
-     * Esse método vai salvar todos os atributos atualizados com base nos novos EmployeePerformance e ChangesRegistry
-     * @param employeePerformanceSaved
-     * @param lastEmployeePerformance
-     * @param changesRegistry
-     */
-    public void saveUpdatedAttributes(EmployeePerformance employeePerformanceSaved, EmployeePerformance lastEmployeePerformance, ChangesRegistry changesRegistry){
-        List<UpdatedAttributesVO> updatedAttributesVOList = updatedAttributesService.getUpdatedAttributesVOList(employeePerformanceSaved, lastEmployeePerformance, changesRegistry);
-
-        List<UpdatedAttributes> updatedAttributesList = updatedAttributesVoMapper.getListEntity(updatedAttributesVOList);
-
-        updatedAttributesService.saveALl(updatedAttributesList);
+        return Pair.of(savedEmployeePerformance, lastEmployeePerformance);
     }
 }

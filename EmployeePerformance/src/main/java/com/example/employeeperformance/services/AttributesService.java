@@ -1,20 +1,14 @@
 package com.example.employeeperformance.services;
 
 import com.example.employeeperformance.VOs.EmployeePerformanceVO;
-import com.example.employeeperformance.VOs.UpdatedAttributesVO;
 import com.example.employeeperformance.entities.Attribute;
-import com.example.employeeperformance.entities.ChangesRegistry;
 import com.example.employeeperformance.entities.EmployeePerformance;
-import com.example.employeeperformance.entities.UpdatedAttributes;
 import com.example.employeeperformance.exceptions.notfound.AttributesNotFoundException;
-import com.example.employeeperformance.exceptions.notfound.UpdatedAttributesNotFoundException;
 import com.example.employeeperformance.repositories.AttributeRepository;
 import com.example.employeeperformance.types.AttributeType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.Attr;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,7 +65,7 @@ public class AttributesService {
         return attributesRepository.findByEmployeePerformanceAndAttributeType(employeePerformance, attributeType);
     }
 
-    public List<Attribute> saveALl(List<Attribute> attributesList){
+    public List<Attribute> saveAll(List<Attribute> attributesList){
         return attributesRepository.saveAll(attributesList);
     }
 
