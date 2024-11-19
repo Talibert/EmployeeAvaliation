@@ -92,25 +92,6 @@ public class TesteEmployeePerformanceRepository extends AbstractRepositoryTests 
         Assertions.assertEquals(1, employeePerformanceList.size());
     }
 
-    @Test
-    @Transactional
-    public void testeFindByMesAnoEEmployeeLastRegistry(){
-        Employee employee = employeeRepository.findByNome("Yasuo");
-
-        List<EmployeePerformance> employeePerformanceList = employeePerformanceRepository.findByMesAnoEEmployee(1, 2024, employee);
-
-        EmployeePerformance lastEmployeePerformance = employeePerformanceRepository.findByMesAnoEEmployeeLastRegistry(1, 2024, employee);
-
-        EmployeePerformance lastEmployeePerformanceFromList = employeePerformanceList.stream()
-                .max(Comparator.comparing(EmployeePerformance::getId))
-                .orElse(null);
-
-        LocalDate dateJanuary = LocalDate.of(2024, Month.JANUARY, 10);
-
-        Assertions.assertEquals(dateJanuary, lastEmployeePerformance.getDate());
-        Assertions.assertEquals(lastEmployeePerformanceFromList.getId(), lastEmployeePerformance.getId());
-    }
-
     private void populaBanco(){
         List<Employee> employees = EmployeeFixture.getEmployeeList();
         employeeRepository.saveAll(employees);

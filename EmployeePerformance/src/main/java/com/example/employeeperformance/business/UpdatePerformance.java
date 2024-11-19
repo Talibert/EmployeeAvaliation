@@ -22,8 +22,6 @@ import java.time.Month;
 import java.time.Year;
 import java.util.List;
 
-import static org.springframework.data.util.Pair.of;
-
 @Component
 public class UpdatePerformance {
 
@@ -70,7 +68,11 @@ public class UpdatePerformance {
     public void saveAttributes(EmployeePerformance savedEmployeePerformance, EmployeePerformanceVO employeePerformanceVO){
         List<Attribute> attributeList = attributesService.montaListaDeAtributos(savedEmployeePerformance, employeePerformanceVO);
 
-        attributesService.saveAll(attributeList);
+        List<Attribute> attributeListSaved = attributesService.saveAll(attributeList);
+
+        for(Attribute attribute : attributeListSaved){
+            savedEmployeePerformance.addAttributeList(attribute);
+        }
     }
 
     /**
@@ -101,7 +103,7 @@ public class UpdatePerformance {
 
         List<UpdatedAttributes> updatedAttributesList = updatedAttributesVoMapper.getListEntity(updatedAttributesVOList);
 
-        updatedAttributesService.saveALl(updatedAttributesList);
+        updatedAttributesService.saveAll(updatedAttributesList);
     }
 
     /**

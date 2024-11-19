@@ -20,7 +20,7 @@ public class ChangesRegistry extends AbstractEntity{
     @JoinColumn(name = "employee_performance_id")
     private EmployeePerformance employeePerformance;
 
-    @OneToMany(mappedBy = "changesRegistry")
+    @OneToMany(mappedBy = "changesRegistry", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<UpdatedAttributes> updatedAttributesList;
 
     @Column

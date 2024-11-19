@@ -77,9 +77,9 @@ public class TesteChangesRegistryRepository extends AbstractRepositoryTests {
     public void findByEmployeePerformance(){
         EmployeePerformance employeePerformance = employeePerformanceRepository.findById(1L).get();
 
-        List<ChangesRegistry> changesRegistryList = changesRegistryRepository.findByEmployeePerformance(employeePerformance);
+        ChangesRegistry changesRegistry = changesRegistryRepository.findByEmployeePerformance(employeePerformance);
 
-        Assertions.assertEquals(1, changesRegistryList.size());
+        Assertions.assertEquals(1, changesRegistry.getEmployeePerformance().getId());
     }
 
     @Test

@@ -56,7 +56,7 @@ public class ChangesRegistryService {
      * Método que irá retornar uma lista de registros de mudanças por performance de funcionário
      * @return
      */
-    public List<ChangesRegistry> findByEmployeePerformance(EmployeePerformance employeePerformance){
+    public ChangesRegistry findByEmployeePerformance(EmployeePerformance employeePerformance){
         return changesRegistryRepository.findByEmployeePerformance(employeePerformance);
     }
 

@@ -2,14 +2,9 @@ package com.example.employeeperformance.services;
 
 import com.example.employeeperformance.VOs.UpdatedAttributesVO;
 import com.example.employeeperformance.entities.*;
-import com.example.employeeperformance.exceptions.notfound.EmployeeNotFoundException;
-import com.example.employeeperformance.exceptions.notfound.EmployeeSituationAlreadySetted;
 import com.example.employeeperformance.exceptions.notfound.UpdatedAttributesNotFoundException;
-import com.example.employeeperformance.repositories.EmployeeRepository;
 import com.example.employeeperformance.repositories.UpdatedAttributesRepository;
 import com.example.employeeperformance.types.AttributeType;
-import com.example.employeeperformance.types.SetorType;
-import com.example.employeeperformance.types.SituationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,7 +57,7 @@ public class UpdatedAttributesService {
         return updatedAttributesRepository.findByChangesRegistryAndAttributeType(changesRegistry, attributeType);
     }
 
-    public List<UpdatedAttributes> saveALl(List<UpdatedAttributes> updatedAttributesList){
+    public List<UpdatedAttributes> saveAll(List<UpdatedAttributes> updatedAttributesList){
         return updatedAttributesRepository.saveAll(updatedAttributesList);
     }
 
@@ -87,7 +82,7 @@ public class UpdatedAttributesService {
         List<Attribute> attributeList = employeePerformance.getAttributeList();
 
         for(Attribute attribute : attributeList){
-            if(attribute.equals(attributeType))
+            if(attribute.getAttributeType().equals(attributeType))
                 return attribute.getValue();
         }
 

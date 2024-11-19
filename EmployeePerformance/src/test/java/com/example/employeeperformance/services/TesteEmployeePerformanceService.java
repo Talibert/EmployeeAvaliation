@@ -8,6 +8,7 @@ import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.entities.EmployeePerformance;
 import com.example.employeeperformance.exceptions.notfound.InvalidAttributeException;
 import com.example.employeeperformance.exceptions.notfound.UpdatedAttributesNotFoundException;
+import com.example.employeeperformance.repositories.EmployeePerformanceRepository;
 import com.example.employeeperformance.repositories.EmployeeRepository;
 import com.example.employeeperformance.types.AttributeType;
 import com.example.employeeperformance.types.SetorType;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
+import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
 import java.util.ArrayList;
@@ -31,6 +33,9 @@ public class TesteEmployeePerformanceService {
 
     @Mock
     private EmployeeService employeeServiceMock;
+
+    @Mock
+    private EmployeePerformanceRepository employeePerformanceRepository;
 
     @Spy
     @InjectMocks
@@ -152,6 +157,32 @@ public class TesteEmployeePerformanceService {
     @Test
     public void testeIsAtributoValorValidoFalse(){
         Assertions.assertFalse(employeePerformanceServiceSpy.isAtributoValorValido(6.0));
+    }
+
+    @Test
+    public void testeFindByMesAnoEEmployeeLastRegistry(){
+        EmployeePerformance employeePerformance1 = new EmployeePerformance();
+        employeePerformance1.setId(1L);
+        EmployeePerformance employeePerformance2 = new EmployeePerformance();
+        employeePerformance2.setId(2L);
+        EmployeePerformance employeePerformance3 = new EmployeePerformance();
+        employeePerformance3.setId(3L);
+        EmployeePerformance employeePerformance4 = new EmployeePerformance();
+        employeePerformance4.setId(4L);
+        EmployeePerformance employeePerformance5 = new EmployeePerformance();
+        employeePerformance5.setId(5L);
+        EmployeePerformance employeePerformance6 = new EmployeePerformance();
+        employeePerformance6.setId(6L);
+
+        Employee employee = new Employee();
+
+        Mockito.when(employeePerformanceRepository.findByMesAnoEEmployee(1, 2024, employee)).thenReturn(
+                List.of(employeePerformance1, employeePerformance2, employeePerformance3, employeePerformance4, employeePerformance5, employeePerformance6)
+        );
+
+        EmployeePerformance employeePerformanceRetornado = employeePerformanceServiceSpy.findByMesAnoEEmployeeLastRegistry(Month.JANUARY, Year.of(2024), employee);
+
+        Assertions.assertEquals(employeePerformance6, employeePerformanceRetornado);
     }
 
     public void criaListas(List<EmployeePerformance> employeePerformanceList){

@@ -49,6 +49,21 @@ public class EmployeePerformanceFixture {
     }
 
     /**
+     * Retorna um EmployeePerformanceVO com atributos fixos e data informada
+     */
+    public static EmployeePerformanceVO getEmployeePerformanceVO(LocalDate date){
+        EmployeePerformanceVO employeePerformanceVO = new EmployeePerformanceVO();
+        employeePerformanceVO.setPonctuality(3.0);
+        employeePerformanceVO.setWorkDelivery(4.0);
+        employeePerformanceVO.setPpeUsage(5.0);
+        employeePerformanceVO.setEvolution(2.0);
+        employeePerformanceVO.setCommitment(1.0);
+        employeePerformanceVO.setDate(date);
+
+        return employeePerformanceVO;
+    }
+
+    /**
      * Retorna um EmployeePerformanceVO com atributos informados
      */
     public static EmployeePerformanceVO getEmployeePerformanceVO(Double ponctuality, Double workDelivery, Double ppeUsage, Double evolution, Double commitment){

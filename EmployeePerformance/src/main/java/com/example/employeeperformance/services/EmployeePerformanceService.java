@@ -18,10 +18,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.Year;
 import java.time.temporal.ChronoField;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class EmployeePerformanceService {
@@ -72,8 +69,17 @@ public class EmployeePerformanceService {
         return employeePerformanceRepository.findByMesAnoEEmployee(month.get(ChronoField.MONTH_OF_YEAR), year.get(ChronoField.YEAR), employee);
     }
 
+    /**
+     * Esse método vai filtrar o retorno das performances e retornar apenas a de maior ID
+     * @param month
+     * @param year
+     * @param employee
+     * @return
+     */
     public EmployeePerformance findByMesAnoEEmployeeLastRegistry(Month month, Year year, Employee employee){
-        return employeePerformanceRepository.findByMesAnoEEmployeeLastRegistry(month.get(ChronoField.MONTH_OF_YEAR), year.get(ChronoField.YEAR), employee);
+        List<EmployeePerformance> employeePerformanceList = employeePerformanceRepository.findByMesAnoEEmployee(month.get(ChronoField.MONTH_OF_YEAR), year.get(ChronoField.YEAR), employee);
+
+        return employeePerformanceList.stream().max(Comparator.comparing(EmployeePerformance::getId)).orElse(null);
     }
 
     public EmployeePerformance saveEmployeePerformance(EmployeePerformance employeePerformance){

@@ -17,7 +17,7 @@ public class EmployeePerformance extends AbstractEntity {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    @OneToMany(mappedBy = "employeePerformance")
+    @OneToMany(mappedBy = "employeePerformance", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Attribute> attributeList;
 
     public EmployeePerformance() {

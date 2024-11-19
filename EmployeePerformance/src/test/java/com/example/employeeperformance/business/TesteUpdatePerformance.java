@@ -1,6 +1,5 @@
 package com.example.employeeperformance.business;
 
-import com.example.employeeperformance.VOs.ChangesRegistryVO;
 import com.example.employeeperformance.VOs.EmployeePerformanceVO;
 import com.example.employeeperformance.entities.ChangesRegistry;
 import com.example.employeeperformance.entities.Employee;
@@ -110,7 +109,7 @@ class TesteUpdatePerformance {
 
         Mockito.verify(updatedAttributesService).getUpdatedAttributesVOList(savedEmployeePerformance, lastEmployeePerformance, changesRegistry);
         Mockito.verify(updatedAttributesVoMapper).getListEntity(Mockito.any());
-        Mockito.verify(updatedAttributesService).saveALl(Mockito.any());
+        Mockito.verify(updatedAttributesService).saveAll(Mockito.any());
     }
 
     @Test

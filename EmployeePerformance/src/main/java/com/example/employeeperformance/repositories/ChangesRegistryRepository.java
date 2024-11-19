@@ -20,7 +20,7 @@ public interface ChangesRegistryRepository extends JpaRepository<ChangesRegistry
 
     List<ChangesRegistry> findByEmployee(Employee employee);
 
-    List<ChangesRegistry> findByEmployeePerformance(EmployeePerformance employeePerformance);
+    ChangesRegistry findByEmployeePerformance(EmployeePerformance employeePerformance);
 
     List<ChangesRegistry> findByData(LocalDate data);
 
