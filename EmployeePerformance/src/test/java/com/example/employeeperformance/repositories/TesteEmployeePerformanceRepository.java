@@ -16,14 +16,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Comparator;
 import java.util.List;
 
 @SpringBootTest(classes = EmployeeperformanceApplication.class)
 @ActiveProfiles("test")
-public class EmployeePerformanceRepositoryTest extends AbstractRepositoryTests {
+public class TesteEmployeePerformanceRepository extends AbstractRepositoryTests {
 
     @Autowired
     private EmployeePerformanceRepository employeePerformanceRepository;

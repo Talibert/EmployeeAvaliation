@@ -1,20 +1,14 @@
 package com.example.employeeperformance.repositories;
 
 import com.example.employeeperformance.EmployeeperformanceApplication;
-import com.example.employeeperformance.Fixtures.EmployeeFixture;
 import com.example.employeeperformance.Fixtures.UpdatedAttributesFixture;
 import com.example.employeeperformance.entities.ChangesRegistry;
-import com.example.employeeperformance.entities.Employee;
-import com.example.employeeperformance.entities.EmployeePerformance;
 import com.example.employeeperformance.entities.UpdatedAttributes;
 import com.example.employeeperformance.types.AttributeType;
-import com.example.employeeperformance.types.SetorType;
-import com.example.employeeperformance.types.SituationType;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -24,7 +18,7 @@ import java.util.Optional;
 
 @SpringBootTest(classes = EmployeeperformanceApplication.class)
 @ActiveProfiles("test")
-public class UpdatedAttributesRepositoryTest extends AbstractRepositoryTests{
+public class TesteUpdatedAttributesRepository extends AbstractRepositoryTests{
 
     @Autowired
     private UpdatedAttributesRepository updatedAttributesRepository;

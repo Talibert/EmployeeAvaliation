@@ -1,28 +1,16 @@
 package com.example.employeeperformance.services;
 
-import com.example.employeeperformance.calculations.PerformanceMetric;
 import com.example.employeeperformance.entities.Employee;
-import com.example.employeeperformance.entities.EmployeePerformance;
 import com.example.employeeperformance.exceptions.notfound.EmployeeSituationAlreadySetted;
 import com.example.employeeperformance.repositories.EmployeeRepository;
-import com.example.employeeperformance.types.AttributeType;
 import com.example.employeeperformance.types.SetorType;
 import com.example.employeeperformance.types.SituationType;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
-import java.time.Month;
-import java.time.Year;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-public class EmployeeServiceTest {
+public class TesteEmployeeService {
 
     @Mock
     private EmployeeRepository employeeRepositoryMock;

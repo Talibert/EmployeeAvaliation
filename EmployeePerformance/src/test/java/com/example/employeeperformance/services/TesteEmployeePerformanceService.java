@@ -1,10 +1,13 @@
 package com.example.employeeperformance.services;
 
+import com.example.employeeperformance.Fixtures.EmployeePerformanceFixture;
 import com.example.employeeperformance.VOs.EmployeePerformanceVO;
 import com.example.employeeperformance.calculations.PerformanceMetric;
 import com.example.employeeperformance.entities.Attribute;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.entities.EmployeePerformance;
+import com.example.employeeperformance.exceptions.notfound.InvalidAttributeException;
+import com.example.employeeperformance.exceptions.notfound.UpdatedAttributesNotFoundException;
 import com.example.employeeperformance.repositories.EmployeeRepository;
 import com.example.employeeperformance.types.AttributeType;
 import com.example.employeeperformance.types.SetorType;
@@ -21,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EmployeePerformanceServiceTest {
+public class TesteEmployeePerformanceService {
 
     @Mock
     private EmployeeRepository employeeRepositoryMock;
@@ -119,6 +122,36 @@ public class EmployeePerformanceServiceTest {
         Assertions.assertEquals(year.getValue(), employeePerformanceVOResult.getDate().getYear());
         Assertions.assertEquals(month.maxLength(), employeePerformanceVOResult.getDate().getDayOfMonth());
         Assertions.assertEquals(id, employeePerformanceVOResult.getIdEmployee());
+    }
+
+    @Test
+    public void testeValidaAtributosInseridos(){
+        EmployeePerformanceVO employeePerformanceVO = EmployeePerformanceFixture.getEmployeePerformanceVO(3.0,
+                4.0, 5.0, 2.0, 1.0);
+
+        employeePerformanceServiceSpy.validaAtributosInseridos(employeePerformanceVO);
+    }
+
+    @Test
+    public void testeValidaAtributosInseridosException(){
+        EmployeePerformanceVO employeePerformanceVO = EmployeePerformanceFixture.getEmployeePerformanceVO(6.0,
+                4.0, 5.0, 2.0, 1.0);
+
+        try{
+            employeePerformanceServiceSpy.validaAtributosInseridos(employeePerformanceVO);
+        } catch (InvalidAttributeException e){
+            Assertions.assertEquals("Atributos inválidos!", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testeIsAtributoValorValidoTrue(){
+        Assertions.assertTrue(employeePerformanceServiceSpy.isAtributoValorValido(5.0));
+    }
+
+    @Test
+    public void testeIsAtributoValorValidoFalse(){
+        Assertions.assertFalse(employeePerformanceServiceSpy.isAtributoValorValido(6.0));
     }
 
     public void criaListas(List<EmployeePerformance> employeePerformanceList){

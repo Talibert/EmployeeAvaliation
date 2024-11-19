@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @SpringBootTest(classes = EmployeeperformanceApplication.class)
 @ActiveProfiles("test")
-public class EmployeeRepositoryTest extends AbstractRepositoryTests{
+public class TesteEmployeeRepository extends AbstractRepositoryTests{
 
     @Autowired
     private EmployeeRepository employeeRepository;

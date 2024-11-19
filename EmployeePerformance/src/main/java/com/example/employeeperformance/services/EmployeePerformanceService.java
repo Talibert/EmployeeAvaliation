@@ -6,6 +6,7 @@ import com.example.employeeperformance.entities.Attribute;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.entities.EmployeePerformance;
 import com.example.employeeperformance.exceptions.notfound.EmployeePerformanceNotFoundException;
+import com.example.employeeperformance.exceptions.notfound.InvalidAttributeException;
 import com.example.employeeperformance.exceptions.notfound.UpdatedAttributesNotFoundException;
 import com.example.employeeperformance.repositories.EmployeePerformanceRepository;
 import com.example.employeeperformance.types.AttributeType;
@@ -86,7 +87,7 @@ public class EmployeePerformanceService {
      * @param id
      * @return
      */
-    public EmployeePerformanceVO getEmployeePerformanceAverageByYearAndMonth(Month month, Year year, Long id){
+    public EmployeePerformanceVO  getEmployeePerformanceAverageByYearAndMonth(Month month, Year year, Long id){
         Employee employee = employeeService.findById(id);
 
         List<EmployeePerformance> employeePerformanceList = findByYearMonthAndEmployee(month, year, employee);
@@ -178,10 +179,15 @@ public class EmployeePerformanceService {
                 !isAtributoValorValido(employeePerformanceVO.getPpeUsage()) ||
                 !isAtributoValorValido(employeePerformanceVO.getEvolution()) ||
                 !isAtributoValorValido(employeePerformanceVO.getCommitment())){
-                    throw new UpdatedAttributesNotFoundException("Atributos inválidos!");
+                    throw new InvalidAttributeException();
         }
     }
 
+    /**
+     * Verifica se o atributo inserido está entre 0 e 5
+     * @param valor
+     * @return
+     */
     public boolean isAtributoValorValido(Double valor){
         return valor > 0 && valor <=5;
     }

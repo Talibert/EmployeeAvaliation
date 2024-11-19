@@ -7,26 +7,21 @@ import com.example.employeeperformance.Fixtures.EmployeePerformanceFixture;
 import com.example.employeeperformance.entities.ChangesRegistry;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.entities.EmployeePerformance;
-import com.example.employeeperformance.types.SetorType;
-import com.example.employeeperformance.types.SituationType;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest(classes = EmployeeperformanceApplication.class)
 @ActiveProfiles("test")
-public class ChangesRegistryRepositoryTest extends AbstractRepositoryTests {
+public class TesteChangesRegistryRepository extends AbstractRepositoryTests {
 
     @Autowired
     private ChangesRegistryRepository changesRegistryRepository;
