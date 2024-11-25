@@ -1,8 +1,10 @@
 package com.example.employeeperformance.services;
 
+import com.example.employeeperformance.VOs.EmployeeVO;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.exceptions.notfound.EmployeeNotFoundException;
 import com.example.employeeperformance.exceptions.notfound.EmployeeSituationAlreadySetted;
+import com.example.employeeperformance.mappers.EmployeeVoMapper;
 import com.example.employeeperformance.repositories.EmployeeRepository;
 import com.example.employeeperformance.types.SetorType;
 import com.example.employeeperformance.types.SituationType;
@@ -17,6 +19,9 @@ public class EmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private EmployeeVoMapper employeeVoMapper;
 
     /**
      * Método de busca de funcionários pelo id
@@ -72,6 +77,23 @@ public class EmployeeService {
      */
     public List<Employee> findBySetorTypeInactive(SetorType setorType){
         return employeeRepository.findBySetorTypeAndSituationType(setorType, SituationType.ATIVO);
+    }
+
+    /**
+     * Esse metodo vai recuperar o funcionário antigo, realizar a atualização dos atributos com base no VO recebido e chamar o método de save
+     * @param employeeVO
+     * @return
+     */
+    public EmployeeVO updateEmployee(EmployeeVO employeeVO){
+        Employee oldEmployee = findById(employeeVO.getId());
+
+        Employee newEmployee = employeeVoMapper.getEntityToUpdate(employeeVO, oldEmployee);
+
+        return employeeVoMapper.getVO(saveEmployee(newEmployee));
+    }
+
+    public Employee saveEmployee(Employee employee){
+        return employeeRepository.save(employee);
     }
 
     /**

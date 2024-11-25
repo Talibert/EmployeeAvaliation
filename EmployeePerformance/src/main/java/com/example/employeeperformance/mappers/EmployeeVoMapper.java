@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -43,6 +44,31 @@ public class EmployeeVoMapper extends SuperMapper{
                 employeeVO.getSetorType(),
                 employeeVO.getSituationType()
         );
+    }
+
+    /**
+     * Metodo para converter o VO em uma entidade para fazer o update no banco
+     * @param employeeVO
+     * @return
+     */
+    public Employee getEntityToUpdate(EmployeeVO employeeVO, Employee employee){
+        if (!Objects.equals(employeeVO.getNome(), employee.getNome())) {
+            employee.setNome(employeeVO.getNome());
+        }
+        if (!Objects.equals(employeeVO.getCpf(), employee.getCpf())) {
+            employee.setCpf(employeeVO.getCpf());
+        }
+        if (!Objects.equals(employeeVO.getObservacao(), employee.getObservacao())) {
+            employee.setObservacao(employeeVO.getObservacao());
+        }
+        if (!Objects.equals(employeeVO.getSetorType(), employee.getSetorType())) {
+            employee.setSetorType(employeeVO.getSetorType());
+        }
+        if (!Objects.equals(employeeVO.getSituationType(), employee.getSituationType())) {
+            employee.setSituationType(employeeVO.getSituationType());
+        }
+
+        return employee;
     }
 
     /**
