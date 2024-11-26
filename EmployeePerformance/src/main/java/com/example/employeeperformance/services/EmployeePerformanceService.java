@@ -6,15 +6,13 @@ import com.example.employeeperformance.entities.Attribute;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.entities.EmployeePerformance;
 import com.example.employeeperformance.exceptions.notfound.EmployeePerformanceNotFoundException;
-import com.example.employeeperformance.exceptions.notfound.InvalidAttributeException;
-import com.example.employeeperformance.exceptions.notfound.UpdatedAttributesNotFoundException;
+import com.example.employeeperformance.exceptions.invalid.InvalidAttributeException;
 import com.example.employeeperformance.repositories.EmployeePerformanceRepository;
 import com.example.employeeperformance.types.AttributeType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.Year;
 import java.time.temporal.ChronoField;

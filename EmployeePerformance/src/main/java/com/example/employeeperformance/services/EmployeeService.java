@@ -3,7 +3,7 @@ package com.example.employeeperformance.services;
 import com.example.employeeperformance.VOs.EmployeeVO;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.exceptions.notfound.EmployeeNotFoundException;
-import com.example.employeeperformance.exceptions.notfound.EmployeeSituationAlreadySetted;
+import com.example.employeeperformance.exceptions.EmployeeSituationAlreadySettedException;
 import com.example.employeeperformance.mappers.EmployeeVoMapper;
 import com.example.employeeperformance.repositories.EmployeeRepository;
 import com.example.employeeperformance.types.SetorType;
@@ -119,7 +119,7 @@ public class EmployeeService {
             employee.setSetorType(setorType);
             employeeRepository.save(employee);
         } else {
-            throw new EmployeeSituationAlreadySetted("O funcionário já possui a função informada");
+            throw new EmployeeSituationAlreadySettedException("O funcionário já possui a função informada");
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.employeeperformance.exceptions.notfound;
+package com.example.employeeperformance.exceptions.invalid;
 
 public class InvalidAttributeException extends RuntimeException{
     public InvalidAttributeException(){

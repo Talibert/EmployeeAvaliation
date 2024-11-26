@@ -6,8 +6,7 @@ import com.example.employeeperformance.calculations.PerformanceMetric;
 import com.example.employeeperformance.entities.Attribute;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.entities.EmployeePerformance;
-import com.example.employeeperformance.exceptions.notfound.InvalidAttributeException;
-import com.example.employeeperformance.exceptions.notfound.UpdatedAttributesNotFoundException;
+import com.example.employeeperformance.exceptions.invalid.InvalidAttributeException;
 import com.example.employeeperformance.repositories.EmployeePerformanceRepository;
 import com.example.employeeperformance.repositories.EmployeeRepository;
 import com.example.employeeperformance.types.AttributeType;
@@ -18,7 +17,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
-import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
 import java.util.ArrayList;

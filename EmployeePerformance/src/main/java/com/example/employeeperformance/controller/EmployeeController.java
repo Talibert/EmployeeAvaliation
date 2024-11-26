@@ -15,5 +15,7 @@ public class EmployeeController {
 
     @PutMapping
     public ResponseEntity<EmployeeVO> update(@RequestBody EmployeeVO employeeVO){
+        EmployeeVO employeeVOUpdated =  employeeService.updateEmployee(employeeVO);
+        return ResponseEntity.ok().body(employeeVOUpdated);
     }
 }
