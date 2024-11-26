@@ -5,6 +5,7 @@ import com.example.employeeperformance.VOs.EmployeeVO;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.entities.EmployeePerformance;
 import com.example.employeeperformance.services.EmployeeService;
+import com.example.employeeperformance.types.SituationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -69,6 +70,21 @@ public class EmployeeVoMapper extends SuperMapper{
         }
 
         return employee;
+    }
+
+    /**
+     * Metodo para converter o VO em uma entidade que será nova no banco
+     * @param employeeVO
+     * @return
+     */
+    public Employee getEntityToCreate(EmployeeVO employeeVO){
+        return new Employee(
+                employeeVO.getNome(),
+                employeeVO.getCpf(),
+                employeeVO.getObservacao(),
+                employeeVO.getSetorType(),
+                SituationType.ATIVO
+        );
     }
 
     /**

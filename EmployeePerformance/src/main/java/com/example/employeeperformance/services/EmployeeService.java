@@ -2,8 +2,9 @@ package com.example.employeeperformance.services;
 
 import com.example.employeeperformance.VOs.EmployeeVO;
 import com.example.employeeperformance.entities.Employee;
+import com.example.employeeperformance.exceptions.invalid.InvalidAttributeException;
 import com.example.employeeperformance.exceptions.notfound.EmployeeNotFoundException;
-import com.example.employeeperformance.exceptions.EmployeeSituationAlreadySettedException;
+import com.example.employeeperformance.exceptions.EmployeeSetorAlreadySettedException;
 import com.example.employeeperformance.mappers.EmployeeVoMapper;
 import com.example.employeeperformance.repositories.EmployeeRepository;
 import com.example.employeeperformance.types.SetorType;
@@ -80,6 +81,17 @@ public class EmployeeService {
     }
 
     /**
+     * Esse metodo vai converter o VO recebido para criar um novo funcionário
+     * @param employeeVO
+     * @return
+     */
+    public EmployeeVO createEmployee(EmployeeVO employeeVO){
+        Employee employee = employeeVoMapper.getEntityToCreate(employeeVO);
+
+        return employeeVoMapper.getVO(saveEmployee(employee));
+    }
+
+    /**
      * Esse metodo vai recuperar o funcionário antigo, realizar a atualização dos atributos com base no VO recebido e chamar o método de save
      * @param employeeVO
      * @return
@@ -92,12 +104,37 @@ public class EmployeeService {
         return employeeVoMapper.getVO(saveEmployee(newEmployee));
     }
 
+    /**
+     * Metodo que valida as informações do usuário antes de salvar
+     * @param employeeVO
+     */
+    public void validatesEmployeeAttributes(EmployeeVO employeeVO){
+        String message = null;
+
+        if(employeeVO.getCpf() == null)
+            message = "cpf";
+
+        if(employeeVO.getNome() == null)
+            message = "nome";
+
+        if(employeeVO.getSetorType() == null)
+            message = "setor";
+
+        if(message != null)
+            throw new InvalidAttributeException("O atributo " + message + " está inválido!");
+    }
+
+    /**
+     * Metodo que chama o save do repository
+     * @param employee
+     * @return
+     */
     public Employee saveEmployee(Employee employee){
         return employeeRepository.save(employee);
     }
 
     /**
-     * Método que
+     * Método que muda a situação do funcionário (pode ser ATIVA ou INATIVA)
      * @param id
      */
     public void toogleEmployeeSituation(Long id){
@@ -112,14 +149,19 @@ public class EmployeeService {
         }
     }
 
-    public void changeEmployeeSetorType(Long id ,SetorType setorType){
+    /**
+     * Metodo utilizado para mudar o SetorType do funcionário
+     * @param id
+     * @param setorType
+     */
+    public void changeEmployeeSetorType(Long id, SetorType setorType){
         Employee employee = findById(id);
 
         if(!employee.getSetorType().equals(setorType)){
             employee.setSetorType(setorType);
             employeeRepository.save(employee);
         } else {
-            throw new EmployeeSituationAlreadySettedException("O funcionário já possui a função informada");
+            throw new EmployeeSetorAlreadySettedException("O funcionário já possui a função informada");
         }
     }
 }

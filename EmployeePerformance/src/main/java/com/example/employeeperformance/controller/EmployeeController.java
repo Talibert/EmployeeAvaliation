@@ -15,7 +15,19 @@ public class EmployeeController {
 
     @PutMapping
     public ResponseEntity<EmployeeVO> update(@RequestBody EmployeeVO employeeVO){
+        employeeService.validatesEmployeeAttributes(employeeVO);
+
         EmployeeVO employeeVOUpdated =  employeeService.updateEmployee(employeeVO);
+
         return ResponseEntity.ok().body(employeeVOUpdated);
+    }
+
+    @PostMapping
+    public ResponseEntity<EmployeeVO> create(@RequestBody EmployeeVO employeeVO){
+        employeeService.validatesEmployeeAttributes(employeeVO);
+
+        EmployeeVO employeeVOCreated = employeeService.createEmployee(employeeVO);
+
+        return ResponseEntity.ok().body(employeeVOCreated);
     }
 }

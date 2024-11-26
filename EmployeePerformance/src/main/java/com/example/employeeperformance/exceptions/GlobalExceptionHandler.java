@@ -40,8 +40,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(invalidAttributeException.getMessage());
     }
 
-    @ExceptionHandler(EmployeeSituationAlreadySettedException.class)
-    public ResponseEntity<String> handleEmployeeSituationAlreadySettedException(EmployeeSituationAlreadySettedException employeeSituationAlreadySettedException){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(employeeSituationAlreadySettedException.getMessage());
+    @ExceptionHandler(EmployeeSetorAlreadySettedException.class)
+    public ResponseEntity<String> handleEmployeeSituationAlreadySettedException(EmployeeSetorAlreadySettedException employeeSetorAlreadySettedException){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(employeeSetorAlreadySettedException.getMessage());
     }
 }

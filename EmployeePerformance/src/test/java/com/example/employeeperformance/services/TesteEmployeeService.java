@@ -1,7 +1,7 @@
 package com.example.employeeperformance.services;
 
 import com.example.employeeperformance.entities.Employee;
-import com.example.employeeperformance.exceptions.EmployeeSituationAlreadySettedException;
+import com.example.employeeperformance.exceptions.EmployeeSetorAlreadySettedException;
 import com.example.employeeperformance.repositories.EmployeeRepository;
 import com.example.employeeperformance.types.SetorType;
 import com.example.employeeperformance.types.SituationType;
@@ -35,7 +35,7 @@ public class TesteEmployeeService {
 
         try{
             employeeServiceSpy.changeEmployeeSetorType(1L, SetorType.OFFICE);
-        } catch (EmployeeSituationAlreadySettedException e) {
+        } catch (EmployeeSetorAlreadySettedException e) {
             Assertions.assertEquals("O funcionário já possui a função informada", e.getMessage());
         }
     }
