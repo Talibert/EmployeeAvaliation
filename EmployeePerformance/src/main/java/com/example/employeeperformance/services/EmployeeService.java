@@ -117,8 +117,8 @@ public class EmployeeService {
         if(employeeVO.getNome() == null)
             message = "nome";
 
-        if(employeeVO.getSetorType() == null)
-            message = "setor";
+        if(employeeVO.getObservacao() == null)
+            message = "observação";
 
         if(message != null)
             throw new InvalidAttributeException("O atributo " + message + " está inválido!");

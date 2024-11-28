@@ -1,7 +1,9 @@
 package com.example.employeeperformance.services;
 
+import com.example.employeeperformance.VOs.EmployeeVO;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.exceptions.EmployeeSetorAlreadySettedException;
+import com.example.employeeperformance.exceptions.invalid.InvalidAttributeException;
 import com.example.employeeperformance.repositories.EmployeeRepository;
 import com.example.employeeperformance.types.SetorType;
 import com.example.employeeperformance.types.SituationType;
@@ -83,5 +85,57 @@ public class TesteEmployeeService {
 
         Assertions.assertEquals(employee.getSituationType(), SituationType.ATIVO);
         Mockito.verify(employeeRepositoryMock).save(employee);
+    }
+
+    /**
+     * Nesse cenário não haverá lançamento de exceções
+     */
+    @Test
+    public void testeValidatesEmployeeAttributesCenario1(){
+        EmployeeVO employeeVO = new EmployeeVO();
+        employeeVO.setCpf("Cpf teste");
+        employeeVO.setNome("Nome teste");
+        employeeVO.setObservacao("Observação teste");
+
+        employeeServiceSpy.validatesEmployeeAttributes(employeeVO);
+    }
+
+    @Test
+    public void testeValidatesEmployeeAttributeCenario2(){
+        EmployeeVO employeeVO = new EmployeeVO();
+        employeeVO.setNome("Nome teste");
+        employeeVO.setObservacao("Observação teste");
+
+        try{
+            employeeServiceSpy.validatesEmployeeAttributes(employeeVO);
+        } catch (InvalidAttributeException e){
+            Assertions.assertEquals("O atributo cpf está inválido!", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testeValidatesEmployeeAttributeCenario3(){
+        EmployeeVO employeeVO = new EmployeeVO();
+        employeeVO.setCpf("Cpf teste");
+        employeeVO.setObservacao("Observação teste");
+
+        try{
+            employeeServiceSpy.validatesEmployeeAttributes(employeeVO);
+        } catch (InvalidAttributeException e){
+            Assertions.assertEquals("O atributo nome está inválido!", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testeValidatesEmployeeAttributeCenario4(){
+        EmployeeVO employeeVO = new EmployeeVO();
+        employeeVO.setCpf("Cpf teste");
+        employeeVO.setNome("Nome teste");
+
+        try{
+            employeeServiceSpy.validatesEmployeeAttributes(employeeVO);
+        } catch (InvalidAttributeException e){
+            Assertions.assertEquals("O atributo observação está inválido!", e.getMessage());
+        }
     }
 }
