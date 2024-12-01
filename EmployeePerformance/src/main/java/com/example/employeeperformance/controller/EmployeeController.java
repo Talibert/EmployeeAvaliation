@@ -1,8 +1,11 @@
 package com.example.employeeperformance.controller;
 
 import com.example.employeeperformance.VOs.EmployeeVO;
+import com.example.employeeperformance.exceptions.invalid.InvalidAttributeException;
+import com.example.employeeperformance.exceptions.notfound.EmployeeNotFoundException;
 import com.example.employeeperformance.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,20 +17,26 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @PutMapping
-    public ResponseEntity<EmployeeVO> update(@RequestBody EmployeeVO employeeVO){
-        employeeService.validatesEmployeeAttributes(employeeVO);
-
-        EmployeeVO employeeVOUpdated =  employeeService.updateEmployee(employeeVO);
-
-        return ResponseEntity.ok().body(employeeVOUpdated);
+    public ResponseEntity<?> updateEmployee(@RequestBody EmployeeVO employeeVO){
+        try{
+            employeeService.validatesEmployeeAttributes(employeeVO);
+            EmployeeVO employeeVOUpdated =  employeeService.updateEmployee(employeeVO);
+            return ResponseEntity.status(HttpStatus.OK).body(employeeVOUpdated);
+        } catch (InvalidAttributeException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (EmployeeNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @PostMapping
-    public ResponseEntity<EmployeeVO> create(@RequestBody EmployeeVO employeeVO){
-        employeeService.validatesEmployeeAttributes(employeeVO);
-
-        EmployeeVO employeeVOCreated = employeeService.createEmployee(employeeVO);
-
-        return ResponseEntity.ok().body(employeeVOCreated);
+    public ResponseEntity<?> createEmployee(@RequestBody EmployeeVO employeeVO){
+        try{
+            employeeService.validatesEmployeeAttributes(employeeVO);
+            EmployeeVO employeeVOCreated = employeeService.createEmployee(employeeVO);
+            return ResponseEntity.status(HttpStatus.OK).body(employeeVOCreated);
+        } catch (InvalidAttributeException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }
