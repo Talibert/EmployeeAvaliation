@@ -161,7 +161,7 @@ public class EmployeeService {
             employee.setSetorType(setorType);
             employeeRepository.save(employee);
         } else {
-            throw new EmployeeSetorAlreadySettedException("O funcionário já possui a função informada");
+            throw new EmployeeSetorAlreadySettedException("O funcionário já possui a função informada!");
         }
     }
 }

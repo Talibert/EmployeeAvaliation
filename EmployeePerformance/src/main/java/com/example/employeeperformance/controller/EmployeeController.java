@@ -1,6 +1,8 @@
 package com.example.employeeperformance.controller;
 
+import com.example.employeeperformance.VOs.ChangeSetorVO;
 import com.example.employeeperformance.VOs.EmployeeVO;
+import com.example.employeeperformance.exceptions.EmployeeSetorAlreadySettedException;
 import com.example.employeeperformance.exceptions.invalid.InvalidAttributeException;
 import com.example.employeeperformance.exceptions.notfound.EmployeeNotFoundException;
 import com.example.employeeperformance.services.EmployeeService;
@@ -36,6 +38,16 @@ public class EmployeeController {
             EmployeeVO employeeVOCreated = employeeService.createEmployee(employeeVO);
             return ResponseEntity.status(HttpStatus.OK).body(employeeVOCreated);
         } catch (InvalidAttributeException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PatchMapping("/{id}/setor")
+    public ResponseEntity<?> changeEmployeeSetorType(@PathVariable Long id, @RequestBody ChangeSetorVO changeSetorVO){
+        try{
+            employeeService.changeEmployeeSetorType(id, changeSetorVO.getSetorType());
+            return ResponseEntity.status(HttpStatus.OK).body("Setor do funcionário atualizado!");
+        } catch (EmployeeSetorAlreadySettedException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

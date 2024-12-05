@@ -38,7 +38,7 @@ public class TesteEmployeeService {
         try{
             employeeServiceSpy.changeEmployeeSetorType(1L, SetorType.OFFICE);
         } catch (EmployeeSetorAlreadySettedException e) {
-            Assertions.assertEquals("O funcionário já possui a função informada", e.getMessage());
+            Assertions.assertEquals("O funcionário já possui a função informada!", e.getMessage());
         }
     }
 
