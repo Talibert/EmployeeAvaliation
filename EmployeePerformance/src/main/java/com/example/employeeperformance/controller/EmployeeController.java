@@ -6,6 +6,7 @@ import com.example.employeeperformance.exceptions.EmployeeSetorAlreadySettedExce
 import com.example.employeeperformance.exceptions.invalid.InvalidAttributeException;
 import com.example.employeeperformance.exceptions.notfound.EmployeeNotFoundException;
 import com.example.employeeperformance.services.EmployeeService;
+import com.example.employeeperformance.types.SituationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +50,16 @@ public class EmployeeController {
             return ResponseEntity.status(HttpStatus.OK).body("Setor do funcionário atualizado!");
         } catch (EmployeeSetorAlreadySettedException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> changeEmployeeSituation(@PathVariable Long id){
+        try{
+            employeeService.toogleEmployeeSituation(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Situação do funcionário atualizada!");
+        } catch (EmployeeNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 }

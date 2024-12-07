@@ -142,10 +142,10 @@ public class EmployeeService {
 
         if(employee.getSituationType().equals(SituationType.ATIVO)){
             employee.setSituationType(SituationType.INATIVO);
-            employeeRepository.save(employee);
+            saveEmployee(employee);
         } else {
             employee.setSituationType(SituationType.ATIVO);
-            employeeRepository.save(employee);
+            saveEmployee(employee);
         }
     }
 
@@ -159,7 +159,7 @@ public class EmployeeService {
 
         if(!employee.getSetorType().equals(setorType)){
             employee.setSetorType(setorType);
-            employeeRepository.save(employee);
+            saveEmployee(employee);
         } else {
             throw new EmployeeSetorAlreadySettedException("O funcionário já possui a função informada!");
         }

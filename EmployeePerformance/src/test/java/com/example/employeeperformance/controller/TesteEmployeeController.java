@@ -3,8 +3,10 @@ package com.example.employeeperformance.controller;
 import com.example.employeeperformance.VOs.ChangeSetorVO;
 import com.example.employeeperformance.VOs.EmployeeVO;
 import com.example.employeeperformance.entities.Employee;
+import com.example.employeeperformance.repositories.EmployeeRepository;
 import com.example.employeeperformance.services.EmployeeService;
 import com.example.employeeperformance.types.SetorType;
+import com.example.employeeperformance.types.SituationType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,9 @@ class TesteEmployeeController {
 
     @Mock
     private EmployeeService employeeServiceMock;
+
+    @Mock
+    private EmployeeRepository employeeRepository;
 
     @Spy
     @InjectMocks
@@ -103,4 +108,39 @@ class TesteEmployeeController {
         Assertions.assertEquals(HttpStatusCode.valueOf(400), response.getStatusCode());
         Assertions.assertEquals(response.getBody(), "O funcionário já possui a função informada!");
     }
+
+    @Test
+    public void testeChangeEmployeeSituationInativar(){
+        Employee employee = new Employee();
+        employee.setSituationType(SituationType.ATIVO);
+        employee.setId(1L);
+        employee.setSetorType(SetorType.OFFICE);
+
+        Mockito.doCallRealMethod().when(employeeServiceMock).toogleEmployeeSituation(1L);
+        Mockito.when(employeeServiceMock.findById(1L)).thenReturn(employee);
+
+        ResponseEntity<?> response = employeeControllerSpy.changeEmployeeSituation(1L);
+
+        Assertions.assertEquals(HttpStatusCode.valueOf(200), response.getStatusCode());
+        Assertions.assertEquals(response.getBody(), "Situação do funcionário atualizada!");
+        Assertions.assertEquals(SituationType.INATIVO, employee.getSituationType());
+    }
+
+    @Test
+    public void testeChangeEmployeeSituationAtivar(){
+        Employee employee = new Employee();
+        employee.setSituationType(SituationType.INATIVO);
+        employee.setId(1L);
+        employee.setSetorType(SetorType.OFFICE);
+
+        Mockito.doCallRealMethod().when(employeeServiceMock).toogleEmployeeSituation(1L);
+        Mockito.when(employeeServiceMock.findById(1L)).thenReturn(employee);
+
+        ResponseEntity<?> response = employeeControllerSpy.changeEmployeeSituation(1L);
+
+        Assertions.assertEquals(HttpStatusCode.valueOf(200), response.getStatusCode());
+        Assertions.assertEquals(response.getBody(), "Situação do funcionário atualizada!");
+        Assertions.assertEquals(SituationType.ATIVO, employee.getSituationType());
+    }
+
 }
