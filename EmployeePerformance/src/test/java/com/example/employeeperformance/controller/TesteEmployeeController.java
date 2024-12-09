@@ -1,8 +1,11 @@
 package com.example.employeeperformance.controller;
 
+import com.example.employeeperformance.Fixtures.EmployeeFixture;
 import com.example.employeeperformance.VOs.ChangeSetorVO;
 import com.example.employeeperformance.VOs.EmployeeVO;
 import com.example.employeeperformance.entities.Employee;
+import com.example.employeeperformance.entities.EmployeePerformance;
+import com.example.employeeperformance.mappers.EmployeeVoMapper;
 import com.example.employeeperformance.repositories.EmployeeRepository;
 import com.example.employeeperformance.services.EmployeeService;
 import com.example.employeeperformance.types.SetorType;
@@ -14,13 +17,17 @@ import org.mockito.*;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 class TesteEmployeeController {
 
     @Mock
     private EmployeeService employeeServiceMock;
 
-    @Mock
-    private EmployeeRepository employeeRepository;
+    @Spy
+    private EmployeeVoMapper employeeVoMapper;
 
     @Spy
     @InjectMocks
@@ -143,4 +150,31 @@ class TesteEmployeeController {
         Assertions.assertEquals(SituationType.ATIVO, employee.getSituationType());
     }
 
+    @Test
+    public void testeGetAllEmployeesWithFilters(){
+        List<Employee> employeeList = EmployeeFixture.getEmployeeList();
+
+        List<EmployeeVO> employeeVOList = employeeVoMapper.getListVO(employeeList);
+
+        List<EmployeeVO> employeeReturn = employeeVOList.stream().filter(e -> e.getSituationType().equals(SituationType.ATIVO) && e.getSetorType().equals(SetorType.OFFICE)).toList();
+
+        Mockito.when(employeeServiceMock.findAllWithFilters(SetorType.OFFICE, SituationType.ATIVO)).thenReturn(employeeReturn);
+
+        ResponseEntity<?> response = employeeControllerSpy.getAllEmployeesWithFilters(SetorType.OFFICE, SituationType.ATIVO);
+
+        Assertions.assertEquals(HttpStatusCode.valueOf(200), response.getStatusCode());
+        Assertions.assertEquals(response.getBody(), employeeReturn);
+    }
+
+    @Test
+    public void testeGetAllEmployeesWithFiltersEmpty(){
+        List<EmployeeVO> employeeReturn = new ArrayList<>();
+
+        Mockito.when(employeeServiceMock.findAllWithFilters(SetorType.OFFICE, SituationType.ATIVO)).thenReturn(employeeReturn);
+
+        ResponseEntity<?> response = employeeControllerSpy.getAllEmployeesWithFilters(SetorType.OFFICE, SituationType.ATIVO);
+
+        Assertions.assertEquals(HttpStatusCode.valueOf(200), response.getStatusCode());
+        Assertions.assertEquals(response.getBody(), "Ainda não existem funcionários cadastrados");
+    }
 }

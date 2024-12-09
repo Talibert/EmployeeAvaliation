@@ -3,7 +3,6 @@ package com.example.employeeperformance.Fixtures;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.types.SetorType;
 import com.example.employeeperformance.types.SituationType;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;

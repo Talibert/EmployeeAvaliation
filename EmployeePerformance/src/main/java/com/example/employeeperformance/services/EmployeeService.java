@@ -39,11 +39,20 @@ public class EmployeeService {
     }
 
     /**
-     * Método de retorno completo
+     * Método de retorno completo com filtros opcionais
      * @return
      */
-    public List<Employee> findAll(){
-        return employeeRepository.findAll();
+    public List<EmployeeVO> findAllWithFilters(SetorType setorType, SituationType situationType){
+        if(setorType != null && situationType != null)
+            return employeeVoMapper.getListVO(employeeRepository.findBySetorTypeAndSituationType(setorType, situationType));
+
+        if(setorType == null && situationType != null)
+            return employeeVoMapper.getListVO(employeeRepository.findBySituationType(situationType));
+
+        if(setorType != null)
+            return employeeVoMapper.getListVO(employeeRepository.findBySetorType(setorType));
+
+        return employeeVoMapper.getListVO(employeeRepository.findAll());
     }
 
     /**

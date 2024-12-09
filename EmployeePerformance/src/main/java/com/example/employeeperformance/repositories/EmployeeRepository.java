@@ -13,6 +13,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     List<Employee> findBySituationType(SituationType situationType);
 
+    List<Employee> findBySetorType(SetorType setorType);
+
     List<Employee> findBySetorTypeAndSituationType(SetorType setorType, SituationType situationType);
 
     Employee findByNome(String nome);
