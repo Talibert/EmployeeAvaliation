@@ -1,6 +1,7 @@
 package com.example.employeeperformance.controller;
 
 import com.example.employeeperformance.VOs.ChangeSetorVO;
+import com.example.employeeperformance.VOs.EmployeeListResponseVO;
 import com.example.employeeperformance.VOs.EmployeeVO;
 import com.example.employeeperformance.exceptions.EmployeeSetorAlreadySettedException;
 import com.example.employeeperformance.exceptions.invalid.InvalidAttributeException;
@@ -75,11 +76,11 @@ public class EmployeeController {
             @RequestParam(required = false) SetorType setorType,
             @RequestParam(required = false) SituationType situationType
     ){
-        List<EmployeeVO> employeeVOList = employeeService.findAllWithFilters(setorType, situationType);
+        EmployeeListResponseVO employeeListResponseVO = employeeService.findAllWithFilters(setorType, situationType);
 
-        if(employeeVOList.isEmpty())
-            return ResponseEntity.status(HttpStatus.OK).body("Ainda não existem funcionários cadastrados");
+        if(!employeeListResponseVO.getMensagem().isBlank())
+            return ResponseEntity.status(HttpStatus.OK).body(employeeListResponseVO.getMensagem());
 
-        return ResponseEntity.status(HttpStatus.OK).body(employeeVOList);
+        return ResponseEntity.status(HttpStatus.OK).body(employeeListResponseVO.getEmployeeVOList());
     }
 }

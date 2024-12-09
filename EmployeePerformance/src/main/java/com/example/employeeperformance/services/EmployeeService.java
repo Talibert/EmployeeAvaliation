@@ -1,5 +1,6 @@
 package com.example.employeeperformance.services;
 
+import com.example.employeeperformance.VOs.EmployeeListResponseVO;
 import com.example.employeeperformance.VOs.EmployeeVO;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.exceptions.invalid.InvalidAttributeException;
@@ -42,17 +43,37 @@ public class EmployeeService {
      * Método de retorno completo com filtros opcionais
      * @return
      */
-    public List<EmployeeVO> findAllWithFilters(SetorType setorType, SituationType situationType){
-        if(setorType != null && situationType != null)
-            return employeeVoMapper.getListVO(employeeRepository.findBySetorTypeAndSituationType(setorType, situationType));
+    public EmployeeListResponseVO findAllWithFilters(SetorType setorType, SituationType situationType){
+        if(setorType != null && situationType != null){
+            List<EmployeeVO> listaRetornada = employeeVoMapper.getListVO(employeeRepository.findBySetorTypeAndSituationType(setorType, situationType));
+            EmployeeListResponseVO employeeListResponseVO = new EmployeeListResponseVO(listaRetornada, "");
+            if(listaRetornada.isEmpty())
+                employeeListResponseVO.setMensagem("Não há funcionários cadastrados com essa combinação de Setor e Situação!");
 
-        if(setorType == null && situationType != null)
-            return employeeVoMapper.getListVO(employeeRepository.findBySituationType(situationType));
+            return employeeListResponseVO;
+        }
 
-        if(setorType != null)
-            return employeeVoMapper.getListVO(employeeRepository.findBySetorType(setorType));
 
-        return employeeVoMapper.getListVO(employeeRepository.findAll());
+        if(setorType == null && situationType != null){
+            List<EmployeeVO> listaRetornada = employeeVoMapper.getListVO(employeeRepository.findBySituationType(situationType));
+            EmployeeListResponseVO employeeListResponseVO = new EmployeeListResponseVO(listaRetornada, "");
+            if(listaRetornada.isEmpty())
+                employeeListResponseVO.setMensagem("Não há funcionários cadastrados para a situação escolhida!");
+
+            return employeeListResponseVO;
+        }
+
+        if(setorType != null){
+            List<EmployeeVO> listaRetornada = employeeVoMapper.getListVO(employeeRepository.findBySetorType(setorType));
+            EmployeeListResponseVO employeeListResponseVO = new EmployeeListResponseVO(listaRetornada, "");
+            if(listaRetornada.isEmpty())
+                employeeListResponseVO.setMensagem("Não há funcionários cadastrados para o setor escolhido!");
+
+            return employeeListResponseVO;
+        }
+
+        List<EmployeeVO> listaRetornada = employeeVoMapper.getListVO(employeeRepository.findAll());
+        return new EmployeeListResponseVO(listaRetornada, "");
     }
 
     /**

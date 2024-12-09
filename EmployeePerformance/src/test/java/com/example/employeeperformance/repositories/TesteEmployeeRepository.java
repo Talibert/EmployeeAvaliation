@@ -52,11 +52,20 @@ public class TesteEmployeeRepository extends AbstractRepositoryTests{
 
     @Test
     @Transactional
-    public void testFindEmployeeBySetorType(){
+    public void testFindEmployeeBySetorTypeAndSituationType(){
         List<Employee> listRetornada = employeeRepository.findBySetorTypeAndSituationType(SetorType.OFFICE, SituationType.ATIVO);
 
         listRetornada.forEach(c -> Assertions.assertEquals(SetorType.OFFICE, c.getSetorType()));
         Assertions.assertEquals(2, listRetornada.size());
+    }
+
+    @Test
+    @Transactional
+    public void testFindEmployeeBySetorType(){
+        List<Employee> listRetornada = employeeRepository.findBySetorType(SetorType.OFFICE);
+
+        listRetornada.forEach(c -> Assertions.assertEquals(SetorType.OFFICE, c.getSetorType()));
+        Assertions.assertEquals(3, listRetornada.size());
     }
 
     private void populaBanco(){

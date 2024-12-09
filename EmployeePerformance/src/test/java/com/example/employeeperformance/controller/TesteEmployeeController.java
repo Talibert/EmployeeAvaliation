@@ -2,6 +2,7 @@ package com.example.employeeperformance.controller;
 
 import com.example.employeeperformance.Fixtures.EmployeeFixture;
 import com.example.employeeperformance.VOs.ChangeSetorVO;
+import com.example.employeeperformance.VOs.EmployeeListResponseVO;
 import com.example.employeeperformance.VOs.EmployeeVO;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.entities.EmployeePerformance;
@@ -158,7 +159,9 @@ class TesteEmployeeController {
 
         List<EmployeeVO> employeeReturn = employeeVOList.stream().filter(e -> e.getSituationType().equals(SituationType.ATIVO) && e.getSetorType().equals(SetorType.OFFICE)).toList();
 
-        Mockito.when(employeeServiceMock.findAllWithFilters(SetorType.OFFICE, SituationType.ATIVO)).thenReturn(employeeReturn);
+        EmployeeListResponseVO employeeListResponseVO = new EmployeeListResponseVO(employeeReturn, "");
+
+        Mockito.when(employeeServiceMock.findAllWithFilters(SetorType.OFFICE, SituationType.ATIVO)).thenReturn(employeeListResponseVO);
 
         ResponseEntity<?> response = employeeControllerSpy.getAllEmployeesWithFilters(SetorType.OFFICE, SituationType.ATIVO);
 
@@ -170,11 +173,13 @@ class TesteEmployeeController {
     public void testeGetAllEmployeesWithFiltersEmpty(){
         List<EmployeeVO> employeeReturn = new ArrayList<>();
 
-        Mockito.when(employeeServiceMock.findAllWithFilters(SetorType.OFFICE, SituationType.ATIVO)).thenReturn(employeeReturn);
+        EmployeeListResponseVO employeeListResponseVO = new EmployeeListResponseVO(employeeReturn, "Não há funcionários cadastrados com essa combinação de Setor e Situação!");
+
+        Mockito.when(employeeServiceMock.findAllWithFilters(SetorType.OFFICE, SituationType.ATIVO)).thenReturn(employeeListResponseVO);
 
         ResponseEntity<?> response = employeeControllerSpy.getAllEmployeesWithFilters(SetorType.OFFICE, SituationType.ATIVO);
 
         Assertions.assertEquals(HttpStatusCode.valueOf(200), response.getStatusCode());
-        Assertions.assertEquals(response.getBody(), "Ainda não existem funcionários cadastrados");
+        Assertions.assertEquals(response.getBody(), employeeListResponseVO.getMensagem());
     }
 }
