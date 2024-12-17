@@ -8,6 +8,9 @@ public abstract class AbstractRepositoryTests {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    /**
+     * Método de reset geral
+     */
     public void resetID() {
         jdbcTemplate.execute("ALTER TABLE changes_registry ALTER COLUMN id RESTART WITH 1");
         jdbcTemplate.execute("ALTER TABLE employee_performance ALTER COLUMN id RESTART WITH 1");

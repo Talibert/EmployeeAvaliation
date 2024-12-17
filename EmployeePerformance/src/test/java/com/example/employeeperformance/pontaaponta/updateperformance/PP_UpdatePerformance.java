@@ -1,4 +1,4 @@
-package com.example.employeeperformance.pontaaponta;
+package com.example.employeeperformance.pontaaponta.updateperformance;
 
 import com.example.employeeperformance.EmployeeperformanceApplication;
 import com.example.employeeperformance.Fixtures.AttributeFixture;
@@ -15,8 +15,6 @@ import com.example.employeeperformance.services.ChangesRegistryService;
 import com.example.employeeperformance.services.EmployeePerformanceService;
 import com.example.employeeperformance.services.EmployeeService;
 import com.example.employeeperformance.types.AttributeType;
-import jakarta.transaction.Transactional;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
