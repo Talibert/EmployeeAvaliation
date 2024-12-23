@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
+import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
 import java.util.ArrayList;
@@ -46,8 +47,7 @@ public class TesteEmployeePerformanceService {
 
     @Test
     public void testeGetEmployeePerformanceAverageByYearAndMonth(){
-        Month month = Month.of(1);
-        Year year = Year.of(2024);
+        LocalDate date = LocalDate.of(2024, Month.JANUARY, 1);
         Long id = 1L;
 
         Employee employee = new Employee("Yasuo", "111.111.111-11", "Observação", SetorType.OFFICE, SituationType.INATIVO);
@@ -56,15 +56,15 @@ public class TesteEmployeePerformanceService {
         EmployeePerformanceVO vo = new EmployeePerformanceVO();
 
         Mockito.when(employeeServiceMock.findById(id)).thenReturn(employee);
-        Mockito.doReturn(employeePerformanceList).when(employeePerformanceServiceSpy).findByYearMonthAndEmployee(month, year, employee);
+        Mockito.doReturn(employeePerformanceList).when(employeePerformanceServiceSpy).findByYearMonthAndEmployee(date, employee);
         Mockito.doReturn(performanceMap).when(employeePerformanceServiceSpy).popularPerformanceMap(employeePerformanceList);
-        Mockito.doReturn(vo).when(employeePerformanceServiceSpy).getEmployeePerformanceAverage(performanceMap, id, month, year);
+        Mockito.doReturn(vo).when(employeePerformanceServiceSpy).getEmployeePerformanceAverage(performanceMap, id, date);
 
-        employeePerformanceServiceSpy.getEmployeePerformanceAverageByYearAndMonth(month, year, id);
+        employeePerformanceServiceSpy.getEmployeePerformanceAverageByYearAndMonth(date, id);
 
-        Mockito.verify(employeePerformanceServiceSpy).findByYearMonthAndEmployee(month, year, employee);
+        Mockito.verify(employeePerformanceServiceSpy).findByYearMonthAndEmployee(date, employee);
         Mockito.verify(employeePerformanceServiceSpy).popularPerformanceMap(employeePerformanceList);
-        Mockito.verify(employeePerformanceServiceSpy).getEmployeePerformanceAverage(performanceMap, id, month, year);
+        Mockito.verify(employeePerformanceServiceSpy).getEmployeePerformanceAverage(performanceMap, id, date);
     }
 
     @Test
@@ -97,8 +97,7 @@ public class TesteEmployeePerformanceService {
 
     @Test
     public void testeGetEmployeePerformanceAverage(){
-        Month month = Month.of(1);
-        Year year = Year.of(2024);
+        LocalDate date = LocalDate.of(2024, Month.JANUARY, 31);
         Long id = 1L;
         Map<AttributeType, PerformanceMetric> performanceMap = new HashMap<>();
 
@@ -114,16 +113,16 @@ public class TesteEmployeePerformanceService {
         performanceMap.put(AttributeType.EVOLUTION, new PerformanceMetric(10, evolution));
         performanceMap.put(AttributeType.COMMITMENT, new PerformanceMetric(10, commitment));
 
-        EmployeePerformanceVO employeePerformanceVOResult = employeePerformanceServiceSpy.getEmployeePerformanceAverage(performanceMap, id, month, year);
+        EmployeePerformanceVO employeePerformanceVOResult = employeePerformanceServiceSpy.getEmployeePerformanceAverage(performanceMap, id, date);
 
         Assertions.assertEquals(4.1, employeePerformanceVOResult.getPonctuality());
         Assertions.assertEquals(4.0, employeePerformanceVOResult.getWorkDelivery());
         Assertions.assertEquals(4.4, employeePerformanceVOResult.getPpeUsage());
         Assertions.assertEquals(4.0, employeePerformanceVOResult.getEvolution());
         Assertions.assertEquals(4.4, employeePerformanceVOResult.getCommitment());
-        Assertions.assertEquals(month, employeePerformanceVOResult.getDate().getMonth());
-        Assertions.assertEquals(year.getValue(), employeePerformanceVOResult.getDate().getYear());
-        Assertions.assertEquals(month.maxLength(), employeePerformanceVOResult.getDate().getDayOfMonth());
+        Assertions.assertEquals(date.getMonth(), employeePerformanceVOResult.getDate().getMonth());
+        Assertions.assertEquals(date.getYear(), employeePerformanceVOResult.getDate().getYear());
+        Assertions.assertEquals(date.getMonth().maxLength(), employeePerformanceVOResult.getDate().getDayOfMonth());
         Assertions.assertEquals(id, employeePerformanceVOResult.getIdEmployee());
     }
 

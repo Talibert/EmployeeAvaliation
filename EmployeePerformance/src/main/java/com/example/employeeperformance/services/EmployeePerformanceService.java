@@ -1,6 +1,8 @@
 package com.example.employeeperformance.services;
 
 import com.example.employeeperformance.VOs.EmployeePerformanceVO;
+import com.example.employeeperformance.VOs.EmployeeVO;
+import com.example.employeeperformance.business.PerformanceResume;
 import com.example.employeeperformance.calculations.PerformanceMetric;
 import com.example.employeeperformance.entities.Attribute;
 import com.example.employeeperformance.entities.Employee;
@@ -9,6 +11,7 @@ import com.example.employeeperformance.exceptions.notfound.EmployeePerformanceNo
 import com.example.employeeperformance.exceptions.invalid.InvalidAttributeException;
 import com.example.employeeperformance.repositories.EmployeePerformanceRepository;
 import com.example.employeeperformance.types.AttributeType;
+import com.example.employeeperformance.utils.DataUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -59,12 +62,12 @@ public class EmployeePerformanceService {
 
     /**
      * Retorna todas as performances de um mês e ano específico, para um funcionário específico
-     * @param month
-     * @param year
+     * @param date
      * @return
      */
-    public List<EmployeePerformance> findByYearMonthAndEmployee(Month month, Year year, Employee employee){
-        return employeePerformanceRepository.findByMesAnoEEmployee(month.get(ChronoField.MONTH_OF_YEAR), year.get(ChronoField.YEAR), employee);
+    public List<EmployeePerformance> findByYearMonthAndEmployee(LocalDate date, Employee employee){
+        return employeePerformanceRepository.findByMesAnoEEmployee(date.getMonth().get(ChronoField.MONTH_OF_YEAR),
+                Year.of(date.getYear()).get(ChronoField.YEAR), employee);
     }
 
     /**
@@ -86,19 +89,18 @@ public class EmployeePerformanceService {
 
     /**
      * Retorna a média de performance do funcionário solicitado no mês e ano informado
-     * @param month
-     * @param year
+     * @param date
      * @param id
      * @return
      */
-    public EmployeePerformanceVO  getEmployeePerformanceAverageByYearAndMonth(Month month, Year year, Long id){
+    public EmployeePerformanceVO  getEmployeePerformanceAverageByYearAndMonth(LocalDate date, Long id){
         Employee employee = employeeService.findById(id);
 
-        List<EmployeePerformance> employeePerformanceList = findByYearMonthAndEmployee(month, year, employee);
+        List<EmployeePerformance> employeePerformanceList = findByYearMonthAndEmployee(date, employee);
 
         Map<AttributeType, PerformanceMetric> performanceMap = popularPerformanceMap(employeePerformanceList);
 
-        return getEmployeePerformanceAverage(performanceMap, id, month, year);
+        return getEmployeePerformanceAverage(performanceMap, id, date);
     }
 
     /**
@@ -152,17 +154,10 @@ public class EmployeePerformanceService {
      * Cria um objeto VO do funcionário que representa a média dos registros no mês e ano informados
      * @param performanceMap
      * @param id
-     * @param month
-     * @param year
+     * @param date
      * @return
      */
-    public EmployeePerformanceVO getEmployeePerformanceAverage(Map<AttributeType, PerformanceMetric> performanceMap, Long id, Month month, Year year){
-        LocalDate date = LocalDate.of(
-                year.getValue(),
-                month.getValue(),
-                month.maxLength()
-        );
-
+    public EmployeePerformanceVO getEmployeePerformanceAverage(Map<AttributeType, PerformanceMetric> performanceMap, Long id, LocalDate date){
         return new EmployeePerformanceVO(
                 id, date,
                 performanceMap.get(AttributeType.PONCTUALITY).getAverage(),
@@ -171,6 +166,30 @@ public class EmployeePerformanceService {
                 performanceMap.get(AttributeType.EVOLUTION).getAverage(),
                 performanceMap.get(AttributeType.COMMITMENT).getAverage()
         );
+    }
+
+    public PerformanceResume getPerformanceResume(EmployeeVO employeeVO, Month month, Year year){
+        LocalDate date = LocalDate.of(
+                year.getValue(),
+                month.getValue(),
+                month.maxLength()
+        );
+
+        PerformanceResume performanceResume = new PerformanceResume();
+
+        Map<Month, EmployeePerformanceVO> mapPerformanceLastSemester = new HashMap<>();
+
+        return performanceResume;
+    }
+
+    public List<EmployeePerformanceVO> getLastSemesterResume(EmployeeVO employeeVO, LocalDate date){
+        List<LocalDate> datasDoUltimoSemestre = DataUtils.getLastSemesterLocalDateList(date);
+
+        List<EmployeePerformanceVO> performancesLastSemester = new ArrayList<>();
+
+        datasDoUltimoSemestre.forEach(d -> performancesLastSemester.add(getEmployeePerformanceAverageByYearAndMonth(d, employeeVO.getId())));
+
+        return performancesLastSemester;
     }
 
     /**

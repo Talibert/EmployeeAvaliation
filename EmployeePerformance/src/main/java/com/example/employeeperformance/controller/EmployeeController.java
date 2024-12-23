@@ -85,18 +85,18 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.OK).body(employeeListResponseVO.getEmployeeVOList());
     }
 
-    /**
-     * Vamos retornar as informações de um funcionário no momento em que o usuário for editá-lo
-     * @param id
-     * @return
-     */
-    @GetMapping
-    public ResponseEntity<?> getEmployeeInfo(@PathVariable Long id){
-        try{
-            Employee employee = employeeService.findById(id);
-            return ResponseEntity.status(HttpStatus.OK).body(employee);
-        } catch (EmployeeNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }
+//    /**
+//     * Vamos retornar as informações de um funcionário no momento em que o usuário for editá-lo
+//     * @param id
+//     * @return
+//     */
+//    @GetMapping
+//    public ResponseEntity<?> getEmployeeInfo(@PathVariable Long id){
+//        try{
+//            Employee employee = employeeService.findById(id);
+//            return ResponseEntity.status(HttpStatus.OK).body(employee);
+//        } catch (EmployeeNotFoundException e){
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//        }
+//    }
 }
