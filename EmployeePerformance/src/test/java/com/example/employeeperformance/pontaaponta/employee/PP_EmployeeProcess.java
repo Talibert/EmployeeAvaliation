@@ -2,6 +2,7 @@ package com.example.employeeperformance.pontaaponta.employee;
 
 import com.example.employeeperformance.EmployeeperformanceApplication;
 import com.example.employeeperformance.Fixtures.EmployeeFixture;
+import com.example.employeeperformance.VOs.ChangeSetorVO;
 import com.example.employeeperformance.VOs.EmployeeVO;
 import com.example.employeeperformance.controller.EmployeeController;
 import com.example.employeeperformance.entities.*;
@@ -112,6 +113,44 @@ public class PP_EmployeeProcess extends AbstractRepositoryTests {
         Assertions.assertNotEquals(employeeAntigo.getNome(), newEmployee.getNome());
         Assertions.assertNotEquals(employeeAntigo.getObservacao(), newEmployee.getObservacao());
         Assertions.assertNotEquals(employeeAntigo.getSetorType(), newEmployee.getSetorType());
+    }
+
+    @Test
+    public void testeChangeEmployeeSetorType(){
+        Employee employeeAntigo = employeeService.findById(1L);
+
+        // Confirmando que o usuário recuperado era do setor OFFICE
+        Assertions.assertEquals( SetorType.OFFICE, employeeAntigo.getSetorType());
+
+        ChangeSetorVO changeSetorVO = new ChangeSetorVO();
+
+        changeSetorVO.setSetorType(SetorType.STOCK);
+
+        ResponseEntity<?> response = employeeController.changeEmployeeSetorType(1L, changeSetorVO);
+
+        Assertions.assertEquals(response.getStatusCode().value(), 200);
+        Assertions.assertEquals(response.getBody(), "Setor do funcionário atualizado!");
+
+        Employee employeeAtualizado = employeeService.findById(1L);
+
+        Assertions.assertEquals(SetorType.STOCK, employeeAtualizado.getSetorType());
+    }
+
+    @Test
+    public void testeChangeEmployeeSituation(){
+        Employee employeeAntigo = employeeService.findById(1L);
+
+        // Confirmando que o usuário recuperado era do setor OFFICE
+        Assertions.assertEquals(SituationType.ATIVO, employeeAntigo.getSituationType());
+
+        ResponseEntity<?> response = employeeController.changeEmployeeSituation(1L);
+
+        Assertions.assertEquals(response.getStatusCode().value(), 200);
+        Assertions.assertEquals(response.getBody(), "Situação do funcionário atualizada!");
+
+        Employee employeeAtualizado = employeeService.findById(1L);
+
+        Assertions.assertEquals(SituationType.INATIVO, employeeAtualizado.getSituationType());
     }
 
     private void populaBanco(){
