@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -25,47 +27,32 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @PutMapping
-    public ResponseEntity<?> updateEmployee(@RequestBody EmployeeVO employeeVO){
-        try{
-            employeeService.validatesEmployeeAttributes(employeeVO);
-            EmployeeVO employeeVOUpdated =  employeeService.updateEmployee(employeeVO);
-            return ResponseEntity.status(HttpStatus.OK).body(employeeVOUpdated);
-        } catch (InvalidAttributeException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (EmployeeNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<EmployeeVO> updateEmployee(@RequestBody EmployeeVO employeeVO){
+        employeeService.validatesEmployeeAttributes(employeeVO);
+        EmployeeVO employeeVOUpdated =  employeeService.updateEmployee(employeeVO);
+        return ResponseEntity.ok().body(employeeVOUpdated);
     }
 
     @PostMapping
-    public ResponseEntity<?> createEmployee(@RequestBody EmployeeVO employeeVO){
-        try{
-            employeeService.validatesEmployeeAttributes(employeeVO);
-            EmployeeVO employeeVOCreated = employeeService.createEmployee(employeeVO);
-            return ResponseEntity.status(HttpStatus.OK).body(employeeVOCreated);
-        } catch (InvalidAttributeException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public ResponseEntity<EmployeeVO> createEmployee(@RequestBody EmployeeVO employeeVO){
+        employeeService.validatesEmployeeAttributes(employeeVO);
+        EmployeeVO employeeVOCreated = employeeService.createEmployee(employeeVO);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(employeeVOCreated.getId()).toUri();
+
+        return ResponseEntity.created(location).body(employeeVOCreated);
     }
 
     @PatchMapping("/{id}/setor")
     public ResponseEntity<?> changeEmployeeSetorType(@PathVariable Long id, @RequestBody ChangeSetorVO changeSetorVO){
-        try{
-            employeeService.changeEmployeeSetorType(id, changeSetorVO.getSetorType());
-            return ResponseEntity.status(HttpStatus.OK).body("Setor do funcionário atualizado!");
-        } catch (EmployeeSetorAlreadySettedException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+        employeeService.changeEmployeeSetorType(id, changeSetorVO.getSetorType());
+        return ResponseEntity.ok().body("Setor do funcionário atualizado!");
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<?> changeEmployeeSituation(@PathVariable Long id){
-        try{
-            employeeService.toogleEmployeeSituation(id);
-            return ResponseEntity.status(HttpStatus.OK).body("Situação do funcionário atualizada!");
-        } catch (EmployeeNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+        employeeService.toogleEmployeeSituation(id);
+        return ResponseEntity.ok().body("Situação do funcionário atualizada!");
     }
 
     /**

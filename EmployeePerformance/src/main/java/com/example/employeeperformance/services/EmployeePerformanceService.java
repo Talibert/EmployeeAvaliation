@@ -12,6 +12,7 @@ import com.example.employeeperformance.exceptions.invalid.InvalidAttributeExcept
 import com.example.employeeperformance.repositories.EmployeePerformanceRepository;
 import com.example.employeeperformance.types.AttributeType;
 import com.example.employeeperformance.utils.DataUtils;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -177,7 +178,13 @@ public class EmployeePerformanceService {
 
         PerformanceResume performanceResume = new PerformanceResume();
 
-        Map<Month, EmployeePerformanceVO> mapPerformanceLastSemester = new HashMap<>();
+        Map<LocalDate, EmployeePerformanceVO> mapPerformanceLastSemester = new HashMap<>();
+
+        List<EmployeePerformanceVO> performancesLastSemester = getLastSemesterResume(employeeVO, date);
+
+        performancesLastSemester.forEach( p -> {
+            mapPerformanceLastSemester.put(p.getDate(), p);
+        });
 
         return performanceResume;
     }

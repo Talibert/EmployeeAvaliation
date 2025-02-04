@@ -2,6 +2,7 @@ package com.example.employeeperformance.business;
 
 import com.example.employeeperformance.VOs.EmployeePerformanceVO;
 
+import java.time.LocalDate;
 import java.time.Month;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ public class PerformanceResume {
     /**
      * Mapa com as últimas 5 médias de performance mensais anteriores ao mês/ano informado
      */
-    private Map<Month, EmployeePerformanceVO> mapPerformanceLastSemester;
+    private Map<LocalDate, EmployeePerformanceVO> mapPerformanceLastSemester;
 
     public EmployeePerformanceVO getPerformanceAverage() {
         return performanceAverage;
@@ -41,11 +42,11 @@ public class PerformanceResume {
         this.lastPerformance = lastPerformance;
     }
 
-    public Map<Month, EmployeePerformanceVO> getMapPerformanceLastSemester() {
+    public Map<LocalDate, EmployeePerformanceVO> getMapPerformanceLastSemester() {
         return mapPerformanceLastSemester;
     }
 
-    public void setMapPerformanceLastSemester(Map<Month, EmployeePerformanceVO> mapPerformanceLastSemester) {
+    public void setMapPerformanceLastSemester(Map<LocalDate, EmployeePerformanceVO> mapPerformanceLastSemester) {
         this.mapPerformanceLastSemester = mapPerformanceLastSemester;
     }
 }
