@@ -12,7 +12,9 @@ import com.example.employeeperformance.types.SetorType;
 import com.example.employeeperformance.types.SituationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -193,5 +195,10 @@ public class EmployeeService {
         } else {
             throw new EmployeeSetorAlreadySettedException("O funcionário já possui a função informada!");
         }
+    }
+
+    public URI getLocation(Long id){
+        return ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(id).toUri();
     }
 }
