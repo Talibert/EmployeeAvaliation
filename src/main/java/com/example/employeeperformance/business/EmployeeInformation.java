@@ -21,7 +21,7 @@ public class EmployeeInformation {
     private PerformanceResume performanceResume;
 
     /**
-     * lista com os últimos registros de mudanças
+     * lista com os últimos registros de mudanças do funcionário
      */
     private List<ChangesRegistryVO> changesRegistryVO;
 
