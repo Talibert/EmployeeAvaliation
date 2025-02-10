@@ -16,7 +16,7 @@ public class PerformanceResume {
     private EmployeePerformanceVO performanceAverage;
 
     /**
-     * Ultima performance registrada no mês/ano solicitado
+     * Ultima performance registrada do mês/ano solicitado
      */
     private EmployeePerformanceVO lastPerformance;
 
