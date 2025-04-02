@@ -62,7 +62,7 @@ public class PP_EmployeeProcess extends AbstractRepositoryTests {
 
         EmployeeVO employeeVOSaved = (EmployeeVO) response.getBody();
 
-        Assertions.assertEquals(response.getStatusCode().value(), 200);
+        Assertions.assertEquals(response.getStatusCode().value(), 201);
         Assertions.assertNotNull(employeeVOSaved);
 
         Employee employeeSaved = employeeService.findById(employeeVOSaved.getId());

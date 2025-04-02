@@ -6,6 +6,8 @@ import com.example.employeeperformance.VOs.EmployeeListResponseVO;
 import com.example.employeeperformance.VOs.EmployeeVO;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.entities.EmployeePerformance;
+import com.example.employeeperformance.exceptions.EmployeeSetorAlreadySettedException;
+import com.example.employeeperformance.exceptions.invalid.InvalidAttributeException;
 import com.example.employeeperformance.mappers.EmployeeVoMapper;
 import com.example.employeeperformance.repositories.EmployeeRepository;
 import com.example.employeeperformance.services.EmployeeService;
@@ -58,10 +60,12 @@ class TesteEmployeeController {
 
         Mockito.doCallRealMethod().when(employeeServiceMock).validatesEmployeeAttributes(employeeVO);
 
-        ResponseEntity<?> response = employeeControllerSpy.updateEmployee(employeeVO);
+        Exception exception = Assertions.assertThrows(
+                InvalidAttributeException.class, // Tipo da exceção esperada
+                () -> employeeControllerSpy.updateEmployee(employeeVO)
+        );
 
-        Assertions.assertEquals(HttpStatusCode.valueOf(400), response.getStatusCode());
-        Assertions.assertTrue(response.hasBody());
+        Assertions.assertEquals("O atributo observação está inválido!", exception.getMessage());
     }
 
     @Test
@@ -73,7 +77,7 @@ class TesteEmployeeController {
 
         ResponseEntity<?> response = employeeControllerSpy.createEmployee(employeeVO);
 
-        Assertions.assertEquals(HttpStatusCode.valueOf(200), response.getStatusCode());
+        Assertions.assertEquals(HttpStatusCode.valueOf(201), response.getStatusCode());
         Assertions.assertTrue(response.hasBody());
     }
 
@@ -83,10 +87,12 @@ class TesteEmployeeController {
 
         Mockito.doCallRealMethod().when(employeeServiceMock).validatesEmployeeAttributes(employeeVO);
 
-        ResponseEntity<?> response = employeeControllerSpy.createEmployee(employeeVO);
+        Exception exception = Assertions.assertThrows(
+                InvalidAttributeException.class, // Tipo da exceção esperada
+                () -> employeeControllerSpy.createEmployee(employeeVO)
+        );
 
-        Assertions.assertEquals(HttpStatusCode.valueOf(400), response.getStatusCode());
-        Assertions.assertTrue(response.hasBody());
+        Assertions.assertEquals("O atributo observação está inválido!", exception.getMessage());
     }
 
     @Test
@@ -111,10 +117,12 @@ class TesteEmployeeController {
         Mockito.doCallRealMethod().when(employeeServiceMock).changeEmployeeSetorType(1L, changeSetorVO.getSetorType());
         Mockito.when(employeeServiceMock.findById(1L)).thenReturn(employee);
 
-        ResponseEntity<?> response = employeeControllerSpy.changeEmployeeSetorType(1L, changeSetorVO);
+        Exception exception = Assertions.assertThrows(
+                EmployeeSetorAlreadySettedException.class, // Tipo da exceção esperada
+                () -> employeeControllerSpy.changeEmployeeSetorType(1L, changeSetorVO)
+        );
 
-        Assertions.assertEquals(HttpStatusCode.valueOf(400), response.getStatusCode());
-        Assertions.assertEquals(response.getBody(), "O funcionário já possui a função informada!");
+        Assertions.assertEquals("O funcionário já possui a função informada!", exception.getMessage());
     }
 
     @Test
