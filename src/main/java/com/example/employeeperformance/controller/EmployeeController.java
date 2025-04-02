@@ -3,10 +3,6 @@ package com.example.employeeperformance.controller;
 import com.example.employeeperformance.VOs.ChangeSetorVO;
 import com.example.employeeperformance.VOs.EmployeeListResponseVO;
 import com.example.employeeperformance.VOs.EmployeeVO;
-import com.example.employeeperformance.entities.Employee;
-import com.example.employeeperformance.exceptions.EmployeeSetorAlreadySettedException;
-import com.example.employeeperformance.exceptions.invalid.InvalidAttributeException;
-import com.example.employeeperformance.exceptions.notfound.EmployeeNotFoundException;
 import com.example.employeeperformance.services.EmployeeService;
 import com.example.employeeperformance.types.SetorType;
 import com.example.employeeperformance.types.SituationType;
@@ -14,10 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/employee")
