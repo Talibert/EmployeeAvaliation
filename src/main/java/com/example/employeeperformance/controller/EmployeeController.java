@@ -31,8 +31,7 @@ public class EmployeeController {
         employeeService.validatesEmployeeAttributes(employeeVO);
         EmployeeVO employeeVOCreated = employeeService.createEmployee(employeeVO);
 
-        return ResponseEntity.created(employeeService.getLocation(employeeVOCreated.getId()))
-                .body(employeeVOCreated);
+        return ResponseEntity.ok().body(employeeVOCreated);
     }
 
     @PatchMapping("/{id}/setor")
