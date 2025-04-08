@@ -2,6 +2,8 @@ package com.example.employeeperformance.entities;
 
 import com.example.employeeperformance.types.UserRole;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -26,11 +28,12 @@ public class User extends AbstractEntity implements UserDetails {
 
     private String password;
 
-    private UserRole role;
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.role == UserRole.ADMIN)
+        if(this.userRole == UserRole.ADMIN)
             return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
 
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
