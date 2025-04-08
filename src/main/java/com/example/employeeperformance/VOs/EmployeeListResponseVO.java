@@ -10,14 +10,14 @@ public class EmployeeListResponseVO {
 
     private List<EmployeeVO> employeeVOList = new ArrayList<>();
 
-    private String mensagem;
+    private String errorMessage;
 
     public EmployeeListResponseVO() {
     }
 
-    public EmployeeListResponseVO(List<EmployeeVO> employeeVOList, String mensagem) {
+    public EmployeeListResponseVO(List<EmployeeVO> employeeVOList, String errorMessage) {
         this.employeeVOList = employeeVOList;
-        this.mensagem = mensagem;
+        this.errorMessage = errorMessage;
     }
 
     public List<EmployeeVO> getEmployeeVOList() {
@@ -32,11 +32,11 @@ public class EmployeeListResponseVO {
         this.employeeVOList.add(employeeVO);
     }
 
-    public String getMensagem() {
-        return mensagem;
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }

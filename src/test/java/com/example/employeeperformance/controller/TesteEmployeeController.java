@@ -5,11 +5,9 @@ import com.example.employeeperformance.VOs.ChangeSetorVO;
 import com.example.employeeperformance.VOs.EmployeeListResponseVO;
 import com.example.employeeperformance.VOs.EmployeeVO;
 import com.example.employeeperformance.entities.Employee;
-import com.example.employeeperformance.entities.EmployeePerformance;
 import com.example.employeeperformance.exceptions.EmployeeSetorAlreadySettedException;
 import com.example.employeeperformance.exceptions.invalid.InvalidAttributeException;
 import com.example.employeeperformance.mappers.EmployeeVoMapper;
-import com.example.employeeperformance.repositories.EmployeeRepository;
 import com.example.employeeperformance.services.EmployeeService;
 import com.example.employeeperformance.types.SetorType;
 import com.example.employeeperformance.types.SituationType;
@@ -22,7 +20,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 class TesteEmployeeController {
 
@@ -188,6 +185,6 @@ class TesteEmployeeController {
         ResponseEntity<?> response = employeeControllerSpy.getAllEmployeesWithFilters(SetorType.OFFICE, SituationType.ATIVO);
 
         Assertions.assertEquals(HttpStatusCode.valueOf(200), response.getStatusCode());
-        Assertions.assertEquals(response.getBody(), employeeListResponseVO.getMensagem());
+        Assertions.assertEquals(response.getBody(), employeeListResponseVO.getErrorMessage());
     }
 }

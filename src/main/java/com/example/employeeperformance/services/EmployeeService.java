@@ -50,7 +50,7 @@ public class EmployeeService {
             List<EmployeeVO> listaRetornada = employeeVoMapper.getListVO(employeeRepository.findBySetorTypeAndSituationType(setorType, situationType));
             EmployeeListResponseVO employeeListResponseVO = new EmployeeListResponseVO(listaRetornada, "");
             if(listaRetornada.isEmpty())
-                employeeListResponseVO.setMensagem("Não há funcionários cadastrados com essa combinação de Setor e Situação!");
+                employeeListResponseVO.setErrorMessage("Não há funcionários cadastrados com essa combinação de Setor e Situação!");
 
             return employeeListResponseVO;
         }
@@ -60,7 +60,7 @@ public class EmployeeService {
             List<EmployeeVO> listaRetornada = employeeVoMapper.getListVO(employeeRepository.findBySituationType(situationType));
             EmployeeListResponseVO employeeListResponseVO = new EmployeeListResponseVO(listaRetornada, "");
             if(listaRetornada.isEmpty())
-                employeeListResponseVO.setMensagem("Não há funcionários cadastrados para a situação escolhida!");
+                employeeListResponseVO.setErrorMessage("Não há funcionários cadastrados para a situação escolhida!");
 
             return employeeListResponseVO;
         }
@@ -69,7 +69,7 @@ public class EmployeeService {
             List<EmployeeVO> listaRetornada = employeeVoMapper.getListVO(employeeRepository.findBySetorType(setorType));
             EmployeeListResponseVO employeeListResponseVO = new EmployeeListResponseVO(listaRetornada, "");
             if(listaRetornada.isEmpty())
-                employeeListResponseVO.setMensagem("Não há funcionários cadastrados para o setor escolhido!");
+                employeeListResponseVO.setErrorMessage("Não há funcionários cadastrados para o setor escolhido!");
 
             return employeeListResponseVO;
         }

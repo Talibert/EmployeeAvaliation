@@ -59,8 +59,8 @@ public class EmployeeController {
     ){
         EmployeeListResponseVO employeeListResponseVO = employeeService.findAllWithFilters(setorType, situationType);
 
-        if(!employeeListResponseVO.getMensagem().isBlank())
-            return ResponseEntity.status(HttpStatus.OK).body(employeeListResponseVO.getMensagem());
+        if(!employeeListResponseVO.getErrorMessage().isBlank())
+            return ResponseEntity.status(HttpStatus.OK).body(employeeListResponseVO.getErrorMessage());
 
         return ResponseEntity.status(HttpStatus.OK).body(employeeListResponseVO.getEmployeeVOList());
     }
