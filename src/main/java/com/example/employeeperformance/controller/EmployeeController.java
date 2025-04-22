@@ -35,14 +35,14 @@ public class EmployeeController {
     }
 
     @PatchMapping("/{id}/setor")
-    public ResponseEntity<?> changeEmployeeSetorType(@PathVariable Long id, @RequestBody ChangeSetorVO changeSetorVO){
+    public ResponseEntity<String> changeEmployeeSetorType(@PathVariable Long id, @RequestBody ChangeSetorVO changeSetorVO){
         employeeService.changeEmployeeSetorType(id, changeSetorVO.getSetorType());
 
         return ResponseEntity.ok().body("Setor do funcionário atualizado!");
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> changeEmployeeSituation(@PathVariable Long id){
+    public ResponseEntity<String> changeEmployeeSituation(@PathVariable Long id){
         employeeService.toogleEmployeeSituation(id);
 
         return ResponseEntity.ok().body("Situação do funcionário atualizada!");
