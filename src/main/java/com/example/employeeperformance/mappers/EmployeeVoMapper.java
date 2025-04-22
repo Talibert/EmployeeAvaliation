@@ -1,12 +1,8 @@
 package com.example.employeeperformance.mappers;
 
-import com.example.employeeperformance.VOs.EmployeePerformanceVO;
 import com.example.employeeperformance.VOs.EmployeeVO;
 import com.example.employeeperformance.entities.Employee;
-import com.example.employeeperformance.entities.EmployeePerformance;
-import com.example.employeeperformance.services.EmployeeService;
 import com.example.employeeperformance.types.SituationType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

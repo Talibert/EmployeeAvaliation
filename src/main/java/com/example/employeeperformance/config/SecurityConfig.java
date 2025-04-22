@@ -16,6 +16,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Classe de configuração de segurança da aplicação. Define as regras de autenticação e autorização,
+ * gerenciamento de sessões e filtros personalizados para requisições HTTP
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -23,6 +27,10 @@ public class SecurityConfig {
     @Autowired
     private SecurityFilter securityFilter;
 
+    /**
+     * Configura a cadeia de filtros de segurança do Spring Security, incluindo regras de autorização,
+     * política de sessões e o filtro JWT personalizado
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -30,23 +38,32 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "auth/login").permitAll()
-                        //TODO Criar um script para popular o banco com um usuário admin e bloquear esse endpoint posteriormente
+                        // TODO Criar um script para popular o banco com um usuário admin e bloquear esse endpoint posteriormente
                         .requestMatchers(HttpMethod.POST, "auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/employee").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
+                /**
+                 * Nesse ponto, vamos chamar um filtro personalizado que vai autenticar o usuário.
+                 * Esse filtro vai ser executado antes das outras validações, para preparar o authorize
+                 */
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-
                 .build();
     }
 
+    /**
+     * Bean para obter o {@link AuthenticationManager}, responsável pela autenticação de usuários
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    /**
+     * Bean responsável pela codificação de senhas
+     */
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

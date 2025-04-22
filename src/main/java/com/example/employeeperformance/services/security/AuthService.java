@@ -19,11 +19,17 @@ public class AuthService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Vamos verificar a existência de um usuário pelo username e retorná-lo
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByLogin(username);
     }
 
+    /**
+     * Vamos criar um usuário novo
+     */
     public void createUser(RegisterVO registerVO){
         String encryptedPassword = new BCryptPasswordEncoder().encode(registerVO.getPassword());
         User user = new User(registerVO.getLogin(), encryptedPassword, registerVO.getUserRole());

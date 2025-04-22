@@ -1,14 +1,10 @@
 package com.example.employeeperformance.mappers;
 
-import com.example.employeeperformance.VOs.EmployeeVO;
 import com.example.employeeperformance.VOs.UserVO;
-import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.entities.User;
-import com.example.employeeperformance.types.SituationType;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component

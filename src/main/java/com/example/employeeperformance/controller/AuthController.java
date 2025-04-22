@@ -29,6 +29,12 @@ public class AuthController {
     @Autowired
     private TokenService tokenService;
 
+    /**
+     * Endpoint para fazer o login de um usuário.
+     * A ideia é receber um VO com as credenciais e realizar o processo de autenticação do SpringSecurity
+     *
+     * Caso o login seja correto, vamos retornar um token para o front que deve ser utilizado no Header das requisições
+     */
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthVO authVO){
         UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(authVO.getLogin(), authVO.getPassword());
@@ -39,6 +45,12 @@ public class AuthController {
         return ResponseEntity.ok(new LoginResponseVO(token));
     }
 
+    /**
+     * Endpoint de registro.
+     * Vamos receber um VO com os dados de registro e validar a existência ou não de um usuário com o mesmo userName
+     *
+     * Caso a validação passe, vamos criar o usuário no banco
+     */
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterVO registerVO){
         if(this.authService.loadUserByUsername(registerVO.getLogin()) != null)

@@ -18,6 +18,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * Endpoint para retornar a lista de usuários cadastrados no banco
+     *
+     * E metodo pode ou não receber um filter de role.
+     */
     @GetMapping
     public ResponseEntity<?> getUsers(@RequestParam(required = false) UserRole userRole){
         UserListResponseVO userListResponseVO = userService.findAllWithFilter(userRole);
