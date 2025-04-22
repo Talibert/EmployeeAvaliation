@@ -1,4 +1,4 @@
-package com.example.employeeperformance.services;
+package com.example.employeeperformance.services.security;
 
 import com.example.employeeperformance.VOs.RegisterVO;
 import com.example.employeeperformance.entities.User;
@@ -22,12 +22,6 @@ public class AuthService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByLogin(username);
-    }
-
-    public boolean hasUserByLogin(String username){
-        UserDetails userDetails = userRepository.findByLogin(username);
-
-        return userDetails != null;
     }
 
     public void createUser(RegisterVO registerVO){
