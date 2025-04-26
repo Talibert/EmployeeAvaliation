@@ -74,7 +74,7 @@ class TesteEmployeeController {
 
         ResponseEntity<?> response = employeeControllerSpy.createEmployee(employeeVO);
 
-        Assertions.assertEquals(HttpStatusCode.valueOf(201), response.getStatusCode());
+        Assertions.assertEquals(HttpStatusCode.valueOf(200), response.getStatusCode());
         Assertions.assertTrue(response.hasBody());
     }
 

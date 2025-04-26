@@ -2,7 +2,6 @@ package com.example.employeeperformance.services;
 
 import com.example.employeeperformance.VOs.UserListResponseVO;
 import com.example.employeeperformance.VOs.UserVO;
-import com.example.employeeperformance.entities.User;
 import com.example.employeeperformance.mappers.UserVoMapper;
 import com.example.employeeperformance.repositories.UserRepository;
 import com.example.employeeperformance.types.UserRole;

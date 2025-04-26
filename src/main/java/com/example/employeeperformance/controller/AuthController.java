@@ -1,6 +1,7 @@
 package com.example.employeeperformance.controller;
 
 import com.example.employeeperformance.VOs.AuthVO;
+import com.example.employeeperformance.VOs.ErrorResponseVO;
 import com.example.employeeperformance.VOs.LoginResponseVO;
 import com.example.employeeperformance.VOs.RegisterVO;
 import com.example.employeeperformance.entities.User;
@@ -8,6 +9,7 @@ import com.example.employeeperformance.services.security.AuthService;
 import com.example.employeeperformance.services.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -55,7 +57,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterVO registerVO){
         if(this.authService.loadUserByUsername(registerVO.getLogin()) != null)
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseVO("Já existe um usuário com esse login", "USER_REGISTER_FAILED"));
 
         this.authService.createUser(registerVO);
 

@@ -1,6 +1,7 @@
 package com.example.employeeperformance.controller;
 
 import com.example.employeeperformance.VOs.AuthVO;
+import com.example.employeeperformance.VOs.ErrorResponseVO;
 import com.example.employeeperformance.VOs.RegisterVO;
 import com.example.employeeperformance.entities.User;
 import com.example.employeeperformance.services.security.AuthService;
@@ -20,24 +21,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(AuthController.class)
 @AutoConfigureMockMvc(addFilters = false)
-class AuthControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
-    private AuthenticationManager authenticationManager;
-
-    @MockBean
-    private AuthService authService;
-
-    @MockBean
-    private TokenService tokenService;
+class TesteAuthController extends AbstractControllerTests{
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -82,10 +70,13 @@ class AuthControllerTest {
     void testeRegisterUsuarioJaExistente() throws Exception {
         Mockito.when(authService.loadUserByUsername("usuario")).thenReturn(new User());
 
+        ErrorResponseVO erro = new ErrorResponseVO("Já existe um usuário com esse login", "USER_REGISTER_FAILED");
+
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(getRegisterVO())))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().json(objectMapper.writeValueAsString(erro)));
     }
 
     private RegisterVO getRegisterVO(){

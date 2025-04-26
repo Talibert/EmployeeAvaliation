@@ -1,5 +1,6 @@
 package com.example.employeeperformance.controller;
 
+import com.example.employeeperformance.VOs.ErrorResponseVO;
 import com.example.employeeperformance.VOs.UserListResponseVO;
 import com.example.employeeperformance.services.UserService;
 import com.example.employeeperformance.types.UserRole;
@@ -28,7 +29,7 @@ public class UserController {
         UserListResponseVO userListResponseVO = userService.findAllWithFilter(userRole);
 
         if(!userListResponseVO.getErrorMessage().isBlank())
-            return ResponseEntity.status(HttpStatus.OK).body(userListResponseVO.getErrorMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseVO(userListResponseVO.getErrorMessage(), "USER_FETCH_FAILED"));
 
         return ResponseEntity.status(HttpStatus.OK).body(userListResponseVO.getUserVOList());
     }
