@@ -22,6 +22,15 @@ import java.time.Month;
 import java.time.Year;
 import java.util.List;
 
+/**
+ * Essa classe vai realizar a atualização da performance do usuário.
+ *
+ * É centralizado aqui pois:
+ * Primeiro salvamos a performance do funcionário
+ * Depois salvamos os atributos novos e atribuímos a performance que foi salva
+ * Em seguida, salvamos o ChangeRegistry
+ * Por fim, salvamos uma lista de UpdatedAttributes, que vai nos detalhar os valores antigos e novos de cada atributo (e é atrelada ao ChangeRegistry)
+ */
 @Component
 public class UpdatePerformance {
 
@@ -47,7 +56,7 @@ public class UpdatePerformance {
     private AttributesService attributesService;
 
     /**
-     * Esse método vai receber um EmployeePerformanceVO, validar suas informações e salvá-lo
+     * Esse método vai receber um EmployeePerformanceVO, validar suas informações e chamar os processos de persistência
      * @param employeePerformanceVO
      */
     public void savePerformanceUpdate(EmployeePerformanceVO employeePerformanceVO){
@@ -62,6 +71,7 @@ public class UpdatePerformance {
 
     /**
      * Esse método vai utilizar o VO para criar os atributos modificados que serão salvos no banco
+     * Em seguida, vamos atualizar o savedEmployeePerformance com os atributos atuais
      * @param savedEmployeePerformance
      * @param employeePerformanceVO
      */
@@ -70,9 +80,7 @@ public class UpdatePerformance {
 
         List<Attribute> attributeListSaved = attributesService.saveAll(attributeList);
 
-        for(Attribute attribute : attributeListSaved){
-            savedEmployeePerformance.addAttributeList(attribute);
-        }
+        attributeListSaved.forEach(a -> savedEmployeePerformance.addAttributeList(a));
     }
 
     /**
@@ -108,7 +116,7 @@ public class UpdatePerformance {
 
     /**
      * TODO Verificar a possibilidade de buscar em meses anteriores e, caso seja realmente o primeiro registro, saber lidar com isso
-     * Esse método irá recuperar o último registro de performance do funcionário, salvar o atual e colocar os dois em um pair
+     * Esse método irá recuperar o último registro de performance do funcionário, salvar o atual (esse save ocorre sem os atributos) e colocar os dois em um pair
      * O atual é o da esquerda e o ultimo registro encontrado no banco é o da direita
      * @param employeePerformanceVO
      * @return
