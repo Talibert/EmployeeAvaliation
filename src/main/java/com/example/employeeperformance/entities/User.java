@@ -31,12 +31,15 @@ public class User extends AbstractEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
+    /**
+     * Esse metodo é o responsável por retornar as authorities de acordo com o user role do usuário
+     * @return
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.userRole == UserRole.ADMIN)
-            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
-
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return this.userRole.getRoles().stream()
+                .map(SimpleGrantedAuthority::new)
+                .toList();
     }
 
     @Override
