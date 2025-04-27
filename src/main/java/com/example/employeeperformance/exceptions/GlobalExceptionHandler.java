@@ -4,6 +4,8 @@ import com.example.employeeperformance.exceptions.invalid.InvalidAttributeExcept
 import com.example.employeeperformance.exceptions.notfound.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -43,5 +45,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EmployeeSetorAlreadySettedException.class)
     public ResponseEntity<String> handleEmployeeSituationAlreadySettedException(EmployeeSetorAlreadySettedException employeeSetorAlreadySettedException){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(employeeSetorAlreadySettedException.getMessage());
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<String> handleBadCredentialsException(BadCredentialsException badCredentialsException){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário ou senha inválidos!");
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<String> handleUsernameNotFoundException(UsernameNotFoundException usernameNotFoundException){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário não encontrado!");
     }
 }

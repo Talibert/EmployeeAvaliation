@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 
 import java.util.Objects;
 
+/**
+ * Essa entidade representa um registro que contem o valor antigo, o valor novo, o tipo do atributo que qual ChangeRegistry a mudança ocorreu
+ */
 @Entity
 @Table(name = "updated_attributes")
 public class UpdatedAttributes extends AbstractEntity{

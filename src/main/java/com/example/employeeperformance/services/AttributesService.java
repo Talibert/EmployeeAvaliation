@@ -69,6 +69,12 @@ public class AttributesService {
         return attributesRepository.saveAll(attributesList);
     }
 
+    /**
+     * A ideia é receber uma performance de funcionário e um VO que contem os valores dos atributos.
+     * Vamos então criar atributos reais, atribuindo a performance que recebemos e os valores extraídos do VO.
+     *
+     * Assim, vamos retornar uma lista de atributos com os valores corretos e as performances atreladas
+     */
     public List<Attribute> montaListaDeAtributos(EmployeePerformance employeePerformance, EmployeePerformanceVO employeePerformanceVO){
 
         Attribute attributePonctuality = new Attribute(employeePerformance, AttributeType.PONCTUALITY, employeePerformanceVO.getPonctuality());
