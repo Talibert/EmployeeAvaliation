@@ -2,6 +2,7 @@ package com.example.employeeperformance.services.security;
 
 import com.example.employeeperformance.VOs.RegisterVO;
 import com.example.employeeperformance.entities.User;
+import com.example.employeeperformance.exceptions.invalid.InvalidUserException;
 import com.example.employeeperformance.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,6 +36,9 @@ public class AuthService implements UserDetailsService {
      * Vamos criar um usuário novo
      */
     public void createUser(RegisterVO registerVO){
+        if(loadUserByUsername(registerVO.getLogin()) != null)
+            throw new InvalidUserException();
+
         String encryptedPassword = passwordEncoder.encode(registerVO.getPassword());
         User user = new User(registerVO.getLogin(), encryptedPassword, registerVO.getUserRole());
 

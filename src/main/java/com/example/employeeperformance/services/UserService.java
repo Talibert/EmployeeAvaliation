@@ -2,12 +2,14 @@ package com.example.employeeperformance.services;
 
 import com.example.employeeperformance.VOs.UserListResponseVO;
 import com.example.employeeperformance.VOs.UserVO;
+import com.example.employeeperformance.exceptions.notfound.UserNotFoundException;
 import com.example.employeeperformance.mappers.UserVoMapper;
 import com.example.employeeperformance.repositories.UserRepository;
 import com.example.employeeperformance.types.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,22 +21,17 @@ public class UserService {
     @Autowired
     private UserVoMapper userVoMapper;
 
-    public UserListResponseVO findAllWithFilter(UserRole userRole){
-        UserListResponseVO response = new UserListResponseVO();
+    public List<UserVO> findAllWithFilter(UserRole userRole){
+        List<UserVO> response;
 
         if(userRole != null){
-            List<UserVO> listaRetornada = userVoMapper.getListVO(userRepository.findByUserRole(userRole));
-
-            String errorMessage = listaRetornada.isEmpty() ? "Não há usuários cadastrados para a role!" : "";
-
-            response.setUserVOList(listaRetornada);
-            response.setErrorMessage(errorMessage);
-
-            return response;
+            response = userVoMapper.getListVO(userRepository.findByUserRole(userRole));
+        } else {
+            response = userVoMapper.getListVO(userRepository.findAll());
         }
 
-        response.setUserVOList(userVoMapper.getListVO(userRepository.findAll()));
-        response.setErrorMessage("");
+        if(response.isEmpty())
+            throw new UserNotFoundException();
 
         return response;
     }

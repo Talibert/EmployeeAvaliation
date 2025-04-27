@@ -41,6 +41,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthVO authVO){
         UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(authVO.getLogin(), authVO.getPassword());
+
+        // Duas exceções podem ser lançadas aqui: BadCredentials ou UsernameNotFound
         Authentication auth = this.authenticationManager.authenticate(usernamePassword);
 
         String token = tokenService.generateToken((User) auth.getPrincipal());
@@ -56,9 +58,6 @@ public class AuthController {
      */
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterVO registerVO){
-        if(this.authService.loadUserByUsername(registerVO.getLogin()) != null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseVO("Já existe um usuário com esse login", "USER_REGISTER_FAILED"));
-
         this.authService.createUser(registerVO);
 
         return ResponseEntity.ok().build();

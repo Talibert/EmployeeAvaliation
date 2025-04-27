@@ -10,5 +10,4 @@ import lombok.Setter;
 public class ErrorResponseVO {
 
     private String error;
-    private String code;
 }
