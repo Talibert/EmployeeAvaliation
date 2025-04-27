@@ -45,37 +45,27 @@ public class EmployeeService {
      * Método de retorno completo com filtros opcionais
      * @return
      */
-    public EmployeeListResponseVO findAllWithFilters(SetorType setorType, SituationType situationType){
-        if(setorType != null && situationType != null){
-            List<EmployeeVO> listaRetornada = employeeVoMapper.getListVO(employeeRepository.findBySetorTypeAndSituationType(setorType, situationType));
-            EmployeeListResponseVO employeeListResponseVO = new EmployeeListResponseVO(listaRetornada, "");
-            if(listaRetornada.isEmpty())
-                employeeListResponseVO.setErrorMessage("Não há funcionários cadastrados com essa combinação de Setor e Situação!");
+    public List<EmployeeVO> findAllWithFilters(SetorType setorType, SituationType situationType) {
+        List<EmployeeVO> employeeVOList;
 
-            return employeeListResponseVO;
+        List<Employee> employees;
+
+        if (setorType != null && situationType != null) {
+            employees = employeeRepository.findBySetorTypeAndSituationType(setorType, situationType);
+        } else if (setorType == null && situationType == null) {
+            employees = employeeRepository.findAll();
+        } else if (setorType == null) {
+            employees = employeeRepository.findBySituationType(situationType);
+        } else {
+            employees = employeeRepository.findBySetorType(setorType);
         }
 
+        if (employees.isEmpty())
+            throw new EmployeeNotFoundException();
 
-        if(setorType == null && situationType != null){
-            List<EmployeeVO> listaRetornada = employeeVoMapper.getListVO(employeeRepository.findBySituationType(situationType));
-            EmployeeListResponseVO employeeListResponseVO = new EmployeeListResponseVO(listaRetornada, "");
-            if(listaRetornada.isEmpty())
-                employeeListResponseVO.setErrorMessage("Não há funcionários cadastrados para a situação escolhida!");
+        employeeVOList = employeeVoMapper.getListVO(employees);
 
-            return employeeListResponseVO;
-        }
-
-        if(setorType != null){
-            List<EmployeeVO> listaRetornada = employeeVoMapper.getListVO(employeeRepository.findBySetorType(setorType));
-            EmployeeListResponseVO employeeListResponseVO = new EmployeeListResponseVO(listaRetornada, "");
-            if(listaRetornada.isEmpty())
-                employeeListResponseVO.setErrorMessage("Não há funcionários cadastrados para o setor escolhido!");
-
-            return employeeListResponseVO;
-        }
-
-        List<EmployeeVO> listaRetornada = employeeVoMapper.getListVO(employeeRepository.findAll());
-        return new EmployeeListResponseVO(listaRetornada, "");
+        return employeeVOList;
     }
 
     /**

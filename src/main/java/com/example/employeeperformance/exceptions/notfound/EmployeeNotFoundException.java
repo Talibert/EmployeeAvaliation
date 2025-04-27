@@ -6,6 +6,6 @@ public class EmployeeNotFoundException extends RuntimeException{
     }
 
     public EmployeeNotFoundException(){
-        super("Funcionário não encontrado!");
+        super("Nenhum funcionário encontrado!");
     }
 }

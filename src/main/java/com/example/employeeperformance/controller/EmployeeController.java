@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/employee")
 public class EmployeeController {
@@ -57,12 +59,9 @@ public class EmployeeController {
             @RequestParam(required = false) SetorType setorType,
             @RequestParam(required = false) SituationType situationType
     ){
-        EmployeeListResponseVO employeeListResponseVO = employeeService.findAllWithFilters(setorType, situationType);
+        List<EmployeeVO> employeeVOList = employeeService.findAllWithFilters(setorType, situationType);
 
-        if(!employeeListResponseVO.getErrorMessage().isBlank())
-            return ResponseEntity.status(HttpStatus.OK).body(employeeListResponseVO.getErrorMessage());
-
-        return ResponseEntity.status(HttpStatus.OK).body(employeeListResponseVO.getEmployeeVOList());
+        return ResponseEntity.status(HttpStatus.OK).body(employeeVOList);
     }
 
 //    /**
