@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,6 +19,9 @@ public class AuthService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * Vamos verificar a existência de um usuário pelo username e retorná-lo
@@ -31,7 +35,7 @@ public class AuthService implements UserDetailsService {
      * Vamos criar um usuário novo
      */
     public void createUser(RegisterVO registerVO){
-        String encryptedPassword = new BCryptPasswordEncoder().encode(registerVO.getPassword());
+        String encryptedPassword = passwordEncoder.encode(registerVO.getPassword());
         User user = new User(registerVO.getLogin(), encryptedPassword, registerVO.getUserRole());
 
         this.userRepository.save(user);

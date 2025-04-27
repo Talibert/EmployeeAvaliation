@@ -1,6 +1,6 @@
 package com.example.employeeperformance.security;
 
-import com.example.employeeperformance.services.security.AuthService;
+import com.example.employeeperformance.repositories.UserRepository;
 import com.example.employeeperformance.services.security.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,7 +22,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     private TokenService tokenService;
 
     @Autowired
-    private AuthService authService;
+    private UserRepository userRepository;
 
     /**
      * Intercepta cada requisição HTTP e realiza a autenticação do usuário com base no token JWT
@@ -34,7 +34,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         if (token != null) {
             String subject = tokenService.validateToken(token);
-            UserDetails user = authService.loadUserByUsername(subject);
+            UserDetails user = userRepository.findByLogin(subject);
 
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());

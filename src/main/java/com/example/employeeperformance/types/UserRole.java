@@ -10,6 +10,7 @@ import java.util.List;
  */
 public enum UserRole {
 
+    // TODO essas roles ainda não definitivas, é apenas um esboço
     ADMIN(List.of("ROLE_ADMIN", "ROLE_USER")),
     MODERATOR(List.of("ROLE_MODERATOR", "ROLE_USER")),
     SUPPORT(List.of("ROLE_SUPPORT")),
