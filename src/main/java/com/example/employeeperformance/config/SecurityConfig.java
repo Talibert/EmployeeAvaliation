@@ -40,7 +40,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "auth/login").permitAll()
                         // TODO Criar um script para popular o banco com um usuário admin e bloquear esse endpoint posteriormente
                         .requestMatchers(HttpMethod.POST, "auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/employee").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 /**

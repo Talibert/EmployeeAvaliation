@@ -7,6 +7,7 @@ import com.example.employeeperformance.types.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,9 +23,10 @@ public class UserController {
     /**
      * Endpoint para retornar a lista de usuários cadastrados no banco
      *
-     * E metodo pode ou não receber um filter de role.
+     * Esse metodo pode ou não receber um filter de role.
      */
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getUsers(@RequestParam(required = false) UserRole userRole){
         UserListResponseVO userListResponseVO = userService.findAllWithFilter(userRole);
 
