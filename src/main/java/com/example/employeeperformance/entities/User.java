@@ -33,6 +33,8 @@ public class User extends AbstractEntity implements UserDetails {
 
     /**
      * Esse metodo é o responsável por retornar as authorities de acordo com o user role do usuário
+     *
+     * Essas authorities são verificadas no filter chain e no pre authorize
      * @return
      */
     @Override
