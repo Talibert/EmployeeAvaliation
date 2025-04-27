@@ -1,5 +1,6 @@
 package com.example.employeeperformance.controller;
 
+import com.example.employeeperformance.repositories.UserRepository;
 import com.example.employeeperformance.services.security.AuthService;
 import com.example.employeeperformance.services.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,8 @@ public class AbstractControllerTests {
 
     @MockBean
     protected AuthService authService;
+
+    @MockBean
+    protected UserRepository userRepository;
 
 }
