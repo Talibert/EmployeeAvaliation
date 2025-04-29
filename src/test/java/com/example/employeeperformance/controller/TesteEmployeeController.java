@@ -7,6 +7,7 @@ import com.example.employeeperformance.VOs.EmployeeVO;
 import com.example.employeeperformance.entities.Employee;
 import com.example.employeeperformance.exceptions.EmployeeSetorAlreadySettedException;
 import com.example.employeeperformance.exceptions.invalid.InvalidAttributeException;
+import com.example.employeeperformance.exceptions.notfound.EmployeeNotFoundException;
 import com.example.employeeperformance.mappers.EmployeeVoMapper;
 import com.example.employeeperformance.services.EmployeeService;
 import com.example.employeeperformance.types.SetorType;
@@ -164,9 +165,7 @@ class TesteEmployeeController {
 
         List<EmployeeVO> employeeReturn = employeeVOList.stream().filter(e -> e.getSituationType().equals(SituationType.ATIVO) && e.getSetorType().equals(SetorType.OFFICE)).toList();
 
-        EmployeeListResponseVO employeeListResponseVO = new EmployeeListResponseVO(employeeReturn, "");
-
-        Mockito.when(employeeServiceMock.findAllWithFilters(SetorType.OFFICE, SituationType.ATIVO)).thenReturn(employeeListResponseVO);
+        Mockito.when(employeeServiceMock.findAllWithFilters(SetorType.OFFICE, SituationType.ATIVO)).thenReturn(employeeReturn);
 
         ResponseEntity<?> response = employeeControllerSpy.getAllEmployeesWithFilters(SetorType.OFFICE, SituationType.ATIVO);
 
@@ -175,16 +174,17 @@ class TesteEmployeeController {
     }
 
     @Test
-    public void testeGetAllEmployeesWithFiltersEmpty(){
+    public void testeGetAllEmployeesWithFiltersSemRetorno(){
         List<EmployeeVO> employeeReturn = new ArrayList<>();
 
-        EmployeeListResponseVO employeeListResponseVO = new EmployeeListResponseVO(employeeReturn, "Não há funcionários cadastrados com essa combinação de Setor e Situação!");
+        Mockito.when(employeeServiceMock.findAllWithFilters(SetorType.OFFICE, SituationType.ATIVO)).thenThrow(new EmployeeNotFoundException("Nenhum funcionário encontrado!"));
 
-        Mockito.when(employeeServiceMock.findAllWithFilters(SetorType.OFFICE, SituationType.ATIVO)).thenReturn(employeeListResponseVO);
+        try{
+            employeeControllerSpy.getAllEmployeesWithFilters(SetorType.OFFICE, SituationType.ATIVO);
 
-        ResponseEntity<?> response = employeeControllerSpy.getAllEmployeesWithFilters(SetorType.OFFICE, SituationType.ATIVO);
-
-        Assertions.assertEquals(HttpStatusCode.valueOf(200), response.getStatusCode());
-        Assertions.assertEquals(response.getBody(), employeeListResponseVO.getErrorMessage());
+            Assertions.fail();
+        } catch (Exception e){
+            Assertions.assertEquals(e.getMessage(), "Nenhum funcionário encontrado!");
+        }
     }
 }
