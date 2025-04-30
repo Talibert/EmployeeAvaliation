@@ -3,6 +3,8 @@ package com.example.employeeperformance.config;
 import com.example.employeeperformance.entities.User;
 import com.example.employeeperformance.repositories.UserRepository;
 import com.example.employeeperformance.types.UserRole;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @Configuration
 public class DataLoaderConfig {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataLoaderConfig.class);
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -30,7 +34,11 @@ public class DataLoaderConfig {
 
                 User admin = new User(login, password, UserRole.ADMIN);
 
+                LOGGER.warn("Criando usuário {} no banco", admin.getLogin());
+
                 userRepository.save(admin);
+
+                LOGGER.warn("Usuário criado.");
             }
         };
     }
