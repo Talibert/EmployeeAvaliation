@@ -6,6 +6,7 @@ import com.example.employeeperformance.exceptions.invalid.InvalidUserException;
 import com.example.employeeperformance.exceptions.notfound.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -67,5 +68,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponseVO> handleUserNotFoundException(UserNotFoundException userNotFoundException){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseVO(userNotFoundException.getMessage()));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponseVO> handleHttpMessageNotReadableException(HttpMessageNotReadableException httpMessageNotReadableException){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseVO("Informações inválidas!"));
     }
 }

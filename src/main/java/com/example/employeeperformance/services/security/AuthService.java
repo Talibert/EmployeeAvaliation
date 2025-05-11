@@ -36,11 +36,11 @@ public class AuthService implements UserDetailsService {
      * Vamos criar um usuário novo
      */
     public void createUser(RegisterVO registerVO){
-        if(loadUserByUsername(registerVO.getLogin()) != null)
+        if(loadUserByUsername(registerVO.login()) != null)
             throw new InvalidUserException();
 
-        String encryptedPassword = passwordEncoder.encode(registerVO.getPassword());
-        User user = new User(registerVO.getLogin(), encryptedPassword, registerVO.getUserRole());
+        String encryptedPassword = passwordEncoder.encode(registerVO.password());
+        User user = new User(registerVO.login(), encryptedPassword, registerVO.userRole());
 
         this.userRepository.save(user);
     }

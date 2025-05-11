@@ -1,16 +1,16 @@
 package com.example.employeeperformance.controller;
 
 import com.example.employeeperformance.VOs.AuthVO;
-import com.example.employeeperformance.VOs.ErrorResponseVO;
 import com.example.employeeperformance.VOs.LoginResponseVO;
 import com.example.employeeperformance.VOs.RegisterVO;
+import com.example.employeeperformance.VOs.ResponseVO;
 import com.example.employeeperformance.entities.User;
 import com.example.employeeperformance.services.security.AuthService;
 import com.example.employeeperformance.services.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -57,9 +57,10 @@ public class AuthController {
      * Caso a validação passe, vamos criar o usuário no banco
      */
     @PostMapping("/register")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity register(@RequestBody @Valid RegisterVO registerVO){
         this.authService.createUser(registerVO);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new ResponseVO("Usuário " + registerVO.login() + " criado com sucesso!"));
     }
 }

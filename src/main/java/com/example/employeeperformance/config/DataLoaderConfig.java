@@ -11,6 +11,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * O objetivo dessa classe de config é popular o banco, caso ele esteja vazio, quando a aplicação subir
  */
@@ -29,17 +32,25 @@ public class DataLoaderConfig {
     public CommandLineRunner dataLoader(UserRepository userRepository) {
         return args -> {
             if (userRepository.count() == 0) {
-                String login = "GuilhermeTaliberti";
-                String password = passwordEncoder.encode("Senha1234*");
+                List<User> usuariosIniciais = new ArrayList<>();
+                usuariosIniciais.add(getUser("Guilherme", UserRole.ADMIN));
+                usuariosIniciais.add(getUser("Malu", UserRole.USER));
 
-                User admin = new User(login, password, UserRole.ADMIN);
+                usuariosIniciais.forEach(user -> {
+                    LOGGER.warn("Criando usuário {} no banco", user.getLogin());
 
-                LOGGER.warn("Criando usuário {} no banco", admin.getLogin());
+                    userRepository.save(user);
 
-                userRepository.save(admin);
+                    LOGGER.warn("Usuário criado.");
+                });
 
-                LOGGER.warn("Usuário criado.");
             }
         };
+    }
+
+    private User getUser(String login, UserRole userRole){
+        String password = passwordEncoder.encode("Senha1234*");
+
+        return new User(login, password, userRole);
     }
 }

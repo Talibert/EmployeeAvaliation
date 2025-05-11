@@ -27,7 +27,7 @@ public class UserController {
      * Esse metodo pode ou não receber um filter de role.
      */
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> getUsers(@RequestParam(required = false) UserRole userRole){
         List<UserVO> userList = userService.findAllWithFilter(userRole);
 
