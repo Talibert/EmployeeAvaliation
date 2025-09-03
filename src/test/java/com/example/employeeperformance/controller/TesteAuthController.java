@@ -22,8 +22,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(AuthController.class)
-@AutoConfigureMockMvc(addFilters = false)
-class TesteAuthController extends AbstractControllerTests{
+@AutoConfigureMockMvc(addFilters = false) // Desabilita os filtros de segurança
+public class TesteAuthController extends AbstractControllerTests{
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -53,7 +53,8 @@ class TesteAuthController extends AbstractControllerTests{
      */
     @Test
     void testeLoginComErroDeCredenciais() throws Exception {
-        Mockito.when(authenticationManager.authenticate(Mockito.any())).thenThrow(new BadCredentialsException("Usuário ou senha inválidos!"));
+        Mockito.when(authenticationManager.authenticate(Mockito.any()))
+                .thenThrow(new BadCredentialsException("Usuário ou senha inválidos!"));
 
         ErrorResponseVO erro = new ErrorResponseVO("Usuário ou senha inválidos!");
 
@@ -69,7 +70,8 @@ class TesteAuthController extends AbstractControllerTests{
      */
     @Test
     void testeLoginComUsernameNotFound() throws Exception {
-        Mockito.when(authenticationManager.authenticate(Mockito.any())).thenThrow(new UsernameNotFoundException("Usuário não encontrado!"));
+        Mockito.when(authenticationManager.authenticate(Mockito.any()))
+                .thenThrow(new UsernameNotFoundException("Usuário não encontrado!"));
 
         ErrorResponseVO erro = new ErrorResponseVO("Usuário não encontrado!");
 
